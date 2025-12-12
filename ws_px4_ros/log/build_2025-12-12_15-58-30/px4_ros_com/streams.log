@@ -1,0 +1,147 @@
+[0.008s] Invoking command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_ros_com -DCMAKE_INSTALL_PREFIX=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com
+[0.059s] -- The C compiler identification is GNU 11.4.0
+[0.111s] -- The CXX compiler identification is GNU 11.4.0
+[0.119s] -- Detecting C compiler ABI info
+[0.197s] -- Detecting C compiler ABI info - done
+[0.205s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.206s] -- Detecting C compile features
+[0.206s] -- Detecting C compile features - done
+[0.209s] -- Detecting CXX compiler ABI info
+[0.283s] -- Detecting CXX compiler ABI info - done
+[0.290s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.290s] -- Detecting CXX compile features
+[0.290s] -- Detecting CXX compile features - done
+[0.292s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.434s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.507s] -- Found builtin_interfaces: 1.2.2 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[0.531s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.534s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.540s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.548s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.559s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.569s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.574s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[0.575s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.595s] -- Found px4_msgs: 2.0.1 (/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/share/px4_msgs/cmake)
+[0.604s] -- Found rclcpp: 16.0.16 (/opt/ros/humble/share/rclcpp/cmake)
+[0.632s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.634s] -- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.710s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.734s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.767s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.774s] -- Looking for pthread.h
+[0.834s] -- Looking for pthread.h - found
+[0.835s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.907s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.908s] -- Found Threads: TRUE  
+[0.950s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.971s] -- Found rclpy: 3.3.19 (/opt/ros/humble/share/rclpy/cmake)
+[0.980s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.109s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.114s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.115s] -- Configured cppcheck include dirs: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_ros_com/include;$<BUILD_INTERFACE:/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_ros_com/include/px4_ros_com>
+[1.115s] -- Configured cppcheck exclude dirs and/or files: 
+[1.119s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[1.119s] -- Configured cpplint exclude dirs and/or files: 
+[1.119s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.120s] -- Added test 'lint_cmake' to check CMake code style
+[1.121s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.124s] -- Added test 'uncrustify' to check C / C++ code style
+[1.124s] -- Configured uncrustify additional arguments: 
+[1.124s] -- Added test 'xmllint' to check XML markup files
+[1.126s] -- Configuring done
+[1.146s] -- Generating done
+[1.155s] -- Build files have been written to: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com
+[1.167s] Invoked command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com' returned '0': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_ros_com -DCMAKE_INSTALL_PREFIX=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com
+[1.169s] Invoking command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com -- -j18 -l18
+[1.223s] [  8%] [32mBuilding CXX object CMakeFiles/debug_vect_advertiser.dir/src/examples/advertisers/debug_vect_advertiser.cpp.o[0m
+[1.224s] [ 16%] [32mBuilding CXX object CMakeFiles/sensor_combined_listener.dir/src/examples/listeners/sensor_combined_listener.cpp.o[0m
+[1.225s] [ 25%] [32mBuilding CXX object CMakeFiles/vehicle_gps_position_listener.dir/src/examples/listeners/vehicle_gps_position_listener.cpp.o[0m
+[1.225s] [ 33%] [32mBuilding CXX object CMakeFiles/offboard_control_srv.dir/src/examples/offboard/offboard_control_srv.cpp.o[0m
+[1.227s] [ 41%] [32mBuilding CXX object CMakeFiles/offboard_control.dir/src/examples/offboard/offboard_control.cpp.o[0m
+[1.228s] [ 50%] [32mBuilding CXX object CMakeFiles/frame_transforms.dir/src/lib/frame_transforms.cpp.o[0m
+[1.235s] [ 50%] Built target ament_cmake_python_copy_px4_ros_com
+[1.554s] running egg_info
+[1.555s] creating px4_ros_com.egg-info
+[1.555s] writing px4_ros_com.egg-info/PKG-INFO
+[1.555s] writing dependency_links to px4_ros_com.egg-info/dependency_links.txt
+[1.556s] writing top-level names to px4_ros_com.egg-info/top_level.txt
+[1.556s] writing manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[1.559s] reading manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[1.560s] writing manifest file 'px4_ros_com.egg-info/SOURCES.txt'
+[1.612s] [ 50%] Built target ament_cmake_python_build_px4_ros_com_egg
+[6.630s] [ 58%] [32m[1mLinking CXX executable debug_vect_advertiser[0m
+[6.838s] [ 58%] Built target debug_vect_advertiser
+[8.839s] [ 66%] [32m[1mLinking CXX shared library libframe_transforms.so[0m
+[8.929s] [ 75%] [32m[1mLinking CXX executable offboard_control[0m
+[8.947s] [ 83%] [32m[1mLinking CXX executable offboard_control_srv[0m
+[9.170s] [ 83%] Built target frame_transforms
+[9.191s] [ 83%] Built target offboard_control_srv
+[9.207s] [ 83%] Built target offboard_control
+[9.670s] [ 91%] [32m[1mLinking CXX executable vehicle_gps_position_listener[0m
+[9.966s] [ 91%] Built target vehicle_gps_position_listener
+[10.022s] [100%] [32m[1mLinking CXX executable sensor_combined_listener[0m
+[10.278s] [100%] Built target sensor_combined_listener
+[10.289s] Invoked command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com' returned '0': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com -- -j18 -l18
+[10.290s] Invoking command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com
+[10.296s] -- Install configuration: ""
+[10.296s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/sensor_combined_listener
+[10.298s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/sensor_combined_listener" to ""
+[10.298s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/vehicle_gps_position_listener
+[10.300s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/vehicle_gps_position_listener" to ""
+[10.300s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/debug_vect_advertiser
+[10.300s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/debug_vect_advertiser" to ""
+[10.300s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/offboard_control
+[10.301s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/offboard_control" to ""
+[10.301s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/offboard_control_srv
+[10.302s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/offboard_control_srv" to ""
+[10.302s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/library_path.sh
+[10.302s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/library_path.dsv
+[10.302s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/include/px4_ros_com
+[10.302s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/include/px4_ros_com/frame_transforms.h
+[10.303s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/libframe_transforms.so
+[10.304s] -- Set runtime path of "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/libframe_transforms.so" to ""
+[10.304s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//launch
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//launch/offboard_control_launch.yaml
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//launch/sensor_combined_listener.launch.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//test
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//test/test_input.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//test/__init__.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//test/pipeline_io_test.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com//test/test_output.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/pythonpath.sh
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/pythonpath.dsv
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/PKG-INFO
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/dependency_links.txt
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/SOURCES.txt
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com-0.1.0-py3.10.egg-info/top_level.txt
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/module_to_import.py
+[10.305s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/__init__.py
+[10.328s] Listing '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com'...
+[10.328s] Compiling '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/__init__.py'...
+[10.328s] Compiling '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/local/lib/python3.10/dist-packages/px4_ros_com/module_to_import.py'...
+[10.330s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/lib/px4_ros_com/offboard_control.py
+[10.330s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/ament_index/resource_index/package_run_dependencies/px4_ros_com
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/ament_index/resource_index/parent_prefix_path/px4_ros_com
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/ament_prefix_path.sh
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/ament_prefix_path.dsv
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/path.sh
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/environment/path.dsv
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/local_setup.bash
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/local_setup.sh
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/local_setup.zsh
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/local_setup.dsv
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/package.dsv
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/ament_index/resource_index/packages/px4_ros_com
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/export_frame_transformsExport.cmake
+[10.331s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/export_frame_transformsExport-noconfig.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_dependencies-extras.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_targets-extras.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_include_directories-extras.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/ament_cmake_export_libraries-extras.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/px4_ros_comConfig.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/cmake/px4_ros_comConfig-version.cmake
+[10.332s] -- Installing: /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_ros_com/share/px4_ros_com/package.xml
+[10.334s] Invoked command in '/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com' returned '0': AMENT_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com
