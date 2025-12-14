@@ -1,0 +1,21 @@
+# ROS 2 / colcon
+build/
+install/
+log/
+
+# PX4
+PX4-Autopilot/build/
+PX4-Autopilot/log/
+
+# Gazebo
+*.db
+*.log
+
+# QGroundControl / binaries
+*.AppImage
+QGroundControl*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
