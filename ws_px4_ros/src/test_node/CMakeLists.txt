@@ -8,6 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(px4_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -23,7 +24,7 @@ endif()
 
 
 add_executable(test_node src/test_node.cpp)
-ament_target_dependencies(test_node rclcpp)
+ament_target_dependencies(test_node rclcpp px4_msgs)
 
 install(
   TARGETS test_node
