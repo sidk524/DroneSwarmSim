@@ -361,7 +361,7 @@ px4_msgs__msg__VehicleStatus__copy(
 }
 
 px4_msgs__msg__VehicleStatus *
-px4_msgs__msg__VehicleStatus__create()
+px4_msgs__msg__VehicleStatus__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__VehicleStatus * msg = (px4_msgs__msg__VehicleStatus *)allocator.allocate(sizeof(px4_msgs__msg__VehicleStatus), allocator.state);

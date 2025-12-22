@@ -9,6 +9,7 @@
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_cpp/message_type_support.hpp"
 #include "rosidl_typesupport_interface/macros.h"
+#include "px4_msgs/msg/detail/gps_dump__functions.h"
 #include "px4_msgs/msg/detail/gps_dump__struct.hpp"
 #include "rosidl_typesupport_introspection_cpp/field_types.hpp"
 #include "rosidl_typesupport_introspection_cpp/identifier.hpp"
@@ -75,12 +76,13 @@ void assign_function__GpsDump__data(
   item = value;
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_message_member_array[4] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_message_member_array[5] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
+    false,  // is key
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -98,6 +100,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_messa
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
+    false,  // is key
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -111,10 +114,29 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_messa
     nullptr  // resize(index) function pointer
   },
   {
+    "device_id",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT32,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::GpsDump, device_id),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
     "len",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
+    false,  // is key
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -132,6 +154,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_messa
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
+    false,  // is key
     true,  // is array
     79,  // array size
     false,  // is upper bound
@@ -149,8 +172,9 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember GpsDump_messa
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers GpsDump_message_members = {
   "px4_msgs::msg",  // message namespace
   "GpsDump",  // message name
-  4,  // number of fields
+  5,  // number of fields
   sizeof(px4_msgs::msg::GpsDump),
+  false,  // has_any_key_member_
   GpsDump_message_member_array,  // message members
   GpsDump_init_function,  // function to initialize message memory (memory has to be allocated)
   GpsDump_fini_function  // function to terminate message instance (will not free memory)
@@ -160,6 +184,9 @@ static const rosidl_message_type_support_t GpsDump_message_type_support_handle =
   ::rosidl_typesupport_introspection_cpp::typesupport_identifier,
   &GpsDump_message_members,
   get_message_typesupport_handle_function,
+  &px4_msgs__msg__GpsDump__get_type_hash,
+  &px4_msgs__msg__GpsDump__get_type_description,
+  &px4_msgs__msg__GpsDump__get_type_description_sources,
 };
 
 }  // namespace rosidl_typesupport_introspection_cpp

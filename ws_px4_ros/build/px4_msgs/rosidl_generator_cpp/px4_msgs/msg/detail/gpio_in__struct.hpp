@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpioIn.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gpio_in.hpp"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPIO_IN__STRUCT_HPP_
 #define PX4_MSGS__MSG__DETAIL__GPIO_IN__STRUCT_HPP_
 
@@ -88,6 +91,8 @@ struct GpioIn_
   }
 
   // constant declarations
+  static constexpr uint8_t MAX_INSTANCES =
+    8u;
 
   // pointer types
   using RawPtr =
@@ -151,6 +156,11 @@ using GpioIn =
   px4_msgs::msg::GpioIn_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t GpioIn_<ContainerAllocator>::MAX_INSTANCES;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

@@ -141,7 +141,7 @@ px4_msgs__msg__RegisterExtComponentRequest__copy(
 }
 
 px4_msgs__msg__RegisterExtComponentRequest *
-px4_msgs__msg__RegisterExtComponentRequest__create()
+px4_msgs__msg__RegisterExtComponentRequest__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__RegisterExtComponentRequest * msg = (px4_msgs__msg__RegisterExtComponentRequest *)allocator.allocate(sizeof(px4_msgs__msg__RegisterExtComponentRequest), allocator.state);

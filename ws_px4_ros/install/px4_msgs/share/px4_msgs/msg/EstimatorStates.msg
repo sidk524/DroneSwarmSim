@@ -1,7 +1,1 @@
-uint64 timestamp		# time since system start (microseconds)
-uint64 timestamp_sample         # the timestamp of the raw data (microseconds)
-
-float32[25] states		# Internal filter states
-uint8 n_states		# Number of states effectively used
-
-float32[24] covariances	# Diagonal Elements of Covariance Matrix
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/EstimatorStates.msg

@@ -1,3 +1,1 @@
-uint64 timestamp
-uint8 status
-char[50] error
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/OpenDroneIdArmStatus.msg

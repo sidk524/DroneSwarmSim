@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/SensorGyroFifo.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -83,6 +90,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
         '_x',
         '_y',
         '_z',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -97,6 +105,8 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
         'z': 'int16[32]',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -110,9 +120,14 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.device_id = kwargs.get('device_id', int())
@@ -137,7 +152,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -151,11 +166,12 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -193,7 +209,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -208,7 +224,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -223,7 +239,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @device_id.setter
     def device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'device_id' field must be of type 'int'"
@@ -238,7 +254,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @dt.setter
     def dt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'dt' field must be of type 'float'"
@@ -253,7 +269,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @scale.setter
     def scale(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'scale' field must be of type 'float'"
@@ -268,7 +284,7 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @samples.setter
     def samples(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'samples' field must be of type 'int'"
@@ -283,14 +299,14 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @x.setter
     def x(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.int16, \
-                "The 'x' numpy.ndarray() must have the dtype of 'numpy.int16'"
-            assert value.size == 32, \
-                "The 'x' numpy.ndarray() must have a size of 32"
-            self._x = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.int16, \
+                    "The 'x' numpy.ndarray() must have the dtype of 'numpy.int16'"
+                assert value.size == 32, \
+                    "The 'x' numpy.ndarray() must have a size of 32"
+                self._x = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -314,14 +330,14 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @y.setter
     def y(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.int16, \
-                "The 'y' numpy.ndarray() must have the dtype of 'numpy.int16'"
-            assert value.size == 32, \
-                "The 'y' numpy.ndarray() must have a size of 32"
-            self._y = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.int16, \
+                    "The 'y' numpy.ndarray() must have the dtype of 'numpy.int16'"
+                assert value.size == 32, \
+                    "The 'y' numpy.ndarray() must have a size of 32"
+                self._y = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -345,14 +361,14 @@ class SensorGyroFifo(metaclass=Metaclass_SensorGyroFifo):
 
     @z.setter
     def z(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.int16, \
-                "The 'z' numpy.ndarray() must have the dtype of 'numpy.int16'"
-            assert value.size == 32, \
-                "The 'z' numpy.ndarray() must have a size of 32"
-            self._z = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.int16, \
+                    "The 'z' numpy.ndarray() must have the dtype of 'numpy.int16'"
+                assert value.size == 32, \
+                    "The 'z' numpy.ndarray() must have a size of 32"
+                self._z = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList

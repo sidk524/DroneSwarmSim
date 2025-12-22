@@ -71,6 +71,15 @@ bool px4_msgs__msg__gps_dump__convert_from_py(PyObject * _pymsg, void * _ros_mes
     ros_message->instance = (uint8_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
+  {  // device_id
+    PyObject * field = PyObject_GetAttrString(_pymsg, "device_id");
+    if (!field) {
+      return false;
+    }
+    assert(PyLong_Check(field));
+    ros_message->device_id = PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
   {  // len
     PyObject * field = PyObject_GetAttrString(_pymsg, "len");
     if (!field) {
@@ -142,6 +151,17 @@ PyObject * px4_msgs__msg__gps_dump__convert_to_py(void * raw_ros_message)
     field = PyLong_FromUnsignedLong(ros_message->instance);
     {
       int rc = PyObject_SetAttrString(_pymessage, "instance", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // device_id
+    PyObject * field = NULL;
+    field = PyLong_FromUnsignedLong(ros_message->device_id);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "device_id", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

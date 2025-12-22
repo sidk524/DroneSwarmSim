@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -23,7 +24,7 @@ if(BUILD_TESTING)
 endif()
 
 add_executable(manual_control src/manual_control.cpp)
-ament_target_dependencies(manual_control rclcpp px4_msgs)
+ament_target_dependencies(manual_control rclcpp px4_msgs sensor_msgs)
 target_link_libraries(manual_control X11)
 
 install(

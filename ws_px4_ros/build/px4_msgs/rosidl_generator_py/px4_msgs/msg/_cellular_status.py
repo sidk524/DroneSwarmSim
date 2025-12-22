@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/CellularStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -243,6 +250,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
         '_mcc',
         '_mnc',
         '_lac',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -256,6 +264,8 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
         'lac': 'uint16',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
@@ -268,9 +278,14 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.status = kwargs.get('status', int())
         self.failure_reason = kwargs.get('failure_reason', int())
@@ -285,7 +300,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -299,11 +314,12 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -339,7 +355,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -354,7 +370,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @status.setter
     def status(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'status' field must be of type 'int'"
@@ -369,7 +385,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @failure_reason.setter
     def failure_reason(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'failure_reason' field must be of type 'int'"
@@ -384,7 +400,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @type.setter  # noqa: A003
     def type(self, value):  # noqa: A003
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'type' field must be of type 'int'"
@@ -399,7 +415,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @quality.setter
     def quality(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality' field must be of type 'int'"
@@ -414,7 +430,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @mcc.setter
     def mcc(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mcc' field must be of type 'int'"
@@ -429,7 +445,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @mnc.setter
     def mnc(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mnc' field must be of type 'int'"
@@ -444,7 +460,7 @@ class CellularStatus(metaclass=Metaclass_CellularStatus):
 
     @lac.setter
     def lac(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'lac' field must be of type 'int'"

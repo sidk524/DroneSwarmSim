@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/EstimatorGpsStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -74,6 +81,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
         '_position_drift_rate_horizontal_m_s',
         '_position_drift_rate_vertical_m_s',
         '_filtered_horizontal_speed_m_s',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -96,6 +104,8 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
         'filtered_horizontal_speed_m_s': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -117,9 +127,14 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.checks_passed = kwargs.get('checks_passed', bool())
@@ -143,7 +158,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -157,11 +172,12 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -215,7 +231,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -230,7 +246,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -245,7 +261,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @checks_passed.setter
     def checks_passed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'checks_passed' field must be of type 'bool'"
@@ -258,7 +274,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_gps_fix.setter
     def check_fail_gps_fix(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_gps_fix' field must be of type 'bool'"
@@ -271,7 +287,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_min_sat_count.setter
     def check_fail_min_sat_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_min_sat_count' field must be of type 'bool'"
@@ -284,7 +300,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_pdop.setter
     def check_fail_max_pdop(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_pdop' field must be of type 'bool'"
@@ -297,7 +313,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_horz_err.setter
     def check_fail_max_horz_err(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_horz_err' field must be of type 'bool'"
@@ -310,7 +326,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_vert_err.setter
     def check_fail_max_vert_err(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_vert_err' field must be of type 'bool'"
@@ -323,7 +339,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_spd_err.setter
     def check_fail_max_spd_err(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_spd_err' field must be of type 'bool'"
@@ -336,7 +352,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_horz_drift.setter
     def check_fail_max_horz_drift(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_horz_drift' field must be of type 'bool'"
@@ -349,7 +365,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_vert_drift.setter
     def check_fail_max_vert_drift(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_vert_drift' field must be of type 'bool'"
@@ -362,7 +378,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_horz_spd_err.setter
     def check_fail_max_horz_spd_err(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_horz_spd_err' field must be of type 'bool'"
@@ -375,7 +391,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_max_vert_spd_err.setter
     def check_fail_max_vert_spd_err(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_max_vert_spd_err' field must be of type 'bool'"
@@ -388,7 +404,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @check_fail_spoofed_gps.setter
     def check_fail_spoofed_gps(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'check_fail_spoofed_gps' field must be of type 'bool'"
@@ -401,7 +417,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @position_drift_rate_horizontal_m_s.setter
     def position_drift_rate_horizontal_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'position_drift_rate_horizontal_m_s' field must be of type 'float'"
@@ -416,7 +432,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @position_drift_rate_vertical_m_s.setter
     def position_drift_rate_vertical_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'position_drift_rate_vertical_m_s' field must be of type 'float'"
@@ -431,7 +447,7 @@ class EstimatorGpsStatus(metaclass=Metaclass_EstimatorGpsStatus):
 
     @filtered_horizontal_speed_m_s.setter
     def filtered_horizontal_speed_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'filtered_horizontal_speed_m_s' field must be of type 'float'"

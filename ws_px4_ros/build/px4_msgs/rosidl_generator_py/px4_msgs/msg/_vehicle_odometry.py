@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/VehicleOdometry.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -147,6 +154,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
         '_velocity_variance',
         '_reset_counter',
         '_quality',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -165,6 +173,8 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
         'quality': 'int8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -182,9 +192,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.pose_frame = kwargs.get('pose_frame', int())
@@ -225,7 +240,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -239,11 +254,12 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -289,7 +305,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -304,7 +320,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -319,7 +335,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @pose_frame.setter
     def pose_frame(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'pose_frame' field must be of type 'int'"
@@ -334,14 +350,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @position.setter
     def position(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'position' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'position' numpy.ndarray() must have a size of 3"
-            self._position = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'position' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'position' numpy.ndarray() must have a size of 3"
+                self._position = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -365,14 +381,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @q.setter
     def q(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'q' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 4, \
-                "The 'q' numpy.ndarray() must have a size of 4"
-            self._q = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'q' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 4, \
+                    "The 'q' numpy.ndarray() must have a size of 4"
+                self._q = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -396,7 +412,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @velocity_frame.setter
     def velocity_frame(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'velocity_frame' field must be of type 'int'"
@@ -411,14 +427,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @velocity.setter
     def velocity(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'velocity' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'velocity' numpy.ndarray() must have a size of 3"
-            self._velocity = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'velocity' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'velocity' numpy.ndarray() must have a size of 3"
+                self._velocity = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -442,14 +458,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @angular_velocity.setter
     def angular_velocity(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'angular_velocity' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'angular_velocity' numpy.ndarray() must have a size of 3"
-            self._angular_velocity = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'angular_velocity' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'angular_velocity' numpy.ndarray() must have a size of 3"
+                self._angular_velocity = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -473,14 +489,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @position_variance.setter
     def position_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'position_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'position_variance' numpy.ndarray() must have a size of 3"
-            self._position_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'position_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'position_variance' numpy.ndarray() must have a size of 3"
+                self._position_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -504,14 +520,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @orientation_variance.setter
     def orientation_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'orientation_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'orientation_variance' numpy.ndarray() must have a size of 3"
-            self._orientation_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'orientation_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'orientation_variance' numpy.ndarray() must have a size of 3"
+                self._orientation_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -535,14 +551,14 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @velocity_variance.setter
     def velocity_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'velocity_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'velocity_variance' numpy.ndarray() must have a size of 3"
-            self._velocity_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'velocity_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'velocity_variance' numpy.ndarray() must have a size of 3"
+                self._velocity_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -566,7 +582,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @reset_counter.setter
     def reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'reset_counter' field must be of type 'int'"
@@ -581,7 +597,7 @@ class VehicleOdometry(metaclass=Metaclass_VehicleOdometry):
 
     @quality.setter
     def quality(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality' field must be of type 'int'"

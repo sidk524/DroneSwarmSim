@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpsDump.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gps_dump.hpp"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPS_DUMP__TRAITS_HPP_
 #define PX4_MSGS__MSG__DETAIL__GPS_DUMP__TRAITS_HPP_
 
@@ -36,6 +39,13 @@ inline void to_flow_style_yaml(
   {
     out << "instance: ";
     rosidl_generator_traits::value_to_yaml(msg.instance, out);
+    out << ", ";
+  }
+
+  // member: device_id
+  {
+    out << "device_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.device_id, out);
     out << ", ";
   }
 
@@ -86,6 +96,16 @@ inline void to_block_style_yaml(
     }
     out << "instance: ";
     rosidl_generator_traits::value_to_yaml(msg.instance, out);
+    out << "\n";
+  }
+
+  // member: device_id
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "device_id: ";
+    rosidl_generator_traits::value_to_yaml(msg.device_id, out);
     out << "\n";
   }
 

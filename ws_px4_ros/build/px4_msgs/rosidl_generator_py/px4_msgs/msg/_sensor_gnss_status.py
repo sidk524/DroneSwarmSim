@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/SensorGnssStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -62,6 +69,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
         '_quality_receiver',
         '_quality_gnss_signals',
         '_quality_post_processing',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -74,6 +82,8 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
         'quality_post_processing': 'uint8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint32'),  # noqa: E501
@@ -85,9 +95,14 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.device_id = kwargs.get('device_id', int())
         self.quality_available = kwargs.get('quality_available', bool())
@@ -101,7 +116,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -115,11 +130,12 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -153,7 +169,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -168,7 +184,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @device_id.setter
     def device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'device_id' field must be of type 'int'"
@@ -183,7 +199,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @quality_available.setter
     def quality_available(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'quality_available' field must be of type 'bool'"
@@ -196,7 +212,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @quality_corrections.setter
     def quality_corrections(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality_corrections' field must be of type 'int'"
@@ -211,7 +227,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @quality_receiver.setter
     def quality_receiver(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality_receiver' field must be of type 'int'"
@@ -226,7 +242,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @quality_gnss_signals.setter
     def quality_gnss_signals(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality_gnss_signals' field must be of type 'int'"
@@ -241,7 +257,7 @@ class SensorGnssStatus(metaclass=Metaclass_SensorGnssStatus):
 
     @quality_post_processing.setter
     def quality_post_processing(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'quality_post_processing' field must be of type 'int'"

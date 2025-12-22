@@ -5,6 +5,9 @@
 
 module px4_msgs {
   module msg {
+    module GpioIn_Constants {
+      const uint8 MAX_INSTANCES = 8;
+    };
     @verbatim (language="comment", text=
       "GPIO mask and state")
     struct GpioIn {

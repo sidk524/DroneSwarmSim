@@ -7,7 +7,9 @@ module px4_msgs {
   module msg {
     typedef uint8 uint8__79[79];
     module GpsDump_Constants {
-      const uint8 ORB_QUEUE_LENGTH = 8;
+      const uint8 INSTANCE_MAIN = 0;
+      const uint8 INSTANCE_SECONDARY = 1;
+      const uint8 ORB_QUEUE_LENGTH = 16;
     };
     @verbatim (language="comment", text=
       "This message is used to dump the raw gps communication to the log.")
@@ -19,6 +21,8 @@ module px4_msgs {
       @verbatim (language="comment", text=
         "Instance of GNSS receiver")
       uint8 instance;
+
+      uint32 device_id;
 
       @verbatim (language="comment", text=
         "length of data, MSB bit set = message to the gps device," "\n"

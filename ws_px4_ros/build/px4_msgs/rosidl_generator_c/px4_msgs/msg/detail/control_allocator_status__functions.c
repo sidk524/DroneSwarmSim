@@ -125,7 +125,7 @@ px4_msgs__msg__ControlAllocatorStatus__copy(
 }
 
 px4_msgs__msg__ControlAllocatorStatus *
-px4_msgs__msg__ControlAllocatorStatus__create()
+px4_msgs__msg__ControlAllocatorStatus__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__ControlAllocatorStatus * msg = (px4_msgs__msg__ControlAllocatorStatus *)allocator.allocate(sizeof(px4_msgs__msg__ControlAllocatorStatus), allocator.state);

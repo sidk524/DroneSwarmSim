@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/VehicleCommand.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/vehicle_command.hpp"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__VEHICLE_COMMAND__STRUCT_HPP_
 #define PX4_MSGS__MSG__DETAIL__VEHICLE_COMMAND__STRUCT_HPP_
 
@@ -410,6 +413,8 @@ struct VehicleCommand_
     2600u;
   static constexpr uint16_t VEHICLE_CMD_DO_VTOL_TRANSITION =
     3000u;
+  static constexpr uint16_t VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE =
+    5300u;
   static constexpr uint16_t VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST =
     3001u;
   static constexpr uint16_t VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY =
@@ -533,6 +538,10 @@ struct VehicleCommand_
   static constexpr uint8_t GRIPPER_ACTION_RELEASE =
     0u;
   static constexpr uint8_t GRIPPER_ACTION_GRAB =
+    1u;
+  static constexpr uint8_t SAFETY_OFF =
+    0u;
+  static constexpr uint8_t SAFETY_ON =
     1u;
   static constexpr uint8_t ORB_QUEUE_LENGTH =
     8u;
@@ -1115,6 +1124,11 @@ constexpr uint16_t VehicleCommand_<ContainerAllocator>::VEHICLE_CMD_DO_VTOL_TRAN
 #if __cplusplus < 201703L
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
+constexpr uint16_t VehicleCommand_<ContainerAllocator>::VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
 constexpr uint16_t VehicleCommand_<ContainerAllocator>::VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST;
 #endif  // __cplusplus < 201703L
 #if __cplusplus < 201703L
@@ -1421,6 +1435,16 @@ constexpr uint8_t VehicleCommand_<ContainerAllocator>::GRIPPER_ACTION_RELEASE;
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t VehicleCommand_<ContainerAllocator>::GRIPPER_ACTION_GRAB;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommand_<ContainerAllocator>::SAFETY_OFF;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommand_<ContainerAllocator>::SAFETY_ON;
 #endif  // __cplusplus < 201703L
 #if __cplusplus < 201703L
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17

@@ -38,6 +38,7 @@ px4_msgs/msg/_debug_array.py
 px4_msgs/msg/_debug_key_value.py
 px4_msgs/msg/_debug_value.py
 px4_msgs/msg/_debug_vect.py
+px4_msgs/msg/_device_information.py
 px4_msgs/msg/_differential_pressure.py
 px4_msgs/msg/_distance_sensor.py
 px4_msgs/msg/_distance_sensor_mode_change_request.py

@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/YawEstimatorStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -72,6 +79,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
         '_innov_vn',
         '_innov_ve',
         '_weight',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -86,6 +94,8 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
         'weight': 'float[5]',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -99,9 +109,14 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.yaw_composite = kwargs.get('yaw_composite', float())
@@ -129,7 +144,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -143,11 +158,12 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -185,7 +201,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -200,7 +216,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -215,7 +231,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @yaw_composite.setter
     def yaw_composite(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'yaw_composite' field must be of type 'float'"
@@ -230,7 +246,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @yaw_variance.setter
     def yaw_variance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'yaw_variance' field must be of type 'float'"
@@ -245,7 +261,7 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @yaw_composite_valid.setter
     def yaw_composite_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'yaw_composite_valid' field must be of type 'bool'"
@@ -258,14 +274,14 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @yaw.setter
     def yaw(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'yaw' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'yaw' numpy.ndarray() must have a size of 5"
-            self._yaw = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'yaw' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'yaw' numpy.ndarray() must have a size of 5"
+                self._yaw = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -289,14 +305,14 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @innov_vn.setter
     def innov_vn(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'innov_vn' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'innov_vn' numpy.ndarray() must have a size of 5"
-            self._innov_vn = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'innov_vn' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'innov_vn' numpy.ndarray() must have a size of 5"
+                self._innov_vn = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -320,14 +336,14 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @innov_ve.setter
     def innov_ve(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'innov_ve' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'innov_ve' numpy.ndarray() must have a size of 5"
-            self._innov_ve = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'innov_ve' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'innov_ve' numpy.ndarray() must have a size of 5"
+                self._innov_ve = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -351,14 +367,14 @@ class YawEstimatorStatus(metaclass=Metaclass_YawEstimatorStatus):
 
     @weight.setter
     def weight(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'weight' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'weight' numpy.ndarray() must have a size of 5"
-            self._weight = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'weight' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'weight' numpy.ndarray() must have a size of 5"
+                self._weight = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList

@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/LongitudinalControlConfiguration.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -79,6 +86,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
         '_speed_weight',
         '_enforce_low_height_condition',
         '_disable_underspeed_protection',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -94,6 +102,8 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
         'disable_underspeed_protection': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -108,9 +118,14 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.pitch_min = kwargs.get('pitch_min', float())
         self.pitch_max = kwargs.get('pitch_max', float())
@@ -127,7 +142,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -141,11 +156,12 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -185,7 +201,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -200,7 +216,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @pitch_min.setter
     def pitch_min(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'pitch_min' field must be of type 'float'"
@@ -215,7 +231,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @pitch_max.setter
     def pitch_max(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'pitch_max' field must be of type 'float'"
@@ -230,7 +246,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @throttle_min.setter
     def throttle_min(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'throttle_min' field must be of type 'float'"
@@ -245,7 +261,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @throttle_max.setter
     def throttle_max(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'throttle_max' field must be of type 'float'"
@@ -260,7 +276,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @climb_rate_target.setter
     def climb_rate_target(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'climb_rate_target' field must be of type 'float'"
@@ -275,7 +291,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @sink_rate_target.setter
     def sink_rate_target(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'sink_rate_target' field must be of type 'float'"
@@ -290,7 +306,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @speed_weight.setter
     def speed_weight(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'speed_weight' field must be of type 'float'"
@@ -305,7 +321,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @enforce_low_height_condition.setter
     def enforce_low_height_condition(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'enforce_low_height_condition' field must be of type 'bool'"
@@ -318,7 +334,7 @@ class LongitudinalControlConfiguration(metaclass=Metaclass_LongitudinalControlCo
 
     @disable_underspeed_protection.setter
     def disable_underspeed_protection(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'disable_underspeed_protection' field must be of type 'bool'"

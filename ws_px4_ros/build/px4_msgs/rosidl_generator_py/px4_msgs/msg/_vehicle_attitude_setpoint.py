@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/VehicleAttitudeSetpoint.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -77,6 +84,7 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
         '_yaw_sp_move_rate',
         '_q_d',
         '_thrust_body',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -86,6 +94,8 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
         'thrust_body': 'float[3]',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -94,9 +104,14 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.yaw_sp_move_rate = kwargs.get('yaw_sp_move_rate', float())
         if 'q_d' not in kwargs:
@@ -113,7 +128,7 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -127,11 +142,12 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -159,7 +175,7 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -174,7 +190,7 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
 
     @yaw_sp_move_rate.setter
     def yaw_sp_move_rate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'yaw_sp_move_rate' field must be of type 'float'"
@@ -189,14 +205,14 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
 
     @q_d.setter
     def q_d(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'q_d' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 4, \
-                "The 'q_d' numpy.ndarray() must have a size of 4"
-            self._q_d = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'q_d' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 4, \
+                    "The 'q_d' numpy.ndarray() must have a size of 4"
+                self._q_d = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -220,14 +236,14 @@ class VehicleAttitudeSetpoint(metaclass=Metaclass_VehicleAttitudeSetpoint):
 
     @thrust_body.setter
     def thrust_body(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'thrust_body' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'thrust_body' numpy.ndarray() must have a size of 3"
-            self._thrust_body = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'thrust_body' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'thrust_body' numpy.ndarray() must have a size of 3"
+                self._thrust_body = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList

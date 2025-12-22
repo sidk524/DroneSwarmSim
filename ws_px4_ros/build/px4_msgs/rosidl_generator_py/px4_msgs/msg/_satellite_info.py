@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/SatelliteInfo.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -83,6 +90,7 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
         '_azimuth',
         '_snr',
         '_prn',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -96,6 +104,8 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
         'prn': 'uint8[40]',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
@@ -108,9 +118,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.count = kwargs.get('count', int())
         if 'svid' not in kwargs:
@@ -143,7 +158,7 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -157,11 +172,12 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -197,7 +213,7 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -212,7 +228,7 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @count.setter
     def count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'count' field must be of type 'int'"
@@ -227,14 +243,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @svid.setter
     def svid(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'svid' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'svid' numpy.ndarray() must have a size of 40"
-            self._svid = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'svid' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'svid' numpy.ndarray() must have a size of 40"
+                self._svid = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -258,14 +274,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @used.setter
     def used(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'used' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'used' numpy.ndarray() must have a size of 40"
-            self._used = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'used' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'used' numpy.ndarray() must have a size of 40"
+                self._used = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -289,14 +305,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @elevation.setter
     def elevation(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'elevation' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'elevation' numpy.ndarray() must have a size of 40"
-            self._elevation = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'elevation' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'elevation' numpy.ndarray() must have a size of 40"
+                self._elevation = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -320,14 +336,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @azimuth.setter
     def azimuth(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'azimuth' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'azimuth' numpy.ndarray() must have a size of 40"
-            self._azimuth = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'azimuth' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'azimuth' numpy.ndarray() must have a size of 40"
+                self._azimuth = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -351,14 +367,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @snr.setter
     def snr(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'snr' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'snr' numpy.ndarray() must have a size of 40"
-            self._snr = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'snr' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'snr' numpy.ndarray() must have a size of 40"
+                self._snr = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -382,14 +398,14 @@ class SatelliteInfo(metaclass=Metaclass_SatelliteInfo):
 
     @prn.setter
     def prn(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'prn' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 40, \
-                "The 'prn' numpy.ndarray() must have a size of 40"
-            self._prn = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'prn' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 40, \
+                    "The 'prn' numpy.ndarray() must have a size of 40"
+                self._prn = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList

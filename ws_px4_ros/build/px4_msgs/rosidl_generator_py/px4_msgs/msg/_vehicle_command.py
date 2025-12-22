@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/VehicleCommand.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -117,6 +124,7 @@ class Metaclass_VehicleCommand(type):
         'VEHICLE_CMD_LOGGING_STOP': 2511,
         'VEHICLE_CMD_CONTROL_HIGH_LATENCY': 2600,
         'VEHICLE_CMD_DO_VTOL_TRANSITION': 3000,
+        'VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE': 5300,
         'VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST': 3001,
         'VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY': 30001,
         'VEHICLE_CMD_PAYLOAD_CONTROL_DEPLOY': 30002,
@@ -179,6 +187,8 @@ class Metaclass_VehicleCommand(type):
         'ARMING_ACTION_ARM': 1,
         'GRIPPER_ACTION_RELEASE': 0,
         'GRIPPER_ACTION_GRAB': 1,
+        'SAFETY_OFF': 0,
+        'SAFETY_ON': 1,
         'ORB_QUEUE_LENGTH': 8,
         'COMPONENT_MODE_EXECUTOR_START': 1000,
     }
@@ -304,6 +314,7 @@ class Metaclass_VehicleCommand(type):
             'VEHICLE_CMD_LOGGING_STOP': cls.__constants['VEHICLE_CMD_LOGGING_STOP'],
             'VEHICLE_CMD_CONTROL_HIGH_LATENCY': cls.__constants['VEHICLE_CMD_CONTROL_HIGH_LATENCY'],
             'VEHICLE_CMD_DO_VTOL_TRANSITION': cls.__constants['VEHICLE_CMD_DO_VTOL_TRANSITION'],
+            'VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE': cls.__constants['VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE'],
             'VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST': cls.__constants['VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST'],
             'VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY': cls.__constants['VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY'],
             'VEHICLE_CMD_PAYLOAD_CONTROL_DEPLOY': cls.__constants['VEHICLE_CMD_PAYLOAD_CONTROL_DEPLOY'],
@@ -366,6 +377,8 @@ class Metaclass_VehicleCommand(type):
             'ARMING_ACTION_ARM': cls.__constants['ARMING_ACTION_ARM'],
             'GRIPPER_ACTION_RELEASE': cls.__constants['GRIPPER_ACTION_RELEASE'],
             'GRIPPER_ACTION_GRAB': cls.__constants['GRIPPER_ACTION_GRAB'],
+            'SAFETY_OFF': cls.__constants['SAFETY_OFF'],
+            'SAFETY_ON': cls.__constants['SAFETY_ON'],
             'ORB_QUEUE_LENGTH': cls.__constants['ORB_QUEUE_LENGTH'],
             'COMPONENT_MODE_EXECUTOR_START': cls.__constants['COMPONENT_MODE_EXECUTOR_START'],
         }
@@ -846,6 +859,11 @@ class Metaclass_VehicleCommand(type):
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_DO_VTOL_TRANSITION']
 
     @property
+    def VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE(self):
+        """Message constant 'VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE'."""
+        return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE']
+
+    @property
     def VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST(self):
         """Message constant 'VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST']
@@ -1156,6 +1174,16 @@ class Metaclass_VehicleCommand(type):
         return Metaclass_VehicleCommand.__constants['GRIPPER_ACTION_GRAB']
 
     @property
+    def SAFETY_OFF(self):
+        """Message constant 'SAFETY_OFF'."""
+        return Metaclass_VehicleCommand.__constants['SAFETY_OFF']
+
+    @property
+    def SAFETY_ON(self):
+        """Message constant 'SAFETY_ON'."""
+        return Metaclass_VehicleCommand.__constants['SAFETY_ON']
+
+    @property
     def ORB_QUEUE_LENGTH(self):
         """Message constant 'ORB_QUEUE_LENGTH'."""
         return Metaclass_VehicleCommand.__constants['ORB_QUEUE_LENGTH']
@@ -1266,6 +1294,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       VEHICLE_CMD_LOGGING_STOP
       VEHICLE_CMD_CONTROL_HIGH_LATENCY
       VEHICLE_CMD_DO_VTOL_TRANSITION
+      VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE
       VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST
       VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY
       VEHICLE_CMD_PAYLOAD_CONTROL_DEPLOY
@@ -1328,6 +1357,8 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       ARMING_ACTION_ARM
       GRIPPER_ACTION_RELEASE
       GRIPPER_ACTION_GRAB
+      SAFETY_OFF
+      SAFETY_ON
       ORB_QUEUE_LENGTH
       COMPONENT_MODE_EXECUTOR_START
     """
@@ -1348,6 +1379,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
         '_source_component',
         '_confirmation',
         '_from_external',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -1368,6 +1400,8 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
         'from_external': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -1387,9 +1421,14 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.param1 = kwargs.get('param1', float())
         self.param2 = kwargs.get('param2', float())
@@ -1411,7 +1450,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -1425,11 +1464,12 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -1479,7 +1519,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -1494,7 +1534,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param1.setter
     def param1(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param1' field must be of type 'float'"
@@ -1509,7 +1549,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param2.setter
     def param2(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param2' field must be of type 'float'"
@@ -1524,7 +1564,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param3.setter
     def param3(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param3' field must be of type 'float'"
@@ -1539,7 +1579,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param4.setter
     def param4(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param4' field must be of type 'float'"
@@ -1554,7 +1594,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param5.setter
     def param5(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param5' field must be of type 'float'"
@@ -1569,7 +1609,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param6.setter
     def param6(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param6' field must be of type 'float'"
@@ -1584,7 +1624,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @param7.setter
     def param7(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'param7' field must be of type 'float'"
@@ -1599,7 +1639,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @command.setter
     def command(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'command' field must be of type 'int'"
@@ -1614,7 +1654,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @target_system.setter
     def target_system(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'target_system' field must be of type 'int'"
@@ -1629,7 +1669,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @target_component.setter
     def target_component(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'target_component' field must be of type 'int'"
@@ -1644,7 +1684,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @source_system.setter
     def source_system(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'source_system' field must be of type 'int'"
@@ -1659,7 +1699,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @source_component.setter
     def source_component(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'source_component' field must be of type 'int'"
@@ -1674,7 +1714,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @confirmation.setter
     def confirmation(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'confirmation' field must be of type 'int'"
@@ -1689,7 +1729,7 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
 
     @from_external.setter
     def from_external(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'from_external' field must be of type 'bool'"

@@ -65,6 +65,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_debug_value_s.c.o.d"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_debug_vect_s.c.o"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_debug_vect_s.c.o.d"
+  "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_device_information_s.c.o"
+  "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_device_information_s.c.o.d"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_differential_pressure_s.c.o"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_differential_pressure_s.c.o.d"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_distance_sensor_mode_change_request_s.c.o"
@@ -475,8 +477,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/msg/_yaw_estimator_status_s.c.o.d"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/srv/_vehicle_command_s.c.o"
   "CMakeFiles/px4_msgs__rosidl_generator_py.dir/rosidl_generator_py/px4_msgs/srv/_vehicle_command_s.c.o.d"
-  "rosidl_generator_py/px4_msgs/libpx4_msgs__rosidl_generator_py.pdb"
-  "rosidl_generator_py/px4_msgs/libpx4_msgs__rosidl_generator_py.so"
+  "libpx4_msgs__rosidl_generator_py.pdb"
+  "libpx4_msgs__rosidl_generator_py.so"
 )
 
 # Per-language clean rules from dependency scanning.

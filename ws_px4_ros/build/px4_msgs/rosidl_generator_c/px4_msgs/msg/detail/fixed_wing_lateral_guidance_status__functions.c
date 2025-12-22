@@ -121,7 +121,7 @@ px4_msgs__msg__FixedWingLateralGuidanceStatus__copy(
 }
 
 px4_msgs__msg__FixedWingLateralGuidanceStatus *
-px4_msgs__msg__FixedWingLateralGuidanceStatus__create()
+px4_msgs__msg__FixedWingLateralGuidanceStatus__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__FixedWingLateralGuidanceStatus * msg = (px4_msgs__msg__FixedWingLateralGuidanceStatus *)allocator.allocate(sizeof(px4_msgs__msg__FixedWingLateralGuidanceStatus), allocator.state);

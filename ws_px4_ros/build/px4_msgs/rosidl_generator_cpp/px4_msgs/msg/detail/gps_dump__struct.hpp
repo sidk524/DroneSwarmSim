@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpsDump.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gps_dump.hpp"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPS_DUMP__STRUCT_HPP_
 #define PX4_MSGS__MSG__DETAIL__GPS_DUMP__STRUCT_HPP_
 
@@ -40,6 +43,7 @@ struct GpsDump_
     {
       this->timestamp = 0ull;
       this->instance = 0;
+      this->device_id = 0ul;
       this->len = 0;
       std::fill<typename std::array<uint8_t, 79>::iterator, uint8_t>(this->data.begin(), this->data.end(), 0);
     }
@@ -53,6 +57,7 @@ struct GpsDump_
     {
       this->timestamp = 0ull;
       this->instance = 0;
+      this->device_id = 0ul;
       this->len = 0;
       std::fill<typename std::array<uint8_t, 79>::iterator, uint8_t>(this->data.begin(), this->data.end(), 0);
     }
@@ -65,6 +70,9 @@ struct GpsDump_
   using _instance_type =
     uint8_t;
   _instance_type instance;
+  using _device_id_type =
+    uint32_t;
+  _device_id_type device_id;
   using _len_type =
     uint8_t;
   _len_type len;
@@ -85,6 +93,12 @@ struct GpsDump_
     this->instance = _arg;
     return *this;
   }
+  Type & set__device_id(
+    const uint32_t & _arg)
+  {
+    this->device_id = _arg;
+    return *this;
+  }
   Type & set__len(
     const uint8_t & _arg)
   {
@@ -99,8 +113,12 @@ struct GpsDump_
   }
 
   // constant declarations
+  static constexpr uint8_t INSTANCE_MAIN =
+    0u;
+  static constexpr uint8_t INSTANCE_SECONDARY =
+    1u;
   static constexpr uint8_t ORB_QUEUE_LENGTH =
-    8u;
+    16u;
 
   // pointer types
   using RawPtr =
@@ -148,6 +166,9 @@ struct GpsDump_
     if (this->instance != other.instance) {
       return false;
     }
+    if (this->device_id != other.device_id) {
+      return false;
+    }
     if (this->len != other.len) {
       return false;
     }
@@ -167,6 +188,16 @@ using GpsDump =
   px4_msgs::msg::GpsDump_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t GpsDump_<ContainerAllocator>::INSTANCE_MAIN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t GpsDump_<ContainerAllocator>::INSTANCE_SECONDARY;
+#endif  // __cplusplus < 201703L
 #if __cplusplus < 201703L
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>

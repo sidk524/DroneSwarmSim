@@ -55,3 +55,6 @@ endforeach()
 message(STATUS "Execute custom uninstall script")
 
 # begin of custom uninstall code
+
+# uninstall files installed using the symlink install functions
+include("/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com/ament_cmake_symlink_install/ament_cmake_symlink_install_uninstall_script.cmake")

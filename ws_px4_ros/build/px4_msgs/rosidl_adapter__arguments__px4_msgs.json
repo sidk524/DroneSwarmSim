@@ -34,6 +34,7 @@
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DebugKeyValue.msg",
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DebugValue.msg",
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DebugVect.msg",
+    "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DeviceInformation.msg",
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DifferentialPressure.msg",
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DistanceSensor.msg",
     "/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs:msg/DistanceSensorModeChangeRequest.msg",

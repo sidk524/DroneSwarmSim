@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/VehicleCommand.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/vehicle_command.h"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__VEHICLE_COMMAND__STRUCT_H_
 #define PX4_MSGS__MSG__DETAIL__VEHICLE_COMMAND__STRUCT_H_
 
@@ -13,7 +16,6 @@ extern "C"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
 
 // Constants defined in the message
 
@@ -860,6 +862,15 @@ enum
   px4_msgs__msg__VehicleCommand__VEHICLE_CMD_DO_VTOL_TRANSITION = 3000
 };
 
+/// Constant 'VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE'.
+/**
+  * Command safety on/off. |1 to activate safety, 0 to deactivate safety and allow control surface movements|Unused|Unused|Unused|Unused|Unused|Unused|
+ */
+enum
+{
+  px4_msgs__msg__VehicleCommand__VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE = 5300
+};
+
 /// Constant 'VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST'.
 /**
   * Request arm authorization.
@@ -1300,6 +1311,21 @@ enum
 enum
 {
   px4_msgs__msg__VehicleCommand__GRIPPER_ACTION_GRAB = 1
+};
+
+/// Constant 'SAFETY_OFF'.
+/**
+  * Used as param1 in DO_SET_SAFETY_SWITCH_STATE command.
+ */
+enum
+{
+  px4_msgs__msg__VehicleCommand__SAFETY_OFF = 0
+};
+
+/// Constant 'SAFETY_ON'.
+enum
+{
+  px4_msgs__msg__VehicleCommand__SAFETY_ON = 1
 };
 
 /// Constant 'ORB_QUEUE_LENGTH'.

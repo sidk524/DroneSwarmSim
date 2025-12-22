@@ -41,6 +41,9 @@ module px4_msgs {
         "10 : GPS signal is spoofed")
       const uint8 GPS_CHECK_FAIL_SPOOFED = 10;
       @verbatim (language="comment", text=
+        "11 : GPS signal is jammed")
+      const uint8 GPS_CHECK_FAIL_JAMMED = 11;
+      @verbatim (language="comment", text=
         "0 - true if the filter tilt alignment is complete")
       const uint8 CS_TILT_ALIGN = 0;
       @verbatim (language="comment", text=

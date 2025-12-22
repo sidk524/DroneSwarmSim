@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/IridiumsbdStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -70,6 +77,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
         '_tx_session_pending',
         '_rx_read_pending',
         '_rx_session_pending',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -90,6 +98,8 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
         'rx_session_pending': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -109,9 +119,14 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.last_at_ok_timestamp = kwargs.get('last_at_ok_timestamp', int())
         self.tx_buf_write_index = kwargs.get('tx_buf_write_index', int())
@@ -133,7 +148,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -147,11 +162,12 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -201,7 +217,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -216,7 +232,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @last_at_ok_timestamp.setter
     def last_at_ok_timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'last_at_ok_timestamp' field must be of type 'int'"
@@ -231,7 +247,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @tx_buf_write_index.setter
     def tx_buf_write_index(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'tx_buf_write_index' field must be of type 'int'"
@@ -246,7 +262,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @rx_buf_read_index.setter
     def rx_buf_read_index(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_buf_read_index' field must be of type 'int'"
@@ -261,7 +277,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @rx_buf_end_index.setter
     def rx_buf_end_index(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_buf_end_index' field must be of type 'int'"
@@ -276,7 +292,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @failed_sbd_sessions.setter
     def failed_sbd_sessions(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'failed_sbd_sessions' field must be of type 'int'"
@@ -291,7 +307,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @successful_sbd_sessions.setter
     def successful_sbd_sessions(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'successful_sbd_sessions' field must be of type 'int'"
@@ -306,7 +322,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @num_tx_buf_reset.setter
     def num_tx_buf_reset(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'num_tx_buf_reset' field must be of type 'int'"
@@ -321,7 +337,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @signal_quality.setter
     def signal_quality(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'signal_quality' field must be of type 'int'"
@@ -336,7 +352,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @state.setter
     def state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'state' field must be of type 'int'"
@@ -351,7 +367,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @ring_pending.setter
     def ring_pending(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'ring_pending' field must be of type 'bool'"
@@ -364,7 +380,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @tx_buf_write_pending.setter
     def tx_buf_write_pending(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'tx_buf_write_pending' field must be of type 'bool'"
@@ -377,7 +393,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @tx_session_pending.setter
     def tx_session_pending(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'tx_session_pending' field must be of type 'bool'"
@@ -390,7 +406,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @rx_read_pending.setter
     def rx_read_pending(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rx_read_pending' field must be of type 'bool'"
@@ -403,7 +419,7 @@ class IridiumsbdStatus(metaclass=Metaclass_IridiumsbdStatus):
 
     @rx_session_pending.setter
     def rx_session_pending(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rx_session_pending' field must be of type 'bool'"

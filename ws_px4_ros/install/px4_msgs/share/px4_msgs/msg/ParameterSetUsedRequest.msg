@@ -1,6 +1,1 @@
-# ParameterSetUsedRequest : Used by a remote to update the used flag for a parameter on the primary
-
-uint64 timestamp
-uint16 parameter_index
-
-uint8 ORB_QUEUE_LENGTH = 64
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/ParameterSetUsedRequest.msg

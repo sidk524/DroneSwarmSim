@@ -353,7 +353,7 @@ px4_msgs__msg__TelemetryStatus__copy(
 }
 
 px4_msgs__msg__TelemetryStatus *
-px4_msgs__msg__TelemetryStatus__create()
+px4_msgs__msg__TelemetryStatus__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__TelemetryStatus * msg = (px4_msgs__msg__TelemetryStatus *)allocator.allocate(sizeof(px4_msgs__msg__TelemetryStatus), allocator.state);

@@ -1,3 +1,1 @@
-# generated from ament_package/template/environment_hook/pythonpath.sh.in
-
-ament_prepend_unique_value PYTHONPATH "$AMENT_CURRENT_PREFIX/local/lib/python3.10/dist-packages"
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_ros_com/ament_cmake_environment_hooks/pythonpath.sh

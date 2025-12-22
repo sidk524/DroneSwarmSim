@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/SensorCombined.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -107,6 +114,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
         '_gyro_clipping',
         '_accel_calibration_count',
         '_gyro_calibration_count',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -122,6 +130,8 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
         'gyro_calibration_count': 'uint8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('float'), 3),  # noqa: E501
@@ -136,9 +146,14 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         if 'gyro_rad' not in kwargs:
             self.gyro_rad = numpy.zeros(3, dtype=numpy.float32)
@@ -161,7 +176,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -175,11 +190,12 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -219,7 +235,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -234,14 +250,14 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @gyro_rad.setter
     def gyro_rad(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'gyro_rad' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'gyro_rad' numpy.ndarray() must have a size of 3"
-            self._gyro_rad = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'gyro_rad' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'gyro_rad' numpy.ndarray() must have a size of 3"
+                self._gyro_rad = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -265,7 +281,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @gyro_integral_dt.setter
     def gyro_integral_dt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'gyro_integral_dt' field must be of type 'int'"
@@ -280,7 +296,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @accelerometer_timestamp_relative.setter
     def accelerometer_timestamp_relative(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'accelerometer_timestamp_relative' field must be of type 'int'"
@@ -295,14 +311,14 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @accelerometer_m_s2.setter
     def accelerometer_m_s2(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'accelerometer_m_s2' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'accelerometer_m_s2' numpy.ndarray() must have a size of 3"
-            self._accelerometer_m_s2 = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'accelerometer_m_s2' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'accelerometer_m_s2' numpy.ndarray() must have a size of 3"
+                self._accelerometer_m_s2 = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -326,7 +342,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @accelerometer_integral_dt.setter
     def accelerometer_integral_dt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'accelerometer_integral_dt' field must be of type 'int'"
@@ -341,7 +357,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @accelerometer_clipping.setter
     def accelerometer_clipping(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'accelerometer_clipping' field must be of type 'int'"
@@ -356,7 +372,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @gyro_clipping.setter
     def gyro_clipping(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'gyro_clipping' field must be of type 'int'"
@@ -371,7 +387,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @accel_calibration_count.setter
     def accel_calibration_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'accel_calibration_count' field must be of type 'int'"
@@ -386,7 +402,7 @@ class SensorCombined(metaclass=Metaclass_SensorCombined):
 
     @gyro_calibration_count.setter
     def gyro_calibration_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'gyro_calibration_count' field must be of type 'int'"

@@ -1,5 +1,6 @@
 #include <array>
 #include <algorithm>
+#include <functional>
 #include <px4_msgs/msg/detail/vehicle_command__struct.hpp>
 #include <px4_msgs/msg/detail/vehicle_local_position__struct.hpp>
 #include <rclcpp/rclcpp.hpp>
@@ -8,10 +9,12 @@
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_local_position.hpp>
 #include <px4_msgs/msg/manual_control_setpoint.hpp>
+#include <sensor_msgs/msg/laser_scan.hpp>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 
 using namespace px4_msgs::msg;
+using namespace sensor_msgs::msg;
 using namespace std::chrono_literals;
 
 struct KeyStates {
@@ -32,6 +35,12 @@ public:
   {
     vehicle_command_publisher_ = this->create_publisher<VehicleCommand>("/fmu/in/vehicle_command", 10);
     manual_control_input_publisher_ = this->create_publisher<ManualControlSetpoint>("/fmu/in/manual_control_input", 10);
+    lidar_data_subscriber_ = this->create_subscription<LaserScan>(
+      "/lidar/scan", 
+      10, 
+      std::bind(&ManualControlNode::lidar_data_callback, this, std::placeholders::_1)
+    );
+    
     last_time = this->now();
 
     auto timer_callback = [this]() -> void {
@@ -67,6 +76,7 @@ private:
   rclcpp::Publisher<TrajectorySetpoint>::SharedPtr trajectory_setpoint_publisher_;
   rclcpp::Publisher<ManualControlSetpoint>::SharedPtr manual_control_input_publisher_;
   rclcpp::Subscription<VehicleLocalPosition>::SharedPtr vehicle_position_subscriber_;
+  rclcpp::Subscription<LaserScan>::SharedPtr lidar_data_subscriber_;
   rclcpp::TimerBase::SharedPtr timer_;
 
   int offboard_setpoint_counter_ = 0;
@@ -86,9 +96,8 @@ private:
   void updateControlValues();
   void publishManualInput();
   void publishVehicleCommand(uint16_t command, float param1 = 0.0, float param2 = 0.0);
+  void lidar_data_callback(const LaserScan::SharedPtr msg);
 };
-
-
 
 void ManualControlNode::publishVehicleCommand(uint16_t command, float param1, float param2)
 {
@@ -111,6 +120,30 @@ void ManualControlNode::armDrone() {
 
 void ManualControlNode::disarmDrone() {
   publishVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
+}
+
+void ManualControlNode::lidar_data_callback(const LaserScan::SharedPtr msg) {
+  RCLCPP_INFO(this->get_logger(), "=== LaserScan Data ===");
+  RCLCPP_INFO(this->get_logger(), "Header:");
+  RCLCPP_INFO(this->get_logger(), "  timestamp: %d.%09u", msg->header.stamp.sec, msg->header.stamp.nanosec);
+  RCLCPP_INFO(this->get_logger(), "  frame_id: %s", msg->header.frame_id.c_str());
+  RCLCPP_INFO(this->get_logger(), "Angle: min=%.3f, max=%.3f, increment=%.3f [rad]", 
+              msg->angle_min, msg->angle_max, msg->angle_increment);
+  RCLCPP_INFO(this->get_logger(), "Time: increment=%.6f [s], scan_time=%.6f [s]", 
+              msg->time_increment, msg->scan_time);
+  RCLCPP_INFO(this->get_logger(), "Range: min=%.3f, max=%.3f [m]", 
+              msg->range_min, msg->range_max);
+  RCLCPP_INFO(this->get_logger(), "Ranges: %zu measurements", msg->ranges.size());
+  RCLCPP_INFO(this->get_logger(), "Intensities: %zu measurements", msg->intensities.size());
+  
+  if (msg->ranges.size() > 0) {
+    RCLCPP_INFO(this->get_logger(), "First few ranges: %.3f, %.3f, %.3f, %.3f, %.3f [m]",
+                msg->ranges[0],
+                msg->ranges.size() > 1 ? msg->ranges[1] : 0.0f,
+                msg->ranges.size() > 2 ? msg->ranges[2] : 0.0f,
+                msg->ranges.size() > 3 ? msg->ranges[3] : 0.0f,
+                msg->ranges.size() > 4 ? msg->ranges[4] : 0.0f);
+  }
 }
 
 bool ManualControlNode::isKeyDown(Display* display, const char* keys, KeySym keysym) {

@@ -1,4 +1,1 @@
-# Rover Rate setpoint
-
-uint64 timestamp           # [us] Time since system start
-float32 yaw_rate_setpoint  # [rad/s] [@range -inf, inf] [@frame NED] Yaw rate setpoint
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/RoverRateSetpoint.msg

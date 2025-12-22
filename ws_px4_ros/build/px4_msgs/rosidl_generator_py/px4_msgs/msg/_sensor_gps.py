@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/SensorGps.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -346,6 +353,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         '_selected_rtcm_instance',
         '_rtcm_crc_failed',
         '_rtcm_msg_used',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -388,6 +396,8 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         'rtcm_msg_used': 'uint8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -429,9 +439,14 @@ class SensorGps(metaclass=Metaclass_SensorGps):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.device_id = kwargs.get('device_id', int())
@@ -475,7 +490,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -489,11 +504,12 @@ class SensorGps(metaclass=Metaclass_SensorGps):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -587,7 +603,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -602,7 +618,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -617,7 +633,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @device_id.setter
     def device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'device_id' field must be of type 'int'"
@@ -632,7 +648,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @latitude_deg.setter
     def latitude_deg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'latitude_deg' field must be of type 'float'"
@@ -647,7 +663,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @longitude_deg.setter
     def longitude_deg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'longitude_deg' field must be of type 'float'"
@@ -662,7 +678,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @altitude_msl_m.setter
     def altitude_msl_m(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'altitude_msl_m' field must be of type 'float'"
@@ -677,7 +693,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @altitude_ellipsoid_m.setter
     def altitude_ellipsoid_m(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'altitude_ellipsoid_m' field must be of type 'float'"
@@ -692,7 +708,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @s_variance_m_s.setter
     def s_variance_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 's_variance_m_s' field must be of type 'float'"
@@ -707,7 +723,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @c_variance_rad.setter
     def c_variance_rad(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'c_variance_rad' field must be of type 'float'"
@@ -722,7 +738,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @fix_type.setter
     def fix_type(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'fix_type' field must be of type 'int'"
@@ -737,7 +753,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @eph.setter
     def eph(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'eph' field must be of type 'float'"
@@ -752,7 +768,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @epv.setter
     def epv(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'epv' field must be of type 'float'"
@@ -767,7 +783,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @hdop.setter
     def hdop(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'hdop' field must be of type 'float'"
@@ -782,7 +798,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vdop.setter
     def vdop(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vdop' field must be of type 'float'"
@@ -797,7 +813,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @noise_per_ms.setter
     def noise_per_ms(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'noise_per_ms' field must be of type 'int'"
@@ -812,7 +828,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @automatic_gain_control.setter
     def automatic_gain_control(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'automatic_gain_control' field must be of type 'int'"
@@ -827,7 +843,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @jamming_state.setter
     def jamming_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'jamming_state' field must be of type 'int'"
@@ -842,7 +858,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @jamming_indicator.setter
     def jamming_indicator(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'jamming_indicator' field must be of type 'int'"
@@ -857,7 +873,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @spoofing_state.setter
     def spoofing_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'spoofing_state' field must be of type 'int'"
@@ -872,7 +888,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @authentication_state.setter
     def authentication_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'authentication_state' field must be of type 'int'"
@@ -887,7 +903,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vel_m_s.setter
     def vel_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vel_m_s' field must be of type 'float'"
@@ -902,7 +918,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vel_n_m_s.setter
     def vel_n_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vel_n_m_s' field must be of type 'float'"
@@ -917,7 +933,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vel_e_m_s.setter
     def vel_e_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vel_e_m_s' field must be of type 'float'"
@@ -932,7 +948,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vel_d_m_s.setter
     def vel_d_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vel_d_m_s' field must be of type 'float'"
@@ -947,7 +963,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @cog_rad.setter
     def cog_rad(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'cog_rad' field must be of type 'float'"
@@ -962,7 +978,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @vel_ned_valid.setter
     def vel_ned_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'vel_ned_valid' field must be of type 'bool'"
@@ -975,7 +991,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @timestamp_time_relative.setter
     def timestamp_time_relative(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_time_relative' field must be of type 'int'"
@@ -990,7 +1006,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @time_utc_usec.setter
     def time_utc_usec(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'time_utc_usec' field must be of type 'int'"
@@ -1005,7 +1021,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @satellites_used.setter
     def satellites_used(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'satellites_used' field must be of type 'int'"
@@ -1020,7 +1036,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @system_error.setter
     def system_error(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'system_error' field must be of type 'int'"
@@ -1035,7 +1051,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @heading.setter
     def heading(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'heading' field must be of type 'float'"
@@ -1050,7 +1066,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @heading_offset.setter
     def heading_offset(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'heading_offset' field must be of type 'float'"
@@ -1065,7 +1081,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @heading_accuracy.setter
     def heading_accuracy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'heading_accuracy' field must be of type 'float'"
@@ -1080,7 +1096,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @rtcm_injection_rate.setter
     def rtcm_injection_rate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'rtcm_injection_rate' field must be of type 'float'"
@@ -1095,7 +1111,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @selected_rtcm_instance.setter
     def selected_rtcm_instance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'selected_rtcm_instance' field must be of type 'int'"
@@ -1110,7 +1126,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @rtcm_crc_failed.setter
     def rtcm_crc_failed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rtcm_crc_failed' field must be of type 'bool'"
@@ -1123,7 +1139,7 @@ class SensorGps(metaclass=Metaclass_SensorGps):
 
     @rtcm_msg_used.setter
     def rtcm_msg_used(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rtcm_msg_used' field must be of type 'int'"

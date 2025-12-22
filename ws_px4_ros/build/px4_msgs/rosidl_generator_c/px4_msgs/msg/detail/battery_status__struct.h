@@ -3,6 +3,9 @@
 // with input from px4_msgs:msg/BatteryStatus.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/battery_status.h"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__BATTERY_STATUS__STRUCT_H_
 #define PX4_MSGS__MSG__DETAIL__BATTERY_STATUS__STRUCT_H_
 
@@ -14,7 +17,6 @@ extern "C"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
 
 // Constants defined in the message
 
@@ -32,7 +34,7 @@ enum
 
 /// Constant 'SOURCE_POWER_MODULE'.
 /**
-  * Power module
+  * Power module (analog ADC or I2C power monitor)
  */
 enum
 {
@@ -41,7 +43,7 @@ enum
 
 /// Constant 'SOURCE_EXTERNAL'.
 /**
-  * External
+  * External (MAVLink, CAN, or external driver)
  */
 enum
 {
@@ -50,7 +52,7 @@ enum
 
 /// Constant 'SOURCE_ESCS'.
 /**
-  * ESCs
+  * ESCs (via ESC telemetry)
  */
 enum
 {
@@ -232,7 +234,7 @@ enum
 /**
   * Battery status
   *
-  * Battery status information for up to 4 battery instances.
+  * Battery status information for up to 3 battery instances.
   * These are populated from power module and smart battery device drivers, and one battery updated from MAVLink.
   * Battery instance information is also logged and streamed in MAVLink telemetry.
  */

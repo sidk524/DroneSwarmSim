@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/TelemetryStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -147,6 +154,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         '_heartbeat_component_uart_bridge',
         '_open_drone_id_system_healthy',
         '_parachute_system_healthy',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -190,6 +198,8 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         'parachute_system_healthy': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
@@ -232,9 +242,14 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.type = kwargs.get('type', int())
         self.mode = kwargs.get('mode', int())
@@ -279,7 +294,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -293,11 +308,12 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -393,7 +409,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -408,7 +424,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @type.setter  # noqa: A003
     def type(self, value):  # noqa: A003
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'type' field must be of type 'int'"
@@ -423,7 +439,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @mode.setter
     def mode(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode' field must be of type 'int'"
@@ -438,7 +454,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @flow_control.setter
     def flow_control(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'flow_control' field must be of type 'bool'"
@@ -451,7 +467,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @forwarding.setter
     def forwarding(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'forwarding' field must be of type 'bool'"
@@ -464,7 +480,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @mavlink_v2.setter
     def mavlink_v2(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'mavlink_v2' field must be of type 'bool'"
@@ -477,7 +493,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @ftp.setter
     def ftp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'ftp' field must be of type 'bool'"
@@ -490,7 +506,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @streams.setter
     def streams(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'streams' field must be of type 'int'"
@@ -505,7 +521,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @data_rate.setter
     def data_rate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'data_rate' field must be of type 'float'"
@@ -520,7 +536,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rate_multiplier.setter
     def rate_multiplier(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'rate_multiplier' field must be of type 'float'"
@@ -535,7 +551,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @tx_rate_avg.setter
     def tx_rate_avg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'tx_rate_avg' field must be of type 'float'"
@@ -550,7 +566,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @tx_error_rate_avg.setter
     def tx_error_rate_avg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'tx_error_rate_avg' field must be of type 'float'"
@@ -565,7 +581,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @tx_message_count.setter
     def tx_message_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'tx_message_count' field must be of type 'int'"
@@ -580,7 +596,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @tx_buffer_overruns.setter
     def tx_buffer_overruns(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'tx_buffer_overruns' field must be of type 'int'"
@@ -595,7 +611,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_rate_avg.setter
     def rx_rate_avg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'rx_rate_avg' field must be of type 'float'"
@@ -610,7 +626,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_message_count.setter
     def rx_message_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_message_count' field must be of type 'int'"
@@ -625,7 +641,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_message_lost_count.setter
     def rx_message_lost_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_message_lost_count' field must be of type 'int'"
@@ -640,7 +656,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_buffer_overruns.setter
     def rx_buffer_overruns(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_buffer_overruns' field must be of type 'int'"
@@ -655,7 +671,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_parse_errors.setter
     def rx_parse_errors(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_parse_errors' field must be of type 'int'"
@@ -670,7 +686,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_packet_drop_count.setter
     def rx_packet_drop_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rx_packet_drop_count' field must be of type 'int'"
@@ -685,7 +701,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @rx_message_lost_rate.setter
     def rx_message_lost_rate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'rx_message_lost_rate' field must be of type 'float'"
@@ -700,7 +716,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_antenna_tracker.setter
     def heartbeat_type_antenna_tracker(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_antenna_tracker' field must be of type 'bool'"
@@ -713,7 +729,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_gcs.setter
     def heartbeat_type_gcs(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_gcs' field must be of type 'bool'"
@@ -726,7 +742,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_onboard_controller.setter
     def heartbeat_type_onboard_controller(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_onboard_controller' field must be of type 'bool'"
@@ -739,7 +755,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_gimbal.setter
     def heartbeat_type_gimbal(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_gimbal' field must be of type 'bool'"
@@ -752,7 +768,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_adsb.setter
     def heartbeat_type_adsb(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_adsb' field must be of type 'bool'"
@@ -765,7 +781,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_camera.setter
     def heartbeat_type_camera(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_camera' field must be of type 'bool'"
@@ -778,7 +794,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_parachute.setter
     def heartbeat_type_parachute(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_parachute' field must be of type 'bool'"
@@ -791,7 +807,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_type_open_drone_id.setter
     def heartbeat_type_open_drone_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_type_open_drone_id' field must be of type 'bool'"
@@ -804,7 +820,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_telemetry_radio.setter
     def heartbeat_component_telemetry_radio(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_telemetry_radio' field must be of type 'bool'"
@@ -817,7 +833,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_log.setter
     def heartbeat_component_log(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_log' field must be of type 'bool'"
@@ -830,7 +846,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_osd.setter
     def heartbeat_component_osd(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_osd' field must be of type 'bool'"
@@ -843,7 +859,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_vio.setter
     def heartbeat_component_vio(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_vio' field must be of type 'bool'"
@@ -856,7 +872,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_pairing_manager.setter
     def heartbeat_component_pairing_manager(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_pairing_manager' field must be of type 'bool'"
@@ -869,7 +885,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_udp_bridge.setter
     def heartbeat_component_udp_bridge(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_udp_bridge' field must be of type 'bool'"
@@ -882,7 +898,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @heartbeat_component_uart_bridge.setter
     def heartbeat_component_uart_bridge(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heartbeat_component_uart_bridge' field must be of type 'bool'"
@@ -895,7 +911,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @open_drone_id_system_healthy.setter
     def open_drone_id_system_healthy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'open_drone_id_system_healthy' field must be of type 'bool'"
@@ -908,7 +924,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
 
     @parachute_system_healthy.setter
     def parachute_system_healthy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'parachute_system_healthy' field must be of type 'bool'"

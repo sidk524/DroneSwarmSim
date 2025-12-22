@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/AutotuneAttitudeControlStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -217,6 +224,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
         '_u_filt',
         '_y_filt',
         '_state',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -237,6 +245,8 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
         'state': 'uint8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('float'), 5),  # noqa: E501
@@ -256,9 +266,14 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         if 'coeff' not in kwargs:
             self.coeff = numpy.zeros(5, dtype=numpy.float32)
@@ -289,7 +304,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -303,11 +318,12 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -357,7 +373,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -372,14 +388,14 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @coeff.setter
     def coeff(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'coeff' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'coeff' numpy.ndarray() must have a size of 5"
-            self._coeff = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'coeff' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'coeff' numpy.ndarray() must have a size of 5"
+                self._coeff = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -403,14 +419,14 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @coeff_var.setter
     def coeff_var(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'coeff_var' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 5, \
-                "The 'coeff_var' numpy.ndarray() must have a size of 5"
-            self._coeff_var = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'coeff_var' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 5, \
+                    "The 'coeff_var' numpy.ndarray() must have a size of 5"
+                self._coeff_var = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -434,7 +450,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @fitness.setter
     def fitness(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'fitness' field must be of type 'float'"
@@ -449,7 +465,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @innov.setter
     def innov(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'innov' field must be of type 'float'"
@@ -464,7 +480,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @dt_model.setter
     def dt_model(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'dt_model' field must be of type 'float'"
@@ -479,7 +495,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @kc.setter
     def kc(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'kc' field must be of type 'float'"
@@ -494,7 +510,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @ki.setter
     def ki(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ki' field must be of type 'float'"
@@ -509,7 +525,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @kd.setter
     def kd(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'kd' field must be of type 'float'"
@@ -524,7 +540,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @kff.setter
     def kff(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'kff' field must be of type 'float'"
@@ -539,7 +555,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @att_p.setter
     def att_p(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'att_p' field must be of type 'float'"
@@ -554,14 +570,14 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @rate_sp.setter
     def rate_sp(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'rate_sp' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'rate_sp' numpy.ndarray() must have a size of 3"
-            self._rate_sp = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'rate_sp' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'rate_sp' numpy.ndarray() must have a size of 3"
+                self._rate_sp = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -585,7 +601,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @u_filt.setter
     def u_filt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'u_filt' field must be of type 'float'"
@@ -600,7 +616,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @y_filt.setter
     def y_filt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'y_filt' field must be of type 'float'"
@@ -615,7 +631,7 @@ class AutotuneAttitudeControlStatus(metaclass=Metaclass_AutotuneAttitudeControlS
 
     @state.setter
     def state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'state' field must be of type 'int'"

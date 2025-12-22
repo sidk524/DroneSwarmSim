@@ -64,6 +64,8 @@ msg/DebugValue.idl
 msg/DebugValue.msg
 msg/DebugVect.idl
 msg/DebugVect.msg
+msg/DeviceInformation.idl
+msg/DeviceInformation.msg
 msg/DifferentialPressure.idl
 msg/DifferentialPressure.msg
 msg/DistanceSensor.idl
@@ -474,5 +476,3 @@ msg/YawEstimatorStatus.idl
 msg/YawEstimatorStatus.msg
 srv/VehicleCommand.idl
 srv/VehicleCommand.srv
-srv/VehicleCommand_Request.msg
-srv/VehicleCommand_Response.msg

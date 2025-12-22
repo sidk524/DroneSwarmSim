@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/BatteryStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -294,6 +301,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
         '_voltage_prediction',
         '_prediction_error',
         '_estimation_covariance_norm',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -337,6 +345,8 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
         'estimation_covariance_norm': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
@@ -379,9 +389,14 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.connected = kwargs.get('connected', bool())
         self.voltage_v = kwargs.get('voltage_v', float())
@@ -429,7 +444,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -443,11 +458,12 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -543,7 +559,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -558,7 +574,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @connected.setter
     def connected(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'connected' field must be of type 'bool'"
@@ -571,7 +587,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @voltage_v.setter
     def voltage_v(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'voltage_v' field must be of type 'float'"
@@ -586,7 +602,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @current_a.setter
     def current_a(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'current_a' field must be of type 'float'"
@@ -601,7 +617,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @current_average_a.setter
     def current_average_a(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'current_average_a' field must be of type 'float'"
@@ -616,7 +632,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @discharged_mah.setter
     def discharged_mah(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'discharged_mah' field must be of type 'float'"
@@ -631,7 +647,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @remaining.setter
     def remaining(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'remaining' field must be of type 'float'"
@@ -646,7 +662,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @scale.setter
     def scale(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'scale' field must be of type 'float'"
@@ -661,7 +677,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @time_remaining_s.setter
     def time_remaining_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'time_remaining_s' field must be of type 'float'"
@@ -676,7 +692,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @temperature.setter
     def temperature(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'temperature' field must be of type 'float'"
@@ -691,7 +707,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @cell_count.setter
     def cell_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'cell_count' field must be of type 'int'"
@@ -706,7 +722,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @source.setter
     def source(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'source' field must be of type 'int'"
@@ -721,7 +737,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @priority.setter
     def priority(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'priority' field must be of type 'int'"
@@ -736,7 +752,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @capacity.setter
     def capacity(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'capacity' field must be of type 'int'"
@@ -751,7 +767,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @cycle_count.setter
     def cycle_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'cycle_count' field must be of type 'int'"
@@ -766,7 +782,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @average_time_to_empty.setter
     def average_time_to_empty(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'average_time_to_empty' field must be of type 'int'"
@@ -781,7 +797,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @manufacture_date.setter
     def manufacture_date(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'manufacture_date' field must be of type 'int'"
@@ -796,7 +812,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @state_of_health.setter
     def state_of_health(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'state_of_health' field must be of type 'int'"
@@ -811,7 +827,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @max_error.setter
     def max_error(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'max_error' field must be of type 'int'"
@@ -826,7 +842,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @id.setter  # noqa: A003
     def id(self, value):  # noqa: A003
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'id' field must be of type 'int'"
@@ -841,7 +857,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @interface_error.setter
     def interface_error(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'interface_error' field must be of type 'int'"
@@ -856,14 +872,14 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @voltage_cell_v.setter
     def voltage_cell_v(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'voltage_cell_v' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 14, \
-                "The 'voltage_cell_v' numpy.ndarray() must have a size of 14"
-            self._voltage_cell_v = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'voltage_cell_v' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 14, \
+                    "The 'voltage_cell_v' numpy.ndarray() must have a size of 14"
+                self._voltage_cell_v = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -887,7 +903,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @max_cell_voltage_delta.setter
     def max_cell_voltage_delta(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'max_cell_voltage_delta' field must be of type 'float'"
@@ -902,7 +918,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @is_powering_off.setter
     def is_powering_off(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'is_powering_off' field must be of type 'bool'"
@@ -915,7 +931,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @is_required.setter
     def is_required(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'is_required' field must be of type 'bool'"
@@ -928,7 +944,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @warning.setter
     def warning(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'warning' field must be of type 'int'"
@@ -943,7 +959,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @faults.setter
     def faults(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'faults' field must be of type 'int'"
@@ -958,7 +974,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @full_charge_capacity_wh.setter
     def full_charge_capacity_wh(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'full_charge_capacity_wh' field must be of type 'float'"
@@ -973,7 +989,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @remaining_capacity_wh.setter
     def remaining_capacity_wh(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'remaining_capacity_wh' field must be of type 'float'"
@@ -988,7 +1004,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @over_discharge_count.setter
     def over_discharge_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'over_discharge_count' field must be of type 'int'"
@@ -1003,7 +1019,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @nominal_voltage.setter
     def nominal_voltage(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'nominal_voltage' field must be of type 'float'"
@@ -1018,7 +1034,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @internal_resistance_estimate.setter
     def internal_resistance_estimate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'internal_resistance_estimate' field must be of type 'float'"
@@ -1033,7 +1049,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @ocv_estimate.setter
     def ocv_estimate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ocv_estimate' field must be of type 'float'"
@@ -1048,7 +1064,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @ocv_estimate_filtered.setter
     def ocv_estimate_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ocv_estimate_filtered' field must be of type 'float'"
@@ -1063,7 +1079,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @volt_based_soc_estimate.setter
     def volt_based_soc_estimate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'volt_based_soc_estimate' field must be of type 'float'"
@@ -1078,7 +1094,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @voltage_prediction.setter
     def voltage_prediction(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'voltage_prediction' field must be of type 'float'"
@@ -1093,7 +1109,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @prediction_error.setter
     def prediction_error(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'prediction_error' field must be of type 'float'"
@@ -1108,7 +1124,7 @@ class BatteryStatus(metaclass=Metaclass_BatteryStatus):
 
     @estimation_covariance_norm.setter
     def estimation_covariance_norm(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'estimation_covariance_norm' field must be of type 'float'"

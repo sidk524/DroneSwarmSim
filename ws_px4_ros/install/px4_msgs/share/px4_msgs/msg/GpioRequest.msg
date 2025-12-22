@@ -1,4 +1,1 @@
-# Request GPIO mask to be read
-
-uint64 timestamp			# time since system start (microseconds)
-uint32 device_id			# Device id
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/GpioRequest.msg

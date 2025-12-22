@@ -1,4 +1,1 @@
-uint64 timestamp		# time since system start (microseconds)
-
-uint8 active_sys_id		# mavlink system id of the currently active camera
-uint8 active_comp_id 	# mavlink component id of currently active camera
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/CameraStatus.msg

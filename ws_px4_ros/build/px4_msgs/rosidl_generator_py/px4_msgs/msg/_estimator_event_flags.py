@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/EstimatorEventFlags.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -75,6 +82,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
         '_reset_hgt_to_gps',
         '_reset_hgt_to_rng',
         '_reset_hgt_to_ev',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -100,6 +108,8 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
         'reset_hgt_to_ev': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -124,9 +134,14 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.information_event_changes = kwargs.get('information_event_changes', int())
@@ -153,7 +168,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -167,11 +182,12 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -231,7 +247,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -246,7 +262,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -261,7 +277,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @information_event_changes.setter
     def information_event_changes(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'information_event_changes' field must be of type 'int'"
@@ -276,7 +292,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @gps_checks_passed.setter
     def gps_checks_passed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gps_checks_passed' field must be of type 'bool'"
@@ -289,7 +305,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_vel_to_gps.setter
     def reset_vel_to_gps(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_vel_to_gps' field must be of type 'bool'"
@@ -302,7 +318,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_vel_to_flow.setter
     def reset_vel_to_flow(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_vel_to_flow' field must be of type 'bool'"
@@ -315,7 +331,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_vel_to_vision.setter
     def reset_vel_to_vision(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_vel_to_vision' field must be of type 'bool'"
@@ -328,7 +344,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_vel_to_zero.setter
     def reset_vel_to_zero(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_vel_to_zero' field must be of type 'bool'"
@@ -341,7 +357,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_pos_to_last_known.setter
     def reset_pos_to_last_known(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_pos_to_last_known' field must be of type 'bool'"
@@ -354,7 +370,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_pos_to_gps.setter
     def reset_pos_to_gps(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_pos_to_gps' field must be of type 'bool'"
@@ -367,7 +383,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_pos_to_vision.setter
     def reset_pos_to_vision(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_pos_to_vision' field must be of type 'bool'"
@@ -380,7 +396,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @starting_gps_fusion.setter
     def starting_gps_fusion(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'starting_gps_fusion' field must be of type 'bool'"
@@ -393,7 +409,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @starting_vision_pos_fusion.setter
     def starting_vision_pos_fusion(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'starting_vision_pos_fusion' field must be of type 'bool'"
@@ -406,7 +422,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @starting_vision_vel_fusion.setter
     def starting_vision_vel_fusion(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'starting_vision_vel_fusion' field must be of type 'bool'"
@@ -419,7 +435,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @starting_vision_yaw_fusion.setter
     def starting_vision_yaw_fusion(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'starting_vision_yaw_fusion' field must be of type 'bool'"
@@ -432,7 +448,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @yaw_aligned_to_imu_gps.setter
     def yaw_aligned_to_imu_gps(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'yaw_aligned_to_imu_gps' field must be of type 'bool'"
@@ -445,7 +461,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_hgt_to_baro.setter
     def reset_hgt_to_baro(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_hgt_to_baro' field must be of type 'bool'"
@@ -458,7 +474,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_hgt_to_gps.setter
     def reset_hgt_to_gps(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_hgt_to_gps' field must be of type 'bool'"
@@ -471,7 +487,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_hgt_to_rng.setter
     def reset_hgt_to_rng(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_hgt_to_rng' field must be of type 'bool'"
@@ -484,7 +500,7 @@ class EstimatorEventFlags(metaclass=Metaclass_EstimatorEventFlags):
 
     @reset_hgt_to_ev.setter
     def reset_hgt_to_ev(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_hgt_to_ev' field must be of type 'bool'"

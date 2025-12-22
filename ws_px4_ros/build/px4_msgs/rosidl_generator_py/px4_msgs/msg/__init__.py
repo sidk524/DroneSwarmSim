@@ -31,6 +31,7 @@ from px4_msgs.msg._debug_array import DebugArray  # noqa: F401
 from px4_msgs.msg._debug_key_value import DebugKeyValue  # noqa: F401
 from px4_msgs.msg._debug_value import DebugValue  # noqa: F401
 from px4_msgs.msg._debug_vect import DebugVect  # noqa: F401
+from px4_msgs.msg._device_information import DeviceInformation  # noqa: F401
 from px4_msgs.msg._differential_pressure import DifferentialPressure  # noqa: F401
 from px4_msgs.msg._distance_sensor import DistanceSensor  # noqa: F401
 from px4_msgs.msg._distance_sensor_mode_change_request import DistanceSensorModeChangeRequest  # noqa: F401

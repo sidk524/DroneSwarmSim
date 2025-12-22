@@ -19,6 +19,7 @@ px4_msgs__msg__GpsDump__init(px4_msgs__msg__GpsDump * msg)
   }
   // timestamp
   // instance
+  // device_id
   // len
   // data
   return true;
@@ -32,6 +33,7 @@ px4_msgs__msg__GpsDump__fini(px4_msgs__msg__GpsDump * msg)
   }
   // timestamp
   // instance
+  // device_id
   // len
   // data
 }
@@ -48,6 +50,10 @@ px4_msgs__msg__GpsDump__are_equal(const px4_msgs__msg__GpsDump * lhs, const px4_
   }
   // instance
   if (lhs->instance != rhs->instance) {
+    return false;
+  }
+  // device_id
+  if (lhs->device_id != rhs->device_id) {
     return false;
   }
   // len
@@ -75,6 +81,8 @@ px4_msgs__msg__GpsDump__copy(
   output->timestamp = input->timestamp;
   // instance
   output->instance = input->instance;
+  // device_id
+  output->device_id = input->device_id;
   // len
   output->len = input->len;
   // data
@@ -85,7 +93,7 @@ px4_msgs__msg__GpsDump__copy(
 }
 
 px4_msgs__msg__GpsDump *
-px4_msgs__msg__GpsDump__create()
+px4_msgs__msg__GpsDump__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__GpsDump * msg = (px4_msgs__msg__GpsDump *)allocator.allocate(sizeof(px4_msgs__msg__GpsDump), allocator.state);

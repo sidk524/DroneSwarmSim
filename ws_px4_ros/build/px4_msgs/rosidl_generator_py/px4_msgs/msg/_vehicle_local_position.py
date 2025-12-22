@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/VehicleLocalPosition.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -150,6 +157,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
         '_hagl_min',
         '_hagl_max_z',
         '_hagl_max_xy',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -208,6 +216,8 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
         'hagl_max_xy': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -265,9 +275,14 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.xy_valid = kwargs.get('xy_valid', bool())
@@ -333,7 +348,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -347,11 +362,12 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -477,7 +493,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -492,7 +508,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -507,7 +523,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @xy_valid.setter
     def xy_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'xy_valid' field must be of type 'bool'"
@@ -520,7 +536,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @z_valid.setter
     def z_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'z_valid' field must be of type 'bool'"
@@ -533,7 +549,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @v_xy_valid.setter
     def v_xy_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'v_xy_valid' field must be of type 'bool'"
@@ -546,7 +562,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @v_z_valid.setter
     def v_z_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'v_z_valid' field must be of type 'bool'"
@@ -559,7 +575,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @x.setter
     def x(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'x' field must be of type 'float'"
@@ -574,7 +590,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @y.setter
     def y(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'y' field must be of type 'float'"
@@ -589,7 +605,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @z.setter
     def z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'z' field must be of type 'float'"
@@ -604,14 +620,14 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_xy.setter
     def delta_xy(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'delta_xy' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 2, \
-                "The 'delta_xy' numpy.ndarray() must have a size of 2"
-            self._delta_xy = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'delta_xy' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 2, \
+                    "The 'delta_xy' numpy.ndarray() must have a size of 2"
+                self._delta_xy = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -635,7 +651,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @xy_reset_counter.setter
     def xy_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'xy_reset_counter' field must be of type 'int'"
@@ -650,7 +666,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_z.setter
     def delta_z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'delta_z' field must be of type 'float'"
@@ -665,7 +681,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @z_reset_counter.setter
     def z_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'z_reset_counter' field must be of type 'int'"
@@ -680,7 +696,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vx.setter
     def vx(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vx' field must be of type 'float'"
@@ -695,7 +711,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vy.setter
     def vy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vy' field must be of type 'float'"
@@ -710,7 +726,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vz.setter
     def vz(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vz' field must be of type 'float'"
@@ -725,7 +741,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @z_deriv.setter
     def z_deriv(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'z_deriv' field must be of type 'float'"
@@ -740,14 +756,14 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_vxy.setter
     def delta_vxy(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'delta_vxy' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 2, \
-                "The 'delta_vxy' numpy.ndarray() must have a size of 2"
-            self._delta_vxy = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'delta_vxy' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 2, \
+                    "The 'delta_vxy' numpy.ndarray() must have a size of 2"
+                self._delta_vxy = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -771,7 +787,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vxy_reset_counter.setter
     def vxy_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'vxy_reset_counter' field must be of type 'int'"
@@ -786,7 +802,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_vz.setter
     def delta_vz(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'delta_vz' field must be of type 'float'"
@@ -801,7 +817,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vz_reset_counter.setter
     def vz_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'vz_reset_counter' field must be of type 'int'"
@@ -816,7 +832,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ax.setter
     def ax(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ax' field must be of type 'float'"
@@ -831,7 +847,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ay.setter
     def ay(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ay' field must be of type 'float'"
@@ -846,7 +862,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @az.setter
     def az(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'az' field must be of type 'float'"
@@ -861,7 +877,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @heading.setter
     def heading(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'heading' field must be of type 'float'"
@@ -876,7 +892,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @heading_var.setter
     def heading_var(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'heading_var' field must be of type 'float'"
@@ -891,7 +907,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @unaided_heading.setter
     def unaided_heading(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'unaided_heading' field must be of type 'float'"
@@ -906,7 +922,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_heading.setter
     def delta_heading(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'delta_heading' field must be of type 'float'"
@@ -921,7 +937,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @heading_reset_counter.setter
     def heading_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'heading_reset_counter' field must be of type 'int'"
@@ -936,7 +952,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @heading_good_for_control.setter
     def heading_good_for_control(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'heading_good_for_control' field must be of type 'bool'"
@@ -949,7 +965,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @tilt_var.setter
     def tilt_var(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'tilt_var' field must be of type 'float'"
@@ -964,7 +980,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @xy_global.setter
     def xy_global(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'xy_global' field must be of type 'bool'"
@@ -977,7 +993,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @z_global.setter
     def z_global(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'z_global' field must be of type 'bool'"
@@ -990,7 +1006,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ref_timestamp.setter
     def ref_timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'ref_timestamp' field must be of type 'int'"
@@ -1005,7 +1021,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ref_lat.setter
     def ref_lat(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ref_lat' field must be of type 'float'"
@@ -1020,7 +1036,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ref_lon.setter
     def ref_lon(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ref_lon' field must be of type 'float'"
@@ -1035,7 +1051,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @ref_alt.setter
     def ref_alt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'ref_alt' field must be of type 'float'"
@@ -1050,7 +1066,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dist_bottom_valid.setter
     def dist_bottom_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'dist_bottom_valid' field must be of type 'bool'"
@@ -1063,7 +1079,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dist_bottom.setter
     def dist_bottom(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'dist_bottom' field must be of type 'float'"
@@ -1078,7 +1094,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dist_bottom_var.setter
     def dist_bottom_var(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'dist_bottom_var' field must be of type 'float'"
@@ -1093,7 +1109,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @delta_dist_bottom.setter
     def delta_dist_bottom(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'delta_dist_bottom' field must be of type 'float'"
@@ -1108,7 +1124,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dist_bottom_reset_counter.setter
     def dist_bottom_reset_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'dist_bottom_reset_counter' field must be of type 'int'"
@@ -1123,7 +1139,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dist_bottom_sensor_bitfield.setter
     def dist_bottom_sensor_bitfield(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'dist_bottom_sensor_bitfield' field must be of type 'int'"
@@ -1138,7 +1154,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @eph.setter
     def eph(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'eph' field must be of type 'float'"
@@ -1153,7 +1169,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @epv.setter
     def epv(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'epv' field must be of type 'float'"
@@ -1168,7 +1184,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @evh.setter
     def evh(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'evh' field must be of type 'float'"
@@ -1183,7 +1199,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @evv.setter
     def evv(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'evv' field must be of type 'float'"
@@ -1198,7 +1214,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @dead_reckoning.setter
     def dead_reckoning(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'dead_reckoning' field must be of type 'bool'"
@@ -1211,7 +1227,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vxy_max.setter
     def vxy_max(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vxy_max' field must be of type 'float'"
@@ -1226,7 +1242,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @vz_max.setter
     def vz_max(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vz_max' field must be of type 'float'"
@@ -1241,7 +1257,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @hagl_min.setter
     def hagl_min(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'hagl_min' field must be of type 'float'"
@@ -1256,7 +1272,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @hagl_max_z.setter
     def hagl_max_z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'hagl_max_z' field must be of type 'float'"
@@ -1271,7 +1287,7 @@ class VehicleLocalPosition(metaclass=Metaclass_VehicleLocalPosition):
 
     @hagl_max_xy.setter
     def hagl_max_xy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'hagl_max_xy' field must be of type 'float'"

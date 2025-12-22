@@ -10,13 +10,13 @@ module px4_msgs {
       const uint32 MESSAGE_VERSION = 1;
       const uint8 MAX_INSTANCES = 3;
       @verbatim (language="comment", text=
-        "Power module")
+        "Power module (analog ADC or I2C power monitor)")
       const uint8 SOURCE_POWER_MODULE = 0;
       @verbatim (language="comment", text=
-        "External")
+        "External (MAVLink, CAN, or external driver)")
       const uint8 SOURCE_EXTERNAL = 1;
       @verbatim (language="comment", text=
-        "ESCs")
+        "ESCs (via ESC telemetry)")
       const uint8 SOURCE_ESCS = 2;
       @verbatim (language="comment", text=
         "No battery low voltage warning active")
@@ -79,7 +79,7 @@ module px4_msgs {
     @verbatim (language="comment", text=
       "Battery status" "\n"
       "" "\n"
-      "Battery status information for up to 4 battery instances." "\n"
+      "Battery status information for up to 3 battery instances." "\n"
       "These are populated from power module and smart battery device drivers, and one battery updated from MAVLink." "\n"
       "Battery instance information is also logged and streamed in MAVLink telemetry.")
     struct BatteryStatus {

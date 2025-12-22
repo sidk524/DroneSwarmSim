@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/EstimatorStatusFlags.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -129,6 +136,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         '_reject_hagl',
         '_reject_optflow_x',
         '_reject_optflow_y',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -208,6 +216,8 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         'reject_optflow_y': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -286,9 +296,14 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.control_status_changes = kwargs.get('control_status_changes', int())
@@ -369,7 +384,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -383,11 +398,12 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -555,7 +571,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -570,7 +586,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -585,7 +601,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @control_status_changes.setter
     def control_status_changes(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'control_status_changes' field must be of type 'int'"
@@ -600,7 +616,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_tilt_align.setter
     def cs_tilt_align(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_tilt_align' field must be of type 'bool'"
@@ -613,7 +629,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_yaw_align.setter
     def cs_yaw_align(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_yaw_align' field must be of type 'bool'"
@@ -626,7 +642,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_pos.setter
     def cs_gnss_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_pos' field must be of type 'bool'"
@@ -639,7 +655,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_opt_flow.setter
     def cs_opt_flow(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_opt_flow' field must be of type 'bool'"
@@ -652,7 +668,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_hdg.setter
     def cs_mag_hdg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_hdg' field must be of type 'bool'"
@@ -665,7 +681,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_3d.setter
     def cs_mag_3d(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_3d' field must be of type 'bool'"
@@ -678,7 +694,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_dec.setter
     def cs_mag_dec(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_dec' field must be of type 'bool'"
@@ -691,7 +707,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_in_air.setter
     def cs_in_air(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_in_air' field must be of type 'bool'"
@@ -704,7 +720,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_wind.setter
     def cs_wind(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_wind' field must be of type 'bool'"
@@ -717,7 +733,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_baro_hgt.setter
     def cs_baro_hgt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_baro_hgt' field must be of type 'bool'"
@@ -730,7 +746,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_rng_hgt.setter
     def cs_rng_hgt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_rng_hgt' field must be of type 'bool'"
@@ -743,7 +759,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gps_hgt.setter
     def cs_gps_hgt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gps_hgt' field must be of type 'bool'"
@@ -756,7 +772,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_ev_pos.setter
     def cs_ev_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_ev_pos' field must be of type 'bool'"
@@ -769,7 +785,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_ev_yaw.setter
     def cs_ev_yaw(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_ev_yaw' field must be of type 'bool'"
@@ -782,7 +798,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_ev_hgt.setter
     def cs_ev_hgt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_ev_hgt' field must be of type 'bool'"
@@ -795,7 +811,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_fuse_beta.setter
     def cs_fuse_beta(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_fuse_beta' field must be of type 'bool'"
@@ -808,7 +824,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_field_disturbed.setter
     def cs_mag_field_disturbed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_field_disturbed' field must be of type 'bool'"
@@ -821,7 +837,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_fixed_wing.setter
     def cs_fixed_wing(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_fixed_wing' field must be of type 'bool'"
@@ -834,7 +850,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_fault.setter
     def cs_mag_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_fault' field must be of type 'bool'"
@@ -847,7 +863,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_fuse_aspd.setter
     def cs_fuse_aspd(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_fuse_aspd' field must be of type 'bool'"
@@ -860,7 +876,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnd_effect.setter
     def cs_gnd_effect(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnd_effect' field must be of type 'bool'"
@@ -873,7 +889,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_rng_stuck.setter
     def cs_rng_stuck(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_rng_stuck' field must be of type 'bool'"
@@ -886,7 +902,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_yaw.setter
     def cs_gnss_yaw(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_yaw' field must be of type 'bool'"
@@ -899,7 +915,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_aligned_in_flight.setter
     def cs_mag_aligned_in_flight(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_aligned_in_flight' field must be of type 'bool'"
@@ -912,7 +928,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_ev_vel.setter
     def cs_ev_vel(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_ev_vel' field must be of type 'bool'"
@@ -925,7 +941,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_synthetic_mag_z.setter
     def cs_synthetic_mag_z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_synthetic_mag_z' field must be of type 'bool'"
@@ -938,7 +954,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_vehicle_at_rest.setter
     def cs_vehicle_at_rest(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_vehicle_at_rest' field must be of type 'bool'"
@@ -951,7 +967,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_yaw_fault.setter
     def cs_gnss_yaw_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_yaw_fault' field must be of type 'bool'"
@@ -964,7 +980,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_rng_fault.setter
     def cs_rng_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_rng_fault' field must be of type 'bool'"
@@ -977,7 +993,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_inertial_dead_reckoning.setter
     def cs_inertial_dead_reckoning(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_inertial_dead_reckoning' field must be of type 'bool'"
@@ -990,7 +1006,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_wind_dead_reckoning.setter
     def cs_wind_dead_reckoning(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_wind_dead_reckoning' field must be of type 'bool'"
@@ -1003,7 +1019,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_rng_kin_consistent.setter
     def cs_rng_kin_consistent(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_rng_kin_consistent' field must be of type 'bool'"
@@ -1016,7 +1032,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_fake_pos.setter
     def cs_fake_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_fake_pos' field must be of type 'bool'"
@@ -1029,7 +1045,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_fake_hgt.setter
     def cs_fake_hgt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_fake_hgt' field must be of type 'bool'"
@@ -1042,7 +1058,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gravity_vector.setter
     def cs_gravity_vector(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gravity_vector' field must be of type 'bool'"
@@ -1055,7 +1071,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag.setter
     def cs_mag(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag' field must be of type 'bool'"
@@ -1068,7 +1084,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_ev_yaw_fault.setter
     def cs_ev_yaw_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_ev_yaw_fault' field must be of type 'bool'"
@@ -1081,7 +1097,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_mag_heading_consistent.setter
     def cs_mag_heading_consistent(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_mag_heading_consistent' field must be of type 'bool'"
@@ -1094,7 +1110,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_aux_gpos.setter
     def cs_aux_gpos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_aux_gpos' field must be of type 'bool'"
@@ -1107,7 +1123,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_rng_terrain.setter
     def cs_rng_terrain(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_rng_terrain' field must be of type 'bool'"
@@ -1120,7 +1136,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_opt_flow_terrain.setter
     def cs_opt_flow_terrain(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_opt_flow_terrain' field must be of type 'bool'"
@@ -1133,7 +1149,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_valid_fake_pos.setter
     def cs_valid_fake_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_valid_fake_pos' field must be of type 'bool'"
@@ -1146,7 +1162,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_constant_pos.setter
     def cs_constant_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_constant_pos' field must be of type 'bool'"
@@ -1159,7 +1175,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_baro_fault.setter
     def cs_baro_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_baro_fault' field must be of type 'bool'"
@@ -1172,7 +1188,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_vel.setter
     def cs_gnss_vel(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_vel' field must be of type 'bool'"
@@ -1185,7 +1201,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_fault.setter
     def cs_gnss_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_fault' field must be of type 'bool'"
@@ -1198,7 +1214,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_yaw_manual.setter
     def cs_yaw_manual(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_yaw_manual' field must be of type 'bool'"
@@ -1211,7 +1227,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @cs_gnss_hgt_fault.setter
     def cs_gnss_hgt_fault(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'cs_gnss_hgt_fault' field must be of type 'bool'"
@@ -1224,7 +1240,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fault_status_changes.setter
     def fault_status_changes(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'fault_status_changes' field must be of type 'int'"
@@ -1239,7 +1255,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_mag_x.setter
     def fs_bad_mag_x(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_mag_x' field must be of type 'bool'"
@@ -1252,7 +1268,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_mag_y.setter
     def fs_bad_mag_y(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_mag_y' field must be of type 'bool'"
@@ -1265,7 +1281,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_mag_z.setter
     def fs_bad_mag_z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_mag_z' field must be of type 'bool'"
@@ -1278,7 +1294,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_hdg.setter
     def fs_bad_hdg(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_hdg' field must be of type 'bool'"
@@ -1291,7 +1307,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_mag_decl.setter
     def fs_bad_mag_decl(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_mag_decl' field must be of type 'bool'"
@@ -1304,7 +1320,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_airspeed.setter
     def fs_bad_airspeed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_airspeed' field must be of type 'bool'"
@@ -1317,7 +1333,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_sideslip.setter
     def fs_bad_sideslip(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_sideslip' field must be of type 'bool'"
@@ -1330,7 +1346,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_optflow_x.setter
     def fs_bad_optflow_x(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_optflow_x' field must be of type 'bool'"
@@ -1343,7 +1359,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_optflow_y.setter
     def fs_bad_optflow_y(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_optflow_y' field must be of type 'bool'"
@@ -1356,7 +1372,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_acc_vertical.setter
     def fs_bad_acc_vertical(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_acc_vertical' field must be of type 'bool'"
@@ -1369,7 +1385,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @fs_bad_acc_clipping.setter
     def fs_bad_acc_clipping(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fs_bad_acc_clipping' field must be of type 'bool'"
@@ -1382,7 +1398,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @innovation_fault_status_changes.setter
     def innovation_fault_status_changes(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'innovation_fault_status_changes' field must be of type 'int'"
@@ -1397,7 +1413,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_hor_vel.setter
     def reject_hor_vel(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_hor_vel' field must be of type 'bool'"
@@ -1410,7 +1426,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_ver_vel.setter
     def reject_ver_vel(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_ver_vel' field must be of type 'bool'"
@@ -1423,7 +1439,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_hor_pos.setter
     def reject_hor_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_hor_pos' field must be of type 'bool'"
@@ -1436,7 +1452,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_ver_pos.setter
     def reject_ver_pos(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_ver_pos' field must be of type 'bool'"
@@ -1449,7 +1465,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_yaw.setter
     def reject_yaw(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_yaw' field must be of type 'bool'"
@@ -1462,7 +1478,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_airspeed.setter
     def reject_airspeed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_airspeed' field must be of type 'bool'"
@@ -1475,7 +1491,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_sideslip.setter
     def reject_sideslip(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_sideslip' field must be of type 'bool'"
@@ -1488,7 +1504,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_hagl.setter
     def reject_hagl(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_hagl' field must be of type 'bool'"
@@ -1501,7 +1517,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_optflow_x.setter
     def reject_optflow_x(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_optflow_x' field must be of type 'bool'"
@@ -1514,7 +1530,7 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
 
     @reject_optflow_y.setter
     def reject_optflow_y(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reject_optflow_y' field must be of type 'bool'"

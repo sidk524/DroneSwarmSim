@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/EstimatorAidSource1d.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -71,6 +78,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
         '_test_ratio_filtered',
         '_innovation_rejected',
         '_fused',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -90,6 +98,8 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
         'fused': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -108,9 +118,14 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.estimator_instance = kwargs.get('estimator_instance', int())
@@ -131,7 +146,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -145,11 +160,12 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -197,7 +213,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -212,7 +228,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -227,7 +243,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @estimator_instance.setter
     def estimator_instance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'estimator_instance' field must be of type 'int'"
@@ -242,7 +258,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @device_id.setter
     def device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'device_id' field must be of type 'int'"
@@ -257,7 +273,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @time_last_fuse.setter
     def time_last_fuse(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'time_last_fuse' field must be of type 'int'"
@@ -272,7 +288,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @observation.setter
     def observation(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'observation' field must be of type 'float'"
@@ -287,7 +303,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @observation_variance.setter
     def observation_variance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'observation_variance' field must be of type 'float'"
@@ -302,7 +318,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @innovation.setter
     def innovation(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'innovation' field must be of type 'float'"
@@ -317,7 +333,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @innovation_filtered.setter
     def innovation_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'innovation_filtered' field must be of type 'float'"
@@ -332,7 +348,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @innovation_variance.setter
     def innovation_variance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'innovation_variance' field must be of type 'float'"
@@ -347,7 +363,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @test_ratio.setter
     def test_ratio(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'test_ratio' field must be of type 'float'"
@@ -362,7 +378,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @test_ratio_filtered.setter
     def test_ratio_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'test_ratio_filtered' field must be of type 'float'"
@@ -377,7 +393,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @innovation_rejected.setter
     def innovation_rejected(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'innovation_rejected' field must be of type 'bool'"
@@ -390,7 +406,7 @@ class EstimatorAidSource1d(metaclass=Metaclass_EstimatorAidSource1d):
 
     @fused.setter
     def fused(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fused' field must be of type 'bool'"

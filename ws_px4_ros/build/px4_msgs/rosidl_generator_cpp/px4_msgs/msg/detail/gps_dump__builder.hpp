@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpsDump.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gps_dump.hpp"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPS_DUMP__BUILDER_HPP_
 #define PX4_MSGS__MSG__DETAIL__GPS_DUMP__BUILDER_HPP_
 
@@ -53,16 +56,32 @@ private:
   ::px4_msgs::msg::GpsDump msg_;
 };
 
+class Init_GpsDump_device_id
+{
+public:
+  explicit Init_GpsDump_device_id(::px4_msgs::msg::GpsDump & msg)
+  : msg_(msg)
+  {}
+  Init_GpsDump_len device_id(::px4_msgs::msg::GpsDump::_device_id_type arg)
+  {
+    msg_.device_id = std::move(arg);
+    return Init_GpsDump_len(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::GpsDump msg_;
+};
+
 class Init_GpsDump_instance
 {
 public:
   explicit Init_GpsDump_instance(::px4_msgs::msg::GpsDump & msg)
   : msg_(msg)
   {}
-  Init_GpsDump_len instance(::px4_msgs::msg::GpsDump::_instance_type arg)
+  Init_GpsDump_device_id instance(::px4_msgs::msg::GpsDump::_instance_type arg)
   {
     msg_.instance = std::move(arg);
-    return Init_GpsDump_len(msg_);
+    return Init_GpsDump_device_id(msg_);
   }
 
 private:

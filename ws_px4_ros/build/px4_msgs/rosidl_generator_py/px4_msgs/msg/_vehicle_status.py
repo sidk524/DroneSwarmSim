@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/VehicleStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -602,6 +609,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
         '_rc_calibration_in_progress',
         '_calibration_enabled',
         '_pre_flight_checks_pass',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -646,6 +654,8 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
         'pre_flight_checks_pass': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -689,9 +699,14 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.armed_time = kwargs.get('armed_time', int())
         self.takeoff_time = kwargs.get('takeoff_time', int())
@@ -737,7 +752,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -751,11 +766,12 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -853,7 +869,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -868,7 +884,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @armed_time.setter
     def armed_time(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'armed_time' field must be of type 'int'"
@@ -883,7 +899,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @takeoff_time.setter
     def takeoff_time(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'takeoff_time' field must be of type 'int'"
@@ -898,7 +914,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @arming_state.setter
     def arming_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'arming_state' field must be of type 'int'"
@@ -913,7 +929,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @latest_arming_reason.setter
     def latest_arming_reason(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'latest_arming_reason' field must be of type 'int'"
@@ -928,7 +944,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @latest_disarming_reason.setter
     def latest_disarming_reason(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'latest_disarming_reason' field must be of type 'int'"
@@ -943,7 +959,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @nav_state_timestamp.setter
     def nav_state_timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'nav_state_timestamp' field must be of type 'int'"
@@ -958,7 +974,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @nav_state_user_intention.setter
     def nav_state_user_intention(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'nav_state_user_intention' field must be of type 'int'"
@@ -973,7 +989,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @nav_state.setter
     def nav_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'nav_state' field must be of type 'int'"
@@ -988,7 +1004,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @executor_in_charge.setter
     def executor_in_charge(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'executor_in_charge' field must be of type 'int'"
@@ -1003,7 +1019,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @valid_nav_states_mask.setter
     def valid_nav_states_mask(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'valid_nav_states_mask' field must be of type 'int'"
@@ -1018,7 +1034,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @can_set_nav_states_mask.setter
     def can_set_nav_states_mask(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'can_set_nav_states_mask' field must be of type 'int'"
@@ -1033,7 +1049,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @failure_detector_status.setter
     def failure_detector_status(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'failure_detector_status' field must be of type 'int'"
@@ -1048,7 +1064,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @hil_state.setter
     def hil_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'hil_state' field must be of type 'int'"
@@ -1063,7 +1079,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @vehicle_type.setter
     def vehicle_type(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'vehicle_type' field must be of type 'int'"
@@ -1078,7 +1094,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @failsafe.setter
     def failsafe(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'failsafe' field must be of type 'bool'"
@@ -1091,7 +1107,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @failsafe_and_user_took_over.setter
     def failsafe_and_user_took_over(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'failsafe_and_user_took_over' field must be of type 'bool'"
@@ -1104,7 +1120,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @failsafe_defer_state.setter
     def failsafe_defer_state(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'failsafe_defer_state' field must be of type 'int'"
@@ -1119,7 +1135,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @gcs_connection_lost.setter
     def gcs_connection_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gcs_connection_lost' field must be of type 'bool'"
@@ -1132,7 +1148,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @gcs_connection_lost_counter.setter
     def gcs_connection_lost_counter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'gcs_connection_lost_counter' field must be of type 'int'"
@@ -1147,7 +1163,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @high_latency_data_link_lost.setter
     def high_latency_data_link_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'high_latency_data_link_lost' field must be of type 'bool'"
@@ -1160,7 +1176,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @is_vtol.setter
     def is_vtol(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'is_vtol' field must be of type 'bool'"
@@ -1173,7 +1189,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @is_vtol_tailsitter.setter
     def is_vtol_tailsitter(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'is_vtol_tailsitter' field must be of type 'bool'"
@@ -1186,7 +1202,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @in_transition_mode.setter
     def in_transition_mode(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'in_transition_mode' field must be of type 'bool'"
@@ -1199,7 +1215,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @in_transition_to_fw.setter
     def in_transition_to_fw(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'in_transition_to_fw' field must be of type 'bool'"
@@ -1212,7 +1228,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @system_type.setter
     def system_type(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'system_type' field must be of type 'int'"
@@ -1227,7 +1243,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @system_id.setter
     def system_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'system_id' field must be of type 'int'"
@@ -1242,7 +1258,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @component_id.setter
     def component_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'component_id' field must be of type 'int'"
@@ -1257,7 +1273,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @safety_button_available.setter
     def safety_button_available(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'safety_button_available' field must be of type 'bool'"
@@ -1270,7 +1286,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @safety_off.setter
     def safety_off(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'safety_off' field must be of type 'bool'"
@@ -1283,7 +1299,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @power_input_valid.setter
     def power_input_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'power_input_valid' field must be of type 'bool'"
@@ -1296,7 +1312,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @usb_connected.setter
     def usb_connected(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'usb_connected' field must be of type 'bool'"
@@ -1309,7 +1325,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @open_drone_id_system_present.setter
     def open_drone_id_system_present(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'open_drone_id_system_present' field must be of type 'bool'"
@@ -1322,7 +1338,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @open_drone_id_system_healthy.setter
     def open_drone_id_system_healthy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'open_drone_id_system_healthy' field must be of type 'bool'"
@@ -1335,7 +1351,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @parachute_system_present.setter
     def parachute_system_present(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'parachute_system_present' field must be of type 'bool'"
@@ -1348,7 +1364,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @parachute_system_healthy.setter
     def parachute_system_healthy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'parachute_system_healthy' field must be of type 'bool'"
@@ -1361,7 +1377,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @rc_calibration_in_progress.setter
     def rc_calibration_in_progress(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rc_calibration_in_progress' field must be of type 'bool'"
@@ -1374,7 +1390,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @calibration_enabled.setter
     def calibration_enabled(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'calibration_enabled' field must be of type 'bool'"
@@ -1387,7 +1403,7 @@ class VehicleStatus(metaclass=Metaclass_VehicleStatus):
 
     @pre_flight_checks_pass.setter
     def pre_flight_checks_pass(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'pre_flight_checks_pass' field must be of type 'bool'"

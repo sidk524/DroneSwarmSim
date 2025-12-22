@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/InputRc.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -223,6 +230,7 @@ class InputRc(metaclass=Metaclass_InputRc):
         '_link_quality',
         '_rssi_dbm',
         '_link_snr',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -243,6 +251,8 @@ class InputRc(metaclass=Metaclass_InputRc):
         'link_snr': 'int8',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -262,9 +272,14 @@ class InputRc(metaclass=Metaclass_InputRc):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_last_signal = kwargs.get('timestamp_last_signal', int())
         self.channel_count = kwargs.get('channel_count', int())
@@ -289,7 +304,7 @@ class InputRc(metaclass=Metaclass_InputRc):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -303,11 +318,12 @@ class InputRc(metaclass=Metaclass_InputRc):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -357,7 +373,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -372,7 +388,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @timestamp_last_signal.setter
     def timestamp_last_signal(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_last_signal' field must be of type 'int'"
@@ -387,7 +403,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @channel_count.setter
     def channel_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'channel_count' field must be of type 'int'"
@@ -402,7 +418,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rssi.setter
     def rssi(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rssi' field must be of type 'int'"
@@ -417,7 +433,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_failsafe.setter
     def rc_failsafe(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rc_failsafe' field must be of type 'bool'"
@@ -430,7 +446,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_lost.setter
     def rc_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'rc_lost' field must be of type 'bool'"
@@ -443,7 +459,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_lost_frame_count.setter
     def rc_lost_frame_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rc_lost_frame_count' field must be of type 'int'"
@@ -458,7 +474,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_total_frame_count.setter
     def rc_total_frame_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rc_total_frame_count' field must be of type 'int'"
@@ -473,7 +489,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_ppm_frame_length.setter
     def rc_ppm_frame_length(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rc_ppm_frame_length' field must be of type 'int'"
@@ -488,7 +504,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rc_frame_rate.setter
     def rc_frame_rate(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'rc_frame_rate' field must be of type 'int'"
@@ -503,7 +519,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @input_source.setter
     def input_source(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'input_source' field must be of type 'int'"
@@ -518,14 +534,14 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @values.setter
     def values(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint16, \
-                "The 'values' numpy.ndarray() must have the dtype of 'numpy.uint16'"
-            assert value.size == 18, \
-                "The 'values' numpy.ndarray() must have a size of 18"
-            self._values = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint16, \
+                    "The 'values' numpy.ndarray() must have the dtype of 'numpy.uint16'"
+                assert value.size == 18, \
+                    "The 'values' numpy.ndarray() must have a size of 18"
+                self._values = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -549,7 +565,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @link_quality.setter
     def link_quality(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'link_quality' field must be of type 'int'"
@@ -564,7 +580,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @rssi_dbm.setter
     def rssi_dbm(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'rssi_dbm' field must be of type 'float'"
@@ -579,7 +595,7 @@ class InputRc(metaclass=Metaclass_InputRc):
 
     @link_snr.setter
     def link_snr(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'link_snr' field must be of type 'int'"

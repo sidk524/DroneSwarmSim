@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/AirspeedValidated.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -127,6 +134,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
         '_airspeed_derivative_filtered',
         '_throttle_filtered',
         '_pitch_filtered',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -142,6 +150,8 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
         'pitch_filtered': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -156,9 +166,14 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.indicated_airspeed_m_s = kwargs.get('indicated_airspeed_m_s', float())
         self.calibrated_airspeed_m_s = kwargs.get('calibrated_airspeed_m_s', float())
@@ -175,7 +190,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -189,11 +204,12 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -233,7 +249,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -248,7 +264,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @indicated_airspeed_m_s.setter
     def indicated_airspeed_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'indicated_airspeed_m_s' field must be of type 'float'"
@@ -263,7 +279,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @calibrated_airspeed_m_s.setter
     def calibrated_airspeed_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'calibrated_airspeed_m_s' field must be of type 'float'"
@@ -278,7 +294,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @true_airspeed_m_s.setter
     def true_airspeed_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'true_airspeed_m_s' field must be of type 'float'"
@@ -293,7 +309,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @airspeed_source.setter
     def airspeed_source(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'airspeed_source' field must be of type 'int'"
@@ -308,7 +324,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @calibrated_ground_minus_wind_m_s.setter
     def calibrated_ground_minus_wind_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'calibrated_ground_minus_wind_m_s' field must be of type 'float'"
@@ -323,7 +339,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @calibraded_airspeed_synth_m_s.setter
     def calibraded_airspeed_synth_m_s(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'calibraded_airspeed_synth_m_s' field must be of type 'float'"
@@ -338,7 +354,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @airspeed_derivative_filtered.setter
     def airspeed_derivative_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'airspeed_derivative_filtered' field must be of type 'float'"
@@ -353,7 +369,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @throttle_filtered.setter
     def throttle_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'throttle_filtered' field must be of type 'float'"
@@ -368,7 +384,7 @@ class AirspeedValidated(metaclass=Metaclass_AirspeedValidated):
 
     @pitch_filtered.setter
     def pitch_filtered(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'pitch_filtered' field must be of type 'float'"

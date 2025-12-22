@@ -1,5 +1,1 @@
-uint64 timestamp		# time since system start (microseconds)
-
-int32 val
-
-# TOPICS orb_test orb_multitest
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/OrbTest.msg

@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/FigureEightStatus.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -65,6 +72,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
         '_x',
         '_y',
         '_z',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -78,6 +86,8 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
         'z': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -90,9 +100,14 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.major_radius = kwargs.get('major_radius', float())
         self.minor_radius = kwargs.get('minor_radius', float())
@@ -107,7 +122,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -121,11 +136,12 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -161,7 +177,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -176,7 +192,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @major_radius.setter
     def major_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'major_radius' field must be of type 'float'"
@@ -191,7 +207,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @minor_radius.setter
     def minor_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'minor_radius' field must be of type 'float'"
@@ -206,7 +222,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @orientation.setter
     def orientation(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'orientation' field must be of type 'float'"
@@ -221,7 +237,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @frame.setter
     def frame(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'frame' field must be of type 'int'"
@@ -236,7 +252,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @x.setter
     def x(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'x' field must be of type 'int'"
@@ -251,7 +267,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @y.setter
     def y(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'y' field must be of type 'int'"
@@ -266,7 +282,7 @@ class FigureEightStatus(metaclass=Metaclass_FigureEightStatus):
 
     @z.setter
     def z(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'z' field must be of type 'float'"

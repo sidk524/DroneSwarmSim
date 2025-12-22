@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/ParameterResetRequest.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -70,6 +77,7 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
         '_timestamp',
         '_parameter_index',
         '_reset_all',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -78,6 +86,8 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
         'reset_all': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
@@ -85,9 +95,14 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.parameter_index = kwargs.get('parameter_index', int())
         self.reset_all = kwargs.get('reset_all', bool())
@@ -97,7 +112,7 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -111,11 +126,12 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -141,7 +157,7 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -156,7 +172,7 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
 
     @parameter_index.setter
     def parameter_index(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'parameter_index' field must be of type 'int'"
@@ -171,7 +187,7 @@ class ParameterResetRequest(metaclass=Metaclass_ParameterResetRequest):
 
     @reset_all.setter
     def reset_all(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'reset_all' field must be of type 'bool'"

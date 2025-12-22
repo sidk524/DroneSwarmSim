@@ -1,5 +1,1 @@
-uint64 timestamp        		# time since system start (microseconds)
-
-float32 normalized_setpoint          	# [0, 1]
-
-# TOPICS flaps_setpoint spoilers_setpoint
+/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_msgs/msg/NormalizedUnsignedSetpoint.msg

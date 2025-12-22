@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpsDump.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gps_dump.h"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPS_DUMP__STRUCT_H_
 #define PX4_MSGS__MSG__DETAIL__GPS_DUMP__STRUCT_H_
 
@@ -14,13 +17,24 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-
 // Constants defined in the message
+
+/// Constant 'INSTANCE_MAIN'.
+enum
+{
+  px4_msgs__msg__GpsDump__INSTANCE_MAIN = 0
+};
+
+/// Constant 'INSTANCE_SECONDARY'.
+enum
+{
+  px4_msgs__msg__GpsDump__INSTANCE_SECONDARY = 1
+};
 
 /// Constant 'ORB_QUEUE_LENGTH'.
 enum
 {
-  px4_msgs__msg__GpsDump__ORB_QUEUE_LENGTH = 8
+  px4_msgs__msg__GpsDump__ORB_QUEUE_LENGTH = 16
 };
 
 /// Struct defined in msg/GpsDump in the package px4_msgs.
@@ -33,6 +47,7 @@ typedef struct px4_msgs__msg__GpsDump
   uint64_t timestamp;
   /// Instance of GNSS receiver
   uint8_t instance;
+  uint32_t device_id;
   /// length of data, MSB bit set = message to the gps device,
   /// clear = message from the device
   uint8_t len;

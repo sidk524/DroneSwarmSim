@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/FailsafeFlags.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -97,6 +104,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
         '_fd_esc_arming_failure',
         '_fd_imbalanced_prop',
         '_fd_motor_failure',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -144,6 +152,8 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
         'fd_motor_failure': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint32'),  # noqa: E501
@@ -190,9 +200,14 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.mode_req_angular_velocity = kwargs.get('mode_req_angular_velocity', int())
         self.mode_req_attitude = kwargs.get('mode_req_attitude', int())
@@ -241,7 +256,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -255,11 +270,12 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -363,7 +379,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -378,7 +394,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_angular_velocity.setter
     def mode_req_angular_velocity(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_angular_velocity' field must be of type 'int'"
@@ -393,7 +409,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_attitude.setter
     def mode_req_attitude(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_attitude' field must be of type 'int'"
@@ -408,7 +424,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_local_alt.setter
     def mode_req_local_alt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_local_alt' field must be of type 'int'"
@@ -423,7 +439,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_local_position.setter
     def mode_req_local_position(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_local_position' field must be of type 'int'"
@@ -438,7 +454,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_local_position_relaxed.setter
     def mode_req_local_position_relaxed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_local_position_relaxed' field must be of type 'int'"
@@ -453,7 +469,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_global_position.setter
     def mode_req_global_position(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_global_position' field must be of type 'int'"
@@ -468,7 +484,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_global_position_relaxed.setter
     def mode_req_global_position_relaxed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_global_position_relaxed' field must be of type 'int'"
@@ -483,7 +499,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_mission.setter
     def mode_req_mission(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_mission' field must be of type 'int'"
@@ -498,7 +514,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_offboard_signal.setter
     def mode_req_offboard_signal(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_offboard_signal' field must be of type 'int'"
@@ -513,7 +529,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_home_position.setter
     def mode_req_home_position(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_home_position' field must be of type 'int'"
@@ -528,7 +544,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_wind_and_flight_time_compliance.setter
     def mode_req_wind_and_flight_time_compliance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_wind_and_flight_time_compliance' field must be of type 'int'"
@@ -543,7 +559,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_prevent_arming.setter
     def mode_req_prevent_arming(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_prevent_arming' field must be of type 'int'"
@@ -558,7 +574,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_manual_control.setter
     def mode_req_manual_control(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_manual_control' field must be of type 'int'"
@@ -573,7 +589,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mode_req_other.setter
     def mode_req_other(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mode_req_other' field must be of type 'int'"
@@ -588,7 +604,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @angular_velocity_invalid.setter
     def angular_velocity_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'angular_velocity_invalid' field must be of type 'bool'"
@@ -601,7 +617,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @attitude_invalid.setter
     def attitude_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'attitude_invalid' field must be of type 'bool'"
@@ -614,7 +630,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @local_altitude_invalid.setter
     def local_altitude_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'local_altitude_invalid' field must be of type 'bool'"
@@ -627,7 +643,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @local_position_invalid.setter
     def local_position_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'local_position_invalid' field must be of type 'bool'"
@@ -640,7 +656,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @local_position_invalid_relaxed.setter
     def local_position_invalid_relaxed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'local_position_invalid_relaxed' field must be of type 'bool'"
@@ -653,7 +669,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @local_velocity_invalid.setter
     def local_velocity_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'local_velocity_invalid' field must be of type 'bool'"
@@ -666,7 +682,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @global_position_invalid.setter
     def global_position_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'global_position_invalid' field must be of type 'bool'"
@@ -679,7 +695,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @global_position_invalid_relaxed.setter
     def global_position_invalid_relaxed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'global_position_invalid_relaxed' field must be of type 'bool'"
@@ -692,7 +708,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @auto_mission_missing.setter
     def auto_mission_missing(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'auto_mission_missing' field must be of type 'bool'"
@@ -705,7 +721,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @offboard_control_signal_lost.setter
     def offboard_control_signal_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'offboard_control_signal_lost' field must be of type 'bool'"
@@ -718,7 +734,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @home_position_invalid.setter
     def home_position_invalid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'home_position_invalid' field must be of type 'bool'"
@@ -731,7 +747,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @manual_control_signal_lost.setter
     def manual_control_signal_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'manual_control_signal_lost' field must be of type 'bool'"
@@ -744,7 +760,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @gcs_connection_lost.setter
     def gcs_connection_lost(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gcs_connection_lost' field must be of type 'bool'"
@@ -757,7 +773,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @battery_warning.setter
     def battery_warning(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'battery_warning' field must be of type 'int'"
@@ -772,7 +788,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @battery_low_remaining_time.setter
     def battery_low_remaining_time(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'battery_low_remaining_time' field must be of type 'bool'"
@@ -785,7 +801,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @battery_unhealthy.setter
     def battery_unhealthy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'battery_unhealthy' field must be of type 'bool'"
@@ -798,7 +814,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @geofence_breached.setter
     def geofence_breached(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'geofence_breached' field must be of type 'bool'"
@@ -811,7 +827,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @mission_failure.setter
     def mission_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'mission_failure' field must be of type 'bool'"
@@ -824,7 +840,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @vtol_fixed_wing_system_failure.setter
     def vtol_fixed_wing_system_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'vtol_fixed_wing_system_failure' field must be of type 'bool'"
@@ -837,7 +853,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @wind_limit_exceeded.setter
     def wind_limit_exceeded(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'wind_limit_exceeded' field must be of type 'bool'"
@@ -850,7 +866,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @flight_time_limit_exceeded.setter
     def flight_time_limit_exceeded(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'flight_time_limit_exceeded' field must be of type 'bool'"
@@ -863,7 +879,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @position_accuracy_low.setter
     def position_accuracy_low(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'position_accuracy_low' field must be of type 'bool'"
@@ -876,7 +892,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @navigator_failure.setter
     def navigator_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'navigator_failure' field must be of type 'bool'"
@@ -889,7 +905,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @fd_critical_failure.setter
     def fd_critical_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fd_critical_failure' field must be of type 'bool'"
@@ -902,7 +918,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @fd_esc_arming_failure.setter
     def fd_esc_arming_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fd_esc_arming_failure' field must be of type 'bool'"
@@ -915,7 +931,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @fd_imbalanced_prop.setter
     def fd_imbalanced_prop(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fd_imbalanced_prop' field must be of type 'bool'"
@@ -928,7 +944,7 @@ class FailsafeFlags(metaclass=Metaclass_FailsafeFlags):
 
     @fd_motor_failure.setter
     def fd_motor_failure(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'fd_motor_failure' field must be of type 'bool'"

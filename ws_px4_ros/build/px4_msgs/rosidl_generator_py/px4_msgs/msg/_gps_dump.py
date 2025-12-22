@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/GpsDump.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -23,7 +30,9 @@ class Metaclass_GpsDump(type):
     _TYPE_SUPPORT = None
 
     __constants = {
-        'ORB_QUEUE_LENGTH': 8,
+        'INSTANCE_MAIN': 0,
+        'INSTANCE_SECONDARY': 1,
+        'ORB_QUEUE_LENGTH': 16,
     }
 
     @classmethod
@@ -52,8 +61,20 @@ class Metaclass_GpsDump(type):
         # the message class under "Data and other attributes defined here:"
         # as well as populate each message instance
         return {
+            'INSTANCE_MAIN': cls.__constants['INSTANCE_MAIN'],
+            'INSTANCE_SECONDARY': cls.__constants['INSTANCE_SECONDARY'],
             'ORB_QUEUE_LENGTH': cls.__constants['ORB_QUEUE_LENGTH'],
         }
+
+    @property
+    def INSTANCE_MAIN(self):
+        """Message constant 'INSTANCE_MAIN'."""
+        return Metaclass_GpsDump.__constants['INSTANCE_MAIN']
+
+    @property
+    def INSTANCE_SECONDARY(self):
+        """Message constant 'INSTANCE_SECONDARY'."""
+        return Metaclass_GpsDump.__constants['INSTANCE_SECONDARY']
 
     @property
     def ORB_QUEUE_LENGTH(self):
@@ -66,36 +87,50 @@ class GpsDump(metaclass=Metaclass_GpsDump):
     Message class 'GpsDump'.
 
     Constants:
+      INSTANCE_MAIN
+      INSTANCE_SECONDARY
       ORB_QUEUE_LENGTH
     """
 
     __slots__ = [
         '_timestamp',
         '_instance',
+        '_device_id',
         '_len',
         '_data',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
         'timestamp': 'uint64',
         'instance': 'uint8',
+        'device_id': 'uint32',
         'len': 'uint8',
         'data': 'uint8[79]',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint32'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('uint8'), 79),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.instance = kwargs.get('instance', int())
+        self.device_id = kwargs.get('device_id', int())
         self.len = kwargs.get('len', int())
         if 'data' not in kwargs:
             self.data = numpy.zeros(79, dtype=numpy.uint8)
@@ -107,7 +142,7 @@ class GpsDump(metaclass=Metaclass_GpsDump):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -121,11 +156,12 @@ class GpsDump(metaclass=Metaclass_GpsDump):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -134,6 +170,8 @@ class GpsDump(metaclass=Metaclass_GpsDump):
         if self.timestamp != other.timestamp:
             return False
         if self.instance != other.instance:
+            return False
+        if self.device_id != other.device_id:
             return False
         if self.len != other.len:
             return False
@@ -153,7 +191,7 @@ class GpsDump(metaclass=Metaclass_GpsDump):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -168,13 +206,28 @@ class GpsDump(metaclass=Metaclass_GpsDump):
 
     @instance.setter
     def instance(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'instance' field must be of type 'int'"
             assert value >= 0 and value < 256, \
                 "The 'instance' field must be an unsigned integer in [0, 255]"
         self._instance = value
+
+    @builtins.property
+    def device_id(self):
+        """Message field 'device_id'."""
+        return self._device_id
+
+    @device_id.setter
+    def device_id(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, int), \
+                "The 'device_id' field must be of type 'int'"
+            assert value >= 0 and value < 4294967296, \
+                "The 'device_id' field must be an unsigned integer in [0, 4294967295]"
+        self._device_id = value
 
     @builtins.property  # noqa: A003
     def len(self):  # noqa: A003
@@ -183,7 +236,7 @@ class GpsDump(metaclass=Metaclass_GpsDump):
 
     @len.setter  # noqa: A003
     def len(self, value):  # noqa: A003
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'len' field must be of type 'int'"
@@ -198,14 +251,14 @@ class GpsDump(metaclass=Metaclass_GpsDump):
 
     @data.setter
     def data(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'data' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 79, \
-                "The 'data' numpy.ndarray() must have a size of 79"
-            self._data = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'data' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 79, \
+                    "The 'data' numpy.ndarray() must have a size of 79"
+                self._data = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList

@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/EstimatorSensorBias.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -85,6 +92,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
         '_mag_bias_variance',
         '_mag_bias_valid',
         '_mag_bias_stable',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -110,6 +118,8 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
         'mag_bias_stable': 'boolean',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
@@ -134,9 +144,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.timestamp_sample = kwargs.get('timestamp_sample', int())
         self.gyro_device_id = kwargs.get('gyro_device_id', int())
@@ -181,7 +196,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -195,11 +210,12 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -259,7 +275,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -274,7 +290,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @timestamp_sample.setter
     def timestamp_sample(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp_sample' field must be of type 'int'"
@@ -289,7 +305,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_device_id.setter
     def gyro_device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'gyro_device_id' field must be of type 'int'"
@@ -304,14 +320,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_bias.setter
     def gyro_bias(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'gyro_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'gyro_bias' numpy.ndarray() must have a size of 3"
-            self._gyro_bias = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'gyro_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'gyro_bias' numpy.ndarray() must have a size of 3"
+                self._gyro_bias = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -335,7 +351,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_bias_limit.setter
     def gyro_bias_limit(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'gyro_bias_limit' field must be of type 'float'"
@@ -350,14 +366,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_bias_variance.setter
     def gyro_bias_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'gyro_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'gyro_bias_variance' numpy.ndarray() must have a size of 3"
-            self._gyro_bias_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'gyro_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'gyro_bias_variance' numpy.ndarray() must have a size of 3"
+                self._gyro_bias_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -381,7 +397,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_bias_valid.setter
     def gyro_bias_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gyro_bias_valid' field must be of type 'bool'"
@@ -394,7 +410,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @gyro_bias_stable.setter
     def gyro_bias_stable(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gyro_bias_stable' field must be of type 'bool'"
@@ -407,7 +423,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_device_id.setter
     def accel_device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'accel_device_id' field must be of type 'int'"
@@ -422,14 +438,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_bias.setter
     def accel_bias(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'accel_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'accel_bias' numpy.ndarray() must have a size of 3"
-            self._accel_bias = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'accel_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'accel_bias' numpy.ndarray() must have a size of 3"
+                self._accel_bias = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -453,7 +469,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_bias_limit.setter
     def accel_bias_limit(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'accel_bias_limit' field must be of type 'float'"
@@ -468,14 +484,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_bias_variance.setter
     def accel_bias_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'accel_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'accel_bias_variance' numpy.ndarray() must have a size of 3"
-            self._accel_bias_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'accel_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'accel_bias_variance' numpy.ndarray() must have a size of 3"
+                self._accel_bias_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -499,7 +515,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_bias_valid.setter
     def accel_bias_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'accel_bias_valid' field must be of type 'bool'"
@@ -512,7 +528,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @accel_bias_stable.setter
     def accel_bias_stable(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'accel_bias_stable' field must be of type 'bool'"
@@ -525,7 +541,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_device_id.setter
     def mag_device_id(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'mag_device_id' field must be of type 'int'"
@@ -540,14 +556,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_bias.setter
     def mag_bias(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'mag_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'mag_bias' numpy.ndarray() must have a size of 3"
-            self._mag_bias = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'mag_bias' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'mag_bias' numpy.ndarray() must have a size of 3"
+                self._mag_bias = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -571,7 +587,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_bias_limit.setter
     def mag_bias_limit(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'mag_bias_limit' field must be of type 'float'"
@@ -586,14 +602,14 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_bias_variance.setter
     def mag_bias_variance(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.float32, \
-                "The 'mag_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
-            assert value.size == 3, \
-                "The 'mag_bias_variance' numpy.ndarray() must have a size of 3"
-            self._mag_bias_variance = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.float32, \
+                    "The 'mag_bias_variance' numpy.ndarray() must have the dtype of 'numpy.float32'"
+                assert value.size == 3, \
+                    "The 'mag_bias_variance' numpy.ndarray() must have a size of 3"
+                self._mag_bias_variance = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -617,7 +633,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_bias_valid.setter
     def mag_bias_valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'mag_bias_valid' field must be of type 'bool'"
@@ -630,7 +646,7 @@ class EstimatorSensorBias(metaclass=Metaclass_EstimatorSensorBias):
 
     @mag_bias_stable.setter
     def mag_bias_stable(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'mag_bias_stable' field must be of type 'bool'"

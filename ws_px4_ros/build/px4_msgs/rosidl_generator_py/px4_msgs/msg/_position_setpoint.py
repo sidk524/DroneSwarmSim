@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/PositionSetpoint.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -145,6 +152,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
         '_cruising_speed',
         '_gliding_enabled',
         '_cruising_throttle',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -170,6 +178,8 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
         'cruising_throttle': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
@@ -194,9 +204,14 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.valid = kwargs.get('valid', bool())
         self.type = kwargs.get('type', int())
@@ -223,7 +238,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -237,11 +252,12 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -301,7 +317,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -316,7 +332,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @valid.setter
     def valid(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'valid' field must be of type 'bool'"
@@ -329,7 +345,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @type.setter  # noqa: A003
     def type(self, value):  # noqa: A003
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'type' field must be of type 'int'"
@@ -344,7 +360,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @vx.setter
     def vx(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vx' field must be of type 'float'"
@@ -359,7 +375,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @vy.setter
     def vy(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vy' field must be of type 'float'"
@@ -374,7 +390,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @vz.setter
     def vz(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'vz' field must be of type 'float'"
@@ -389,7 +405,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @lat.setter
     def lat(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'lat' field must be of type 'float'"
@@ -404,7 +420,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @lon.setter
     def lon(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'lon' field must be of type 'float'"
@@ -419,7 +435,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @alt.setter
     def alt(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'alt' field must be of type 'float'"
@@ -434,7 +450,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @yaw.setter
     def yaw(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'yaw' field must be of type 'float'"
@@ -449,7 +465,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @loiter_radius.setter
     def loiter_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'loiter_radius' field must be of type 'float'"
@@ -464,7 +480,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @loiter_minor_radius.setter
     def loiter_minor_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'loiter_minor_radius' field must be of type 'float'"
@@ -479,7 +495,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @loiter_direction_counter_clockwise.setter
     def loiter_direction_counter_clockwise(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'loiter_direction_counter_clockwise' field must be of type 'bool'"
@@ -492,7 +508,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @loiter_orientation.setter
     def loiter_orientation(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'loiter_orientation' field must be of type 'float'"
@@ -507,7 +523,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @loiter_pattern.setter
     def loiter_pattern(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'loiter_pattern' field must be of type 'int'"
@@ -522,7 +538,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @acceptance_radius.setter
     def acceptance_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'acceptance_radius' field must be of type 'float'"
@@ -537,7 +553,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @alt_acceptance_radius.setter
     def alt_acceptance_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'alt_acceptance_radius' field must be of type 'float'"
@@ -552,7 +568,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @cruising_speed.setter
     def cruising_speed(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'cruising_speed' field must be of type 'float'"
@@ -567,7 +583,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @gliding_enabled.setter
     def gliding_enabled(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, bool), \
                 "The 'gliding_enabled' field must be of type 'bool'"
@@ -580,7 +596,7 @@ class PositionSetpoint(metaclass=Metaclass_PositionSetpoint):
 
     @cruising_throttle.setter
     def cruising_throttle(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'cruising_throttle' field must be of type 'float'"

@@ -345,7 +345,7 @@ px4_msgs__msg__SensorGps__copy(
 }
 
 px4_msgs__msg__SensorGps *
-px4_msgs__msg__SensorGps__create()
+px4_msgs__msg__SensorGps__create(void)
 {
   rcutils_allocator_t allocator = rcutils_get_default_allocator();
   px4_msgs__msg__SensorGps * msg = (px4_msgs__msg__SensorGps *)allocator.allocate(sizeof(px4_msgs__msg__SensorGps), allocator.state);

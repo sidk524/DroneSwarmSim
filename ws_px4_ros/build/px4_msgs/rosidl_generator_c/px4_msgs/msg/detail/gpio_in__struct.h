@@ -2,6 +2,9 @@
 // with input from px4_msgs:msg/GpioIn.idl
 // generated code does not contain a copyright notice
 
+// IWYU pragma: private, include "px4_msgs/msg/gpio_in.h"
+
+
 #ifndef PX4_MSGS__MSG__DETAIL__GPIO_IN__STRUCT_H_
 #define PX4_MSGS__MSG__DETAIL__GPIO_IN__STRUCT_H_
 
@@ -14,8 +17,13 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-
 // Constants defined in the message
+
+/// Constant 'MAX_INSTANCES'.
+enum
+{
+  px4_msgs__msg__GpioIn__MAX_INSTANCES = 8
+};
 
 /// Struct defined in msg/GpioIn in the package px4_msgs.
 /**

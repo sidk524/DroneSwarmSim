@@ -284,6 +284,9 @@ module px4_msgs {
         "Command VTOL transition.")
       const uint16 VEHICLE_CMD_DO_VTOL_TRANSITION = 3000;
       @verbatim (language="comment", text=
+        "Command safety on/off. |1 to activate safety, 0 to deactivate safety and allow control surface movements|Unused|Unused|Unused|Unused|Unused|Unused|")
+      const uint16 VEHICLE_CMD_DO_SET_SAFETY_SWITCH_STATE = 5300;
+      @verbatim (language="comment", text=
         "Request arm authorization.")
       const uint16 VEHICLE_CMD_ARM_AUTHORIZATION_REQUEST = 3001;
       @verbatim (language="comment", text=
@@ -391,6 +394,10 @@ module px4_msgs {
         "param2 in VEHICLE_CMD_DO_GRIPPER.")
       const uint8 GRIPPER_ACTION_RELEASE = 0;
       const uint8 GRIPPER_ACTION_GRAB = 1;
+      @verbatim (language="comment", text=
+        "Used as param1 in DO_SET_SAFETY_SWITCH_STATE command.")
+      const uint8 SAFETY_OFF = 0;
+      const uint8 SAFETY_ON = 1;
       const uint8 ORB_QUEUE_LENGTH = 8;
       const uint16 COMPONENT_MODE_EXECUTOR_START = 1000;
     };

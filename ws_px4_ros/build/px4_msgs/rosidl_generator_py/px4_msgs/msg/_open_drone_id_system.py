@@ -2,6 +2,13 @@
 # with input from px4_msgs:msg/OpenDroneIdSystem.idl
 # generated code does not contain a copyright notice
 
+# This is being done at the module level and not on the instance level to avoid looking
+# for the same variable multiple times on each instance. This variable is not supposed to
+# change during runtime so it makes sense to only look for it once.
+from os import getenv
+
+ros_python_check_fields = getenv('ROS_PYTHON_CHECK_FIELDS', default='')
+
 
 # Import statements for member types
 
@@ -73,6 +80,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
         '_category_eu',
         '_class_eu',
         '_operator_altitude_geo',
+        '_check_fields',
     ]
 
     _fields_and_field_types = {
@@ -91,6 +99,8 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
         'operator_altitude_geo': 'float',
     }
 
+    # This attribute is used to store an rosidl_parser.definition variable
+    # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('uint8'), 20),  # noqa: E501
@@ -108,9 +118,14 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
     )
 
     def __init__(self, **kwargs):
-        assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
-            'Invalid arguments passed to constructor: %s' % \
-            ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        if 'check_fields' in kwargs:
+            self._check_fields = kwargs['check_fields']
+        else:
+            self._check_fields = ros_python_check_fields == '1'
+        if self._check_fields:
+            assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
+                'Invalid arguments passed to constructor: %s' % \
+                ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         if 'id_or_mac' not in kwargs:
             self.id_or_mac = numpy.zeros(20, dtype=numpy.uint8)
@@ -133,7 +148,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
         typename.pop()
         typename.append(self.__class__.__name__)
         args = []
-        for s, t in zip(self.__slots__, self.SLOT_TYPES):
+        for s, t in zip(self.get_fields_and_field_types().keys(), self.SLOT_TYPES):
             field = getattr(self, s)
             fieldstr = repr(field)
             # We use Python array type for fields that can be directly stored
@@ -147,11 +162,12 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
                 if len(field) == 0:
                     fieldstr = '[]'
                 else:
-                    assert fieldstr.startswith('array(')
+                    if self._check_fields:
+                        assert fieldstr.startswith('array(')
                     prefix = "array('X', "
                     suffix = ')'
                     fieldstr = fieldstr[len(prefix):-len(suffix)]
-            args.append(s[1:] + '=' + fieldstr)
+            args.append(s + '=' + fieldstr)
         return '%s(%s)' % ('.'.join(typename), ', '.join(args))
 
     def __eq__(self, other):
@@ -197,7 +213,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @timestamp.setter
     def timestamp(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'timestamp' field must be of type 'int'"
@@ -212,14 +228,14 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @id_or_mac.setter
     def id_or_mac(self, value):
-        if isinstance(value, numpy.ndarray):
-            assert value.dtype == numpy.uint8, \
-                "The 'id_or_mac' numpy.ndarray() must have the dtype of 'numpy.uint8'"
-            assert value.size == 20, \
-                "The 'id_or_mac' numpy.ndarray() must have a size of 20"
-            self._id_or_mac = value
-            return
-        if __debug__:
+        if self._check_fields:
+            if isinstance(value, numpy.ndarray):
+                assert value.dtype == numpy.uint8, \
+                    "The 'id_or_mac' numpy.ndarray() must have the dtype of 'numpy.uint8'"
+                assert value.size == 20, \
+                    "The 'id_or_mac' numpy.ndarray() must have a size of 20"
+                self._id_or_mac = value
+                return
             from collections.abc import Sequence
             from collections.abc import Set
             from collections import UserList
@@ -243,7 +259,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @operator_location_type.setter
     def operator_location_type(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'operator_location_type' field must be of type 'int'"
@@ -258,7 +274,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @classification_type.setter
     def classification_type(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'classification_type' field must be of type 'int'"
@@ -273,7 +289,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @operator_latitude.setter
     def operator_latitude(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'operator_latitude' field must be of type 'int'"
@@ -288,7 +304,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @operator_longitude.setter
     def operator_longitude(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'operator_longitude' field must be of type 'int'"
@@ -303,7 +319,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @area_count.setter
     def area_count(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'area_count' field must be of type 'int'"
@@ -318,7 +334,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @area_radius.setter
     def area_radius(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'area_radius' field must be of type 'int'"
@@ -333,7 +349,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @area_ceiling.setter
     def area_ceiling(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'area_ceiling' field must be of type 'float'"
@@ -348,7 +364,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @area_floor.setter
     def area_floor(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'area_floor' field must be of type 'float'"
@@ -363,7 +379,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @category_eu.setter
     def category_eu(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'category_eu' field must be of type 'int'"
@@ -378,7 +394,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @class_eu.setter
     def class_eu(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, int), \
                 "The 'class_eu' field must be of type 'int'"
@@ -393,7 +409,7 @@ class OpenDroneIdSystem(metaclass=Metaclass_OpenDroneIdSystem):
 
     @operator_altitude_geo.setter
     def operator_altitude_geo(self, value):
-        if __debug__:
+        if self._check_fields:
             assert \
                 isinstance(value, float), \
                 "The 'operator_altitude_geo' field must be of type 'float'"
