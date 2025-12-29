@@ -5,10 +5,11 @@
 #include <px4_msgs/msg/detail/vehicle_local_position__struct.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rmw/qos_profiles.h>
-#include <px4_msgs/msg/vehicle_command.hpp>
+#include <px4_msgs/srv/vehicle_command.hpp>
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_local_position.hpp>
 #include <px4_msgs/msg/manual_control_setpoint.hpp>
+#include <px4_msgs/msg/vehicle_command_ack.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -31,30 +32,91 @@ struct KeyStates {
 class ManualControlNode : public rclcpp::Node
 {
 public:
-  ManualControlNode() : Node("manual_control_node")
+  ManualControlNode() : Node("manual_control_node"),
+  vehicle_command_client_{this->create_client<px4_msgs::srv::VehicleCommand>("/fmu/vehicle_command")},
+  manual_control_input_publisher_{this->create_publisher<ManualControlSetpoint>("/fmu/in/manual_control_input", 10)},
+  lidar_data_subscriber_{this->create_subscription<LaserScan>(
+    "/lidar/scan", 
+    10, 
+    std::bind(&ManualControlNode::lidar_data_callback, this, std::placeholders::_1)
+  )},
+  state_{State::init},
+  service_result_{0},
+  service_done_{false},
+  arm_retry_count_{0}
   {
-    vehicle_command_publisher_ = this->create_publisher<VehicleCommand>("/fmu/in/vehicle_command", 10);
-    manual_control_input_publisher_ = this->create_publisher<ManualControlSetpoint>("/fmu/in/manual_control_input", 10);
-    lidar_data_subscriber_ = this->create_subscription<LaserScan>(
-      "/lidar/scan", 
-      10, 
-      std::bind(&ManualControlNode::lidar_data_callback, this, std::placeholders::_1)
-    );
-    
+    while (!vehicle_command_client_->wait_for_service(1s)) {
+      if (!rclcpp::ok()) {
+        return;
+      }
+    }
+
     last_time = this->now();
 
     auto timer_callback = [this]() -> void {
-			if (offboard_setpoint_counter_ == 10) {
-				this->publishVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 3);
-				this->armDrone(); 
-        std::cout << "Armed Drone" << std::endl;
-			}
-			updateControlValues();
-			publishManualInput();
-
-			if (offboard_setpoint_counter_ < 11) {
-				offboard_setpoint_counter_++;
-			}
+      updateControlValues();
+      publishManualInput();
+      switch (state_) {
+        case State::init:
+          this->requestVehicleCommand(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 3);
+          state_ = State::position_mode_requested;
+          break;
+        case State::position_mode_requested:
+          if (service_done_) {
+            if (service_result_ == 0) {
+              state_ = State::wait_for_stable_position_mode;
+            }
+            else {
+              rclcpp::shutdown();
+            }
+          }
+          break;
+        case State::wait_for_stable_position_mode:
+          // If retrying, wait 1 second before attempting again
+          if (arm_retry_count_ > 0) {
+            if (this->now() >= arm_retry_time_) {
+              RCLCPP_INFO(this->get_logger(), "Retrying to arm drone...");
+              armDrone();
+              state_ = State::arm_requested;
+            }
+          } else {
+            // First attempt - arm immediately
+            armDrone();
+            state_ = State::arm_requested;
+          }
+          break;
+        case State::arm_requested:
+          if (service_done_) {
+            if (service_result_ == 0) {
+              state_ = State::armed;
+              arm_retry_count_ = 0;
+            }
+            else {
+              arm_retry_count_++;
+              RCLCPP_WARN(
+                this->get_logger(),
+                "Failed to arm drone (%s, result=%u), attempt %d/3",
+                vehicle_cmd_result_to_string(service_result_),
+                static_cast<unsigned>(service_result_),
+                arm_retry_count_);
+              
+              if (arm_retry_count_ >= 50) {
+                RCLCPP_ERROR(
+                  this->get_logger(),
+                  "Failed to arm drone after 3 attempts, exiting");
+                rclcpp::shutdown();
+              } else {
+                // Wait 1 second before retrying - transition back to wait state
+                arm_retry_time_ = this->now() + 1s;
+                state_ = State::wait_for_stable_position_mode;
+              }
+            }
+          }
+          break;
+        case State::armed:
+          
+          break;
+      }
 		};
     
 		timer_ = this->create_wall_timer(20ms, timer_callback);
@@ -68,18 +130,53 @@ public:
   std::array<float, 3> currentPosition = {0.0, 0.0, -5.0};
   
 private:
+  static const char *vehicle_cmd_result_to_string(uint8_t result)
+  {
+    using px4_msgs::msg::VehicleCommandAck;
+    switch (result) {
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_ACCEPTED:
+        return "accepted";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED:
+        return "temporarily rejected";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_DENIED:
+        return "denied";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_UNSUPPORTED:
+        return "unsupported";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_FAILED:
+        return "failed";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_IN_PROGRESS:
+        return "in progress";
+      case VehicleCommandAck::VEHICLE_CMD_RESULT_CANCELLED:
+        return "cancelled";
+      default:
+        return "unknown";
+    }
+  }
+
+  enum class State {
+    init,
+    position_mode_requested,
+    wait_for_stable_position_mode,
+    arm_requested,
+    armed
+  };
+
   void timer_callback()
   {
-    RCLCPP_INFO(this->get_logger(), "Tick");
   }
-	rclcpp::Publisher<VehicleCommand>::SharedPtr vehicle_command_publisher_;
+	rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedPtr vehicle_command_client_;
   rclcpp::Publisher<TrajectorySetpoint>::SharedPtr trajectory_setpoint_publisher_;
   rclcpp::Publisher<ManualControlSetpoint>::SharedPtr manual_control_input_publisher_;
   rclcpp::Subscription<VehicleLocalPosition>::SharedPtr vehicle_position_subscriber_;
   rclcpp::Subscription<LaserScan>::SharedPtr lidar_data_subscriber_;
   rclcpp::TimerBase::SharedPtr timer_;
+  
+  State state_;
+  uint8_t service_result_;
+  bool service_done_;
+  int arm_retry_count_;
+  rclcpp::Time arm_retry_time_;
 
-  int offboard_setpoint_counter_ = 0;
   float roll = 0.0f;
   float pitch = 0.0f;
   float yaw = 0.0f;
@@ -95,12 +192,15 @@ private:
   KeyStates getKeysPressed();
   void updateControlValues();
   void publishManualInput();
-  void publishVehicleCommand(uint16_t command, float param1 = 0.0, float param2 = 0.0);
+  void requestVehicleCommand(uint16_t command, float param1 = 0.0, float param2 = 0.0);
+  void vehicle_response_callback(rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedFuture future);
   void lidar_data_callback(const LaserScan::SharedPtr msg);
 };
 
-void ManualControlNode::publishVehicleCommand(uint16_t command, float param1, float param2)
+void ManualControlNode::requestVehicleCommand(uint16_t command, float param1, float param2)
 {
+	auto request = std::make_shared<px4_msgs::srv::VehicleCommand::Request>();
+
 	VehicleCommand msg{};
 	msg.param1 = param1;
 	msg.param2 = param2;
@@ -111,39 +211,32 @@ void ManualControlNode::publishVehicleCommand(uint16_t command, float param1, fl
 	msg.source_component = 1;
 	msg.from_external = true;
 	msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-	vehicle_command_publisher_->publish(msg);
+	request->request = msg;
+  service_done_ = false;
+	auto result = vehicle_command_client_->async_send_request(request, std::bind(&ManualControlNode::vehicle_response_callback, this,
+                           std::placeholders::_1));
+}
+
+void ManualControlNode::vehicle_response_callback(
+  rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedFuture future) {
+  auto status = future.wait_for(1s);
+  if (status == std::future_status::ready) {
+  auto reply = future.get()->reply;
+  service_result_ = reply.result;
+  service_done_ = true;
+  }
 }
 
 void ManualControlNode::armDrone() {
-  publishVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
+  requestVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
 }
 
 void ManualControlNode::disarmDrone() {
-  publishVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
+  requestVehicleCommand(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
 }
 
 void ManualControlNode::lidar_data_callback(const LaserScan::SharedPtr msg) {
-  RCLCPP_INFO(this->get_logger(), "=== LaserScan Data ===");
-  RCLCPP_INFO(this->get_logger(), "Header:");
-  RCLCPP_INFO(this->get_logger(), "  timestamp: %d.%09u", msg->header.stamp.sec, msg->header.stamp.nanosec);
-  RCLCPP_INFO(this->get_logger(), "  frame_id: %s", msg->header.frame_id.c_str());
-  RCLCPP_INFO(this->get_logger(), "Angle: min=%.3f, max=%.3f, increment=%.3f [rad]", 
-              msg->angle_min, msg->angle_max, msg->angle_increment);
-  RCLCPP_INFO(this->get_logger(), "Time: increment=%.6f [s], scan_time=%.6f [s]", 
-              msg->time_increment, msg->scan_time);
-  RCLCPP_INFO(this->get_logger(), "Range: min=%.3f, max=%.3f [m]", 
-              msg->range_min, msg->range_max);
-  RCLCPP_INFO(this->get_logger(), "Ranges: %zu measurements", msg->ranges.size());
-  RCLCPP_INFO(this->get_logger(), "Intensities: %zu measurements", msg->intensities.size());
-  
-  if (msg->ranges.size() > 0) {
-    RCLCPP_INFO(this->get_logger(), "First few ranges: %.3f, %.3f, %.3f, %.3f, %.3f [m]",
-                msg->ranges[0],
-                msg->ranges.size() > 1 ? msg->ranges[1] : 0.0f,
-                msg->ranges.size() > 2 ? msg->ranges[2] : 0.0f,
-                msg->ranges.size() > 3 ? msg->ranges[3] : 0.0f,
-                msg->ranges.size() > 4 ? msg->ranges[4] : 0.0f);
-  }
+  (void)msg;
 }
 
 bool ManualControlNode::isKeyDown(Display* display, const char* keys, KeySym keysym) {

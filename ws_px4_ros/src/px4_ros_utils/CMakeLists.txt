@@ -11,6 +11,9 @@ find_package(rclcpp REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -31,10 +34,30 @@ ament_target_dependencies(convert_odometry
   px4_msgs
   nav_msgs
   geometry_msgs
+  tf2
+)
+
+add_executable(publish_static_tf src/publish_static_tf.cpp)
+
+ament_target_dependencies(publish_static_tf
+  rclcpp
+  tf2_ros
+  geometry_msgs
+)
+
+add_executable(publish_dynamic_tf src/publish_dynamic_tf.cpp)
+
+ament_target_dependencies(publish_dynamic_tf
+  rclcpp
+  tf2_ros
+  nav_msgs
+  geometry_msgs
 )
 
 install(TARGETS
   convert_odometry
+  publish_static_tf
+  publish_dynamic_tf
   DESTINATION lib/${PROJECT_NAME}
 )
 
