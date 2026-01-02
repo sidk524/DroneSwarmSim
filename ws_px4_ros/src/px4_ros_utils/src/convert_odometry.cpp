@@ -3,6 +3,7 @@
 #include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
 #include <functional>
 #include <algorithm>
 #include <cmath>
@@ -45,8 +46,7 @@ void ConvertOdometryNode::vehicle_odometry_callback(const VehicleOdometry::Share
   nav_msgs::msg::Odometry odom_msg;
   
   // Convert timestamp from microseconds to seconds and nanoseconds
-  odom_msg.header.stamp.sec = static_cast<int32_t>(msg->timestamp / 1000000);
-  odom_msg.header.stamp.nanosec = static_cast<uint32_t>((msg->timestamp % 1000000) * 1000);
+  odom_msg.header.stamp = this->get_clock()->now();
   odom_msg.header.frame_id = "odom";
   odom_msg.child_frame_id = "base_link";
   
@@ -60,27 +60,33 @@ void ConvertOdometryNode::vehicle_odometry_callback(const VehicleOdometry::Share
   // Convert quaternion from NED to ENU frame
   // PX4 quaternion is in NED frame (w,x,y,z format)
   // Need to apply NED->ENU rotation: +PI around X, then +PI/2 around Z
-  tf2::Quaternion q_ned;
-  q_ned.setW(static_cast<double>(msg->q[0]));
-  q_ned.setX(static_cast<double>(msg->q[1]));
-  q_ned.setY(static_cast<double>(msg->q[2]));
-  q_ned.setZ(static_cast<double>(msg->q[3]));
+  tf2::Quaternion q_ned_frd(msg->q[1], msg->q[2], msg->q[3], msg->q[0]); // if PX4 is [w,x,y,z]
+  tf2::Matrix3x3 R_ned_frd(q_ned_frd);
   
-  // NED to ENU rotation quaternion
-  // According to px4_ros_com frame_transforms: quaternion_from_euler(M_PI, 0.0, M_PI/2)
-  // This represents: +PI/2 rotation about Z, then +PI rotation around X
-  // setRPY(roll, pitch, yaw) applies rotations in order: Z (yaw), Y (pitch), X (roll)
-  tf2::Quaternion q_ned_to_enu;
-  q_ned_to_enu.setRPY(M_PI, 0.0, M_PI_2);
+  // NED -> ENU basis change
+  tf2::Matrix3x3 R_enu_ned(
+    0, 1, 0,
+    1, 0, 0,
+    0, 0,-1
+  );
   
-  // Apply rotation: q_enu = q_ned_to_enu * q_ned
-  tf2::Quaternion q_enu = q_ned_to_enu * q_ned;
+  // FRD -> FLU (flip Y and Z)
+  tf2::Matrix3x3 R_frd_flu(
+    1, 0, 0,
+    0,-1, 0,
+    0, 0,-1
+  );
   
-  // Convert to ROS format (x, y, z, w)
-  odom_msg.pose.pose.orientation.x = q_enu.getX();
-  odom_msg.pose.pose.orientation.y = q_enu.getY();
-  odom_msg.pose.pose.orientation.z = q_enu.getZ();
-  odom_msg.pose.pose.orientation.w = q_enu.getW();
+  tf2::Matrix3x3 R_enu_flu = R_enu_ned * R_ned_frd * R_frd_flu;
+  
+  tf2::Quaternion q_enu_flu;
+  R_enu_flu.getRotation(q_enu_flu);
+  
+  odom_msg.pose.pose.orientation.x = q_enu_flu.x();
+  odom_msg.pose.pose.orientation.y = q_enu_flu.y();
+  odom_msg.pose.pose.orientation.z = q_enu_flu.z();
+  odom_msg.pose.pose.orientation.w = q_enu_flu.w();
+  
   
   // Build pose covariance matrix (6x6 = 36 elements, row-major)
   // Order: [x, y, z, roll, pitch, yaw]
@@ -98,16 +104,18 @@ void ConvertOdometryNode::vehicle_odometry_callback(const VehicleOdometry::Share
   odom_msg.twist.twist.linear.z = -static_cast<double>(msg->velocity[2]); // NED Z -> ENU Z
   
   // Convert angular velocity from NED to ENU
-  odom_msg.twist.twist.angular.x = static_cast<double>(msg->angular_velocity[1]);  // NED Y -> ENU X
-  odom_msg.twist.twist.angular.y = static_cast<double>(msg->angular_velocity[0]);  // NED X -> ENU Y
-  odom_msg.twist.twist.angular.z = -static_cast<double>(msg->angular_velocity[2]); // NED Z -> ENU Z
+  odom_msg.twist.twist.angular.x =  msg->angular_velocity[0];
+  odom_msg.twist.twist.angular.y = -msg->angular_velocity[1];
+  odom_msg.twist.twist.angular.z = -msg->angular_velocity[2];
+  
   
   // Build twist covariance matrix (6x6 = 36 elements, row-major)
   // Order: [vx, vy, vz, wx, wy, wz]
   std::fill(odom_msg.twist.covariance.begin(), odom_msg.twist.covariance.end(), 0.0);
-  odom_msg.twist.covariance[0] = static_cast<double>(msg->velocity_variance[0]);   // vx
-  odom_msg.twist.covariance[7] = static_cast<double>(msg->velocity_variance[1]);   // vy
-  odom_msg.twist.covariance[14] = static_cast<double>(msg->velocity_variance[2]);  // vz
+  odom_msg.pose.covariance[0]  = msg->position_variance[1]; // ENU x  <- NED y
+  odom_msg.pose.covariance[7]  = msg->position_variance[0]; // ENU y  <- NED x
+  odom_msg.pose.covariance[14] = msg->position_variance[2]; // z variance (sign flip doesn’t change variance)
+  
   // Angular velocity variance not provided in PX4 message, leave as 0
   
   odometry_publisher_->publish(odom_msg);
