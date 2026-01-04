@@ -16,21 +16,20 @@ find_package(visualization_msgs REQUIRED)
 find_package(octomap_msgs REQUIRED)
 find_package(octomap REQUIRED)
 
-add_executable(navigationUtilities src/navigationUtilities.cpp)
-ament_target_dependencies(navigationUtilities
+add_executable(frontierFinder src/frontierFinder.cpp)
+ament_target_dependencies(frontierFinder
   rclcpp
-  octomap_msgs
-  geometry_msgs
-  nav_msgs
-  visualization_msgs
   tf2
   tf2_ros
+  geometry_msgs
+  octomap_msgs
+  octomap
 )
-target_link_libraries(navigationUtilities ${OCTOMAP_LIBRARIES})
-target_include_directories(navigationUtilities PUBLIC ${OCTOMAP_INCLUDE_DIRS})
+target_link_libraries(frontierFinder ${OCTOMAP_LIBRARIES})
+target_include_directories(frontierFinder PUBLIC ${OCTOMAP_INCLUDE_DIRS})
 
 install(TARGETS
-  navigationUtilities
+  frontierFinder
   DESTINATION lib/${PROJECT_NAME}
 )
 
