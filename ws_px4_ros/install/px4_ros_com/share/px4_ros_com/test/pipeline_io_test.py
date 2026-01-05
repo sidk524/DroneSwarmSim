@@ -1,1 +1,0 @@
-/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/src/px4_ros_com/test/pipeline_io_test.py

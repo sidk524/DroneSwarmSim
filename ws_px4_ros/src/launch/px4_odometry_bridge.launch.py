@@ -109,7 +109,7 @@ def generate_launch_description():
     )
 
     lidar_adapter = Node(
-        package='lidar-lio-sam-adapter',
+        package='lidar-adapter',
         executable='lidarPointCloudAdapter',
         name='lidar_deskewed_adapter',
         output='screen',

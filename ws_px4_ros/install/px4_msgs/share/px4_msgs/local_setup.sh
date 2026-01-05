@@ -1,1 +1,1 @@
-/home/sidk524/Documents/personal-projects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/ament_cmake_environment_hooks/local_setup.sh
+/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/ament_cmake_environment_hooks/local_setup.sh
