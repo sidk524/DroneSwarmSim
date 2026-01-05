@@ -4,14 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-DroneSwarmSim is a PX4 drone simulation environment that integrates PX4 Autopilot with ROS 2 for drone control. The project uses Gazebo for simulation and enables offboard control of drones through ROS 2 nodes.
+DroneSwarmSim is a PX4-based drone simulation environment that integrates PX4 with ROS 2 for drone control. The project uses Gazebo for simulation and enables offboard control of drones through ROS 2 nodes.
 
 ## Repository Structure
 
 The repository is organized into two main workspaces:
 
 ### px4_ws/ - PX4 Workspace
-- **PX4-Autopilot/**: PX4 flight controller software (submodule)
 - **Micro-XRCE-DDS-Agent/**: DDS-XRCE bridge for PX4-ROS2 communication (submodule)
 
 ### ws_px4_ros/ - ROS 2 Workspace
@@ -40,31 +39,16 @@ To build specific packages:
 colcon build --packages-select drone_control test_node
 ```
 
-### Building PX4 for Simulation
-
-```bash
-cd px4_ws/PX4-Autopilot
-make px4_sitl gazebo-classic  # For Gazebo Classic
-# or
-make px4_sitl gz_x500         # For Gazebo (newer)
-```
-
 ## Running the System
 
-### 1. Start PX4 SITL with Gazebo
-```bash
-cd px4_ws/PX4-Autopilot
-make px4_sitl gazebo-classic
-```
-
-### 2. Start Micro-XRCE-DDS Agent
+### 1. Start Micro-XRCE-DDS Agent
 In a separate terminal:
 ```bash
 cd px4_ws/Micro-XRCE-DDS-Agent
 ./build/MicroXRCEAgent udp4 -p 8888
 ```
 
-### 3. Run ROS 2 Nodes
+### 2. Run ROS 2 Nodes
 In a separate terminal (after sourcing the workspace):
 ```bash
 cd ws_px4_ros
@@ -159,11 +143,6 @@ All PX4 message types are defined in `ws_px4_ros/src/px4_msgs/msg/`. Common mess
 This repository uses git submodules. To update submodules:
 ```bash
 git submodule update --init --recursive
-```
-
-Note: The PX4-Autopilot submodule URL in .gitmodules appears incorrect (points to DroneSwarmSim instead of PX4). To fix:
-```bash
-git submodule set-url px4_ws/PX4-Autopilot https://github.com/PX4/PX4-Autopilot.git
 ```
 
 ## Common Issues
