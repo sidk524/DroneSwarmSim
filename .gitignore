@@ -14,6 +14,7 @@ PX4-Autopilot/log/
 # QGroundControl / binaries
 *.AppImage
 QGroundControl*
+QGroundControl-x86_64.AppImage
 
 # IDE / OS
 .vscode/
