@@ -140,10 +140,11 @@ def generate_launch_description():
         ),
     ]
 
-    manual_control = Node(
-        package='drone_control',
-        executable='manual_control',
-        name='manual_control',
+
+    frontier_finder = Node(
+        package='baseline_autonomous_exploration_3d',
+        executable='frontierFinder',
+        name='frontier_finder',
         output='screen',
         parameters=[{'use_sim_time': True}]
     )
@@ -153,9 +154,9 @@ def generate_launch_description():
         actions=[rtabmap_node]
     )
 
-    delayed_manual_control = TimerAction(
-        period=2.0,
-        actions=[manual_control]
+    delayed_frontier_finder = TimerAction(
+        period=5.0,
+        actions=[frontier_finder]
     )
 
     return LaunchDescription([
@@ -164,5 +165,5 @@ def generate_launch_description():
         lidar_adapter,
         *odom_and_tf,
         delayed_rtabmap,
-        delayed_manual_control,
+        delayed_frontier_finder,
     ])

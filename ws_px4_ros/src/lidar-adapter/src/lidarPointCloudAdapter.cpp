@@ -78,7 +78,6 @@ private:
 
     const uint32_t num_points = msg->width * msg->height;
     if (num_points == 0) return;
-
     // ---- Parameters you should eventually make ROS params ----
     const uint16_t N_SCAN = 64;         // vertical beams (matches your 3D lidar config)
     const float scan_rate_hz = 20.0f;   // lidar scan rate (matches your update_rate)

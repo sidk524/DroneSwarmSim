@@ -15,6 +15,7 @@ find_package(nav_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(octomap_msgs REQUIRED)
 find_package(octomap REQUIRED)
+find_package(px4_msgs REQUIRED)
 
 add_executable(frontierFinder src/frontierFinder.cpp)
 ament_target_dependencies(frontierFinder
@@ -24,6 +25,7 @@ ament_target_dependencies(frontierFinder
   geometry_msgs
   octomap_msgs
   octomap
+  px4_msgs
 )
 target_link_libraries(frontierFinder ${OCTOMAP_LIBRARIES})
 target_include_directories(frontierFinder PUBLIC ${OCTOMAP_INCLUDE_DIRS})
