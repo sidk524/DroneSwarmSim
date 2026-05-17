@@ -25,6 +25,9 @@ ament_target_dependencies(test_node sensor_msgs)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+install(TARGETS test_node
+  DESTINATION lib/${PROJECT_NAME})
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
