@@ -4,17 +4,24 @@
   <name>test_node</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="sid@example.com">sidk524</maintainer>
+  <maintainer email="siddharthkambli6@gmail.com">sidk524</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>rclcpp</depend>
-  <depend>px4_msgs</depend>
-
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <depend>rclcpp</depend>
 
+  <depend>builtin_interfaces</depend>
+
+  <depend>px4_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+  <depend>launch</depend>
+  <depend>launch_testing</depend>
+  <depend>launch_testing_ros</depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

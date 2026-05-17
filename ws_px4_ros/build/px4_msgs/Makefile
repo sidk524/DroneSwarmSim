@@ -418,6 +418,19 @@ px4_msgs__py/fast:
 	$(MAKE) $(MAKESILENT) -f /home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__py/CMakeFiles/px4_msgs__py.dir/build.make /home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__py/CMakeFiles/px4_msgs__py.dir/build
 .PHONY : px4_msgs__py/fast
 
+#=============================================================================
+# Target rules for targets named px4_msgs__rs
+
+# Build rule for target.
+px4_msgs__rs: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 px4_msgs__rs
+.PHONY : px4_msgs__rs
+
+# fast build rule for target.
+px4_msgs__rs/fast:
+	$(MAKE) $(MAKESILENT) -f /home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__rs/CMakeFiles/px4_msgs__rs.dir/build.make /home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__rs/CMakeFiles/px4_msgs__rs.dir/build
+.PHONY : px4_msgs__rs/fast
+
 rosidl_generator_c/px4_msgs/msg/detail/action_request__description.o: rosidl_generator_c/px4_msgs/msg/detail/action_request__description.c.o
 .PHONY : rosidl_generator_c/px4_msgs/msg/detail/action_request__description.o
 
@@ -57869,6 +57882,7 @@ help:
 	@echo "... px4_msgs__cpp"
 	@echo "... px4_msgs__py"
 	@echo "... px4_msgs__rosidl_generator_type_description"
+	@echo "... px4_msgs__rs"
 	@echo "... px4_msgs_uninstall"
 	@echo "... uninstall"
 	@echo "... px4_msgs__rosidl_generator_c"

@@ -7,6 +7,6 @@
 [submodule "px4_msgs"]
 	path = ws_px4_ros/src/px4_msgs
 	url = git@github.com:PX4/px4_msgs.git
-[submodule "px4_ws/PX4-Autopilot"]
-	path = px4_ws/PX4-Autopilot
-	url = git@github.com:sidk524/PX4-Autopilot.git
+[submodule "ws_px4_ros/src/px4_ros_com"]
+	path = ws_px4_ros/src/px4_ros_com
+	url = git@github.com:PX4/px4_ros_com.git

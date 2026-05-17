@@ -445,6 +445,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__py/cmake_install.cmake")
+  include("/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/px4_msgs__rs/cmake_install.cmake")
 
 endif()
 
