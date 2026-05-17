@@ -1,14 +1,19 @@
 #include "px4_msgs/msg/trajectory_setpoint.hpp"
+#include "px4_msgs/msg/vehicle_global_position.hpp"
+#include <memory>
 #include <px4_msgs/msg/offboard_control_mode.hpp>
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
+#include <px4_msgs/msg/vehicle_global_position.hpp>
 #include <px4_msgs/srv/vehicle_command.hpp>
 #include <rclcpp/create_client.hpp>
+#include <rclcpp/create_subscription.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp/utilities.hpp>
 #include <stdint.h>
 
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace px4_msgs::msg;
@@ -48,9 +53,13 @@ private:
         init,
         offboard_requested,
         wait_for_stable_offboard_mode,
-        arm_requested,
-        armed
+        arm_requested
     };
+
+    struct NEDposition {
+        float pos[3];
+    };
+
     State currState;
     bool service_done;
     uint8_t service_result;
@@ -58,6 +67,7 @@ private:
     rclcpp::Publisher<OffboardControlMode>::SharedPtr offboardPublisher;
     rclcpp::Publisher<TrajectorySetpoint>::SharedPtr trajectoryPublisher;
     rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedPtr vehicleCommandClient;
+    rclcpp::Subscription<VehicleGlobalPosition>::SharedPtr vehicleGlobalPositionSubscriber;
     rclcpp::TimerBase::SharedPtr timer;
     
     void timer_callback(void);
@@ -66,7 +76,7 @@ private:
     void switch_to_offboard_mode();
     void publish_offboard_mode();
     void publish_trajectory_setpoint();
-
+    void request_current_coords();
 };
 
 void TestNode::request_vehicle_command(uint16_t command, float param1, float param2){
@@ -110,18 +120,22 @@ void TestNode::publish_offboard_mode(){
 
     px4_msgs::msg::OffboardControlMode msg {};
     msg.position = true;
+    msg.acceleration = false;
+    msg.attitude = false;
+    msg.body_rate = false;
+    msg.thrust_and_torque = false;
+    msg.direct_actuator = false;
+    msg.velocity = true;
     msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
     offboardPublisher->publish(msg);
-
-
 }
 
 void TestNode::publish_trajectory_setpoint(){
     px4_msgs::msg::TrajectorySetpoint msg {};
     msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-    msg.position = {-5.0, 0.0, -5.0};
-    trajectoryPublisher->publish(msg);
-         
+    msg.position = {0.0, 0.0, -20.0};
+    msg.velocity = {0.01, 0.01, 0.01};
+    trajectoryPublisher->publish(msg);  
 }
 
 void TestNode::arm(){
@@ -137,8 +151,8 @@ void TestNode::disarm(){
     request_vehicle_command(VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
 }
 
+
 void TestNode::timer_callback(void){
-    
     publish_offboard_mode();
     publish_trajectory_setpoint();
 
@@ -162,12 +176,12 @@ void TestNode::timer_callback(void){
                 break;
             } else{
                 arm();
-                currState = State::wait_for_stable_offboard_mode;
+                currState = State::arm_requested;
             }
         case State::arm_requested:
             if (service_done){
                 if (service_result == 0){
-                    currState = State::armed;
+                    currState = State::flying_to_height;
                 } else{
                     RCLCPP_INFO(this->get_logger(), "shutting down");
 
@@ -189,3 +203,5 @@ int main(int argc, char *argv[])
 	rclcpp::shutdown();
 	return 0;
 }
+
+
