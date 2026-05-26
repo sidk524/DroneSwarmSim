@@ -5,11 +5,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 add_executable(${PROJECT_NAME} src/helloworld.cpp)
-
+add_executable(fly_in_circle src/fly_in_circle.cpp)
 
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(std_msgs REQUIRED)
+
 find_package(geometry_msgs REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -20,12 +22,23 @@ ament_target_dependencies(test_node geometry_msgs)
 ament_target_dependencies(test_node px4_msgs)
 ament_target_dependencies(test_node rclcpp)
 ament_target_dependencies(test_node sensor_msgs)
+ament_target_dependencies(test_node std_msgs)
+
+ament_target_dependencies(fly_in_circle ament_cmake)
+ament_target_dependencies(fly_in_circle geometry_msgs)
+ament_target_dependencies(fly_in_circle px4_msgs)
+ament_target_dependencies(fly_in_circle rclcpp)
+ament_target_dependencies(fly_in_circle sensor_msgs)
+ament_target_dependencies(fly_in_circle std_msgs)
+
 
 
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-install(TARGETS test_node
+install(TARGETS 
+  test_node
+  fly_in_circle
   DESTINATION lib/${PROJECT_NAME})
 
 
