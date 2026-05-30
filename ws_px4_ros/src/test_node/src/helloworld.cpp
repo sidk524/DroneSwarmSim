@@ -1,6 +1,8 @@
 #include "px4_msgs/msg/trajectory_setpoint.hpp"
 #include "px4_msgs/msg/vehicle_attitude_setpoint.hpp"
+#include "px4_msgs/msg/vehicle_command.hpp"
 #include "px4_msgs/msg/vehicle_global_position.hpp"
+#include <cmath>
 #include <memory>
 #include <px4_msgs/msg/offboard_control_mode.hpp>
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
@@ -70,7 +72,8 @@ private:
         wait_for_stable_offboard_mode,
         arm_requested,
         flying,
-        fly_in_circle
+        request_orbit,
+        orbit
     };
 
     struct NEDposition {
@@ -90,29 +93,50 @@ private:
     
     void topic_callback(const VehicleLocalPosition::SharedPtr msg);
     void timer_callback(void);
-    void request_vehicle_command(uint16_t command, float param1 = 0.0, float param2 = 0.0);
+    void request_vehicle_command(uint16_t command, float param1 = 0.0, 
+            float param2 = 0.0,
+            float param3 = 0.0,
+            float param4 = 0.0,
+            double param5 = 0.0,
+            double param6 = 0.0,
+            float param7 = 0.0
+        );
     void client_response(rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedFuture future);
     void switch_to_offboard_mode();
     void publish_offboard_mode(bool position, bool velocity, bool attitude, bool body_rate);
     void publish_trajectory_setpoint();
-    void publish_rates_circle();
+    void set_orbit(float radius, float velocity);
 
 };
 
 void TestNode::topic_callback(const VehicleLocalPosition::SharedPtr msg) {
     if (currState == State::flying){
         if (msg->z <= -19.5 && msg->z >= -20.5){
-            currState = State::fly_in_circle;
+            currState = State::request_orbit;
+            set_orbit(30.0, 4.0);
         }
     }
 }
 
-void TestNode::request_vehicle_command(uint16_t command, float param1, float param2){
-
+void TestNode::request_vehicle_command(uint16_t command, 
+    float param1, 
+    float param2,
+    float param3,
+    float param4,
+    double param5,
+    double param6,
+    float param7
+){
     auto request = std::make_shared<px4_msgs::srv::VehicleCommand::Request>();
     VehicleCommand msg{};
     msg.param1 = param1;
     msg.param2 = param2;
+    msg.param3 = param3;
+    msg.param4 = param4;
+    msg.param5 = param5;
+    msg.param6 = param6;
+    msg.param7 = param7;
+
     msg.command = command;
     msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
     msg.target_system = 1;
@@ -127,29 +151,43 @@ void TestNode::request_vehicle_command(uint16_t command, float param1, float par
 };
 
 void TestNode::client_response(rclcpp::Client<px4_msgs::srv::VehicleCommand>::SharedFuture future){
-    RCLCPP_INFO(this->get_logger(), "received client response");
 
     auto status = future.wait_for(1s);
     if (status == std::future_status::ready){
 
         auto result = future.get()->reply;
+
         service_result = result.result;
         service_done = true;
+        RCLCPP_INFO(this->get_logger(), "received client response");
+
     }
 }
 
+
 void TestNode::switch_to_offboard_mode(){
     RCLCPP_INFO(this->get_logger(), "requesting switch to offboard mode");
-
     request_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
+
 };
+
+void TestNode::set_orbit(float radius, float velocity){
+    RCLCPP_INFO(this->get_logger(), "requesting orbit");
+    request_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_ORBIT, radius, velocity,
+    VehicleCommand::ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER,
+    0.0,
+    NAN,
+    NAN,
+    NAN
+);
+}
 
 void TestNode::publish_offboard_mode(bool position = true, bool velocity = false, bool attitude = false, bool body_rate = false){
     px4_msgs::msg::OffboardControlMode msg {};
     msg.position = position;
     msg.acceleration = false;
     msg.attitude = attitude;
-    msg.body_rate = false;
+    msg.body_rate = body_rate;
     msg.thrust_and_torque = false;
     msg.direct_actuator = false;
     msg.velocity = velocity;
@@ -162,17 +200,6 @@ void TestNode::publish_trajectory_setpoint(){
     msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
     msg.position = {0.0, 0.0, -20.0};
     trajectoryPublisher->publish(msg);  
-}
-
-void TestNode::publish_rates_circle(){
-    RCLCPP_INFO(this->get_logger(), "publishing rates");
-    px4_msgs::msg::VehicleRatesSetpoint msg {};
-    msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-    msg.thrust_body = {1.0,1.0,-0.8};
-    msg.roll = 3.0;
-    msg.pitch = 3.0;
-    msg.yaw = 0;
-    ratesPublisher->publish(msg);
 }
 
 void TestNode::arm(){
@@ -232,11 +259,7 @@ void TestNode::timer_callback(void){
             publish_offboard_mode();
             publish_trajectory_setpoint();
             break;
-        case State::fly_in_circle:
-            //RCLCPP_INFO(this->get_logger(), "state: flying in circle");
-
-            publish_offboard_mode(false, false, false, true);
-            publish_rates_circle();
+ 
         default:
             break;
         }
