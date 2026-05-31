@@ -10,3 +10,6 @@
 [submodule "ws_px4_ros/src/px4_ros_com"]
 	path = ws_px4_ros/src/px4_ros_com
 	url = git@github.com:PX4/px4_ros_com.git
+[submodule "ws_px4_ros/src/px4-ros2-interface-lib"]
+	path = ws_px4_ros/src/px4-ros2-interface-lib
+	url = git@github.com:Auterion/px4-ros2-interface-lib.git
