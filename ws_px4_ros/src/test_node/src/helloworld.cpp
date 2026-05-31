@@ -113,7 +113,7 @@ void TestNode::topic_callback(const VehicleLocalPosition::SharedPtr msg) {
     if (currState == State::flying){
         if (msg->z <= -19.5 && msg->z >= -20.5){
             currState = State::request_orbit;
-            set_orbit(30.0, 4.0);
+            set_orbit(30.0, 100.0);
         }
     }
 }
