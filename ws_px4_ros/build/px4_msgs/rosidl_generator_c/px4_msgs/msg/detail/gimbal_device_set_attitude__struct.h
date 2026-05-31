@@ -49,6 +49,18 @@ enum
   px4_msgs__msg__GimbalDeviceSetAttitude__GIMBAL_DEVICE_FLAGS_YAW_LOCK = 16ul
 };
 
+/// Constant 'GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME'.
+enum
+{
+  px4_msgs__msg__GimbalDeviceSetAttitude__GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME = 32ul
+};
+
+/// Constant 'GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME'.
+enum
+{
+  px4_msgs__msg__GimbalDeviceSetAttitude__GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME = 64ul
+};
+
 /// Struct defined in msg/GimbalDeviceSetAttitude in the package px4_msgs.
 typedef struct px4_msgs__msg__GimbalDeviceSetAttitude
 {

@@ -258,7 +258,7 @@ typedef struct px4_msgs__msg__BatteryStatus
   float scale;
   /// [s] [@invalid NaN] Predicted time remaining until battery is empty under previous averaged load
   float time_remaining_s;
-  /// [°C] [@invalid NaN] Temperature of the battery
+  /// [degC] [@invalid NaN] Temperature of the battery
   float temperature;
   /// [-] [@invalid 0] Number of cells
   uint8_t cell_count;
@@ -296,11 +296,11 @@ typedef struct px4_msgs__msg__BatteryStatus
   uint16_t faults;
   /// Compensated battery capacity
   float full_charge_capacity_wh;
-  /// Compensated battery capacity remaining
+  /// [Wh] [@invalid NaN] Compensated battery capacity remaining
   float remaining_capacity_wh;
   /// Number of battery overdischarge
   uint16_t over_discharge_count;
-  /// Nominal voltage of the battery pack
+  /// [V] [@invalid NaN] Nominal voltage of the battery pack
   float nominal_voltage;
   /// Internal resistance per cell estimate
   float internal_resistance_estimate;

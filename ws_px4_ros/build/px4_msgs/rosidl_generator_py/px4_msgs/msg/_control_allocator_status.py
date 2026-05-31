@@ -121,6 +121,7 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
         '_actuator_saturation',
         '_handled_motor_failure_mask',
         '_motor_stop_mask',
+        '_actuator_group_preflight_check_active',
         '_check_fields',
     ]
 
@@ -133,6 +134,7 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
         'actuator_saturation': 'int8[16]',
         'handled_motor_failure_mask': 'uint16',
         'motor_stop_mask': 'uint16',
+        'actuator_group_preflight_check_active': 'boolean',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -146,6 +148,7 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
         rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('int8'), 16),  # noqa: E501
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -174,6 +177,7 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
             self.actuator_saturation = kwargs.get('actuator_saturation')
         self.handled_motor_failure_mask = kwargs.get('handled_motor_failure_mask', int())
         self.motor_stop_mask = kwargs.get('motor_stop_mask', int())
+        self.actuator_group_preflight_check_active = kwargs.get('actuator_group_preflight_check_active', bool())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -220,6 +224,8 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
         if self.handled_motor_failure_mask != other.handled_motor_failure_mask:
             return False
         if self.motor_stop_mask != other.motor_stop_mask:
+            return False
+        if self.actuator_group_preflight_check_active != other.actuator_group_preflight_check_active:
             return False
         return True
 
@@ -391,3 +397,16 @@ class ControlAllocatorStatus(metaclass=Metaclass_ControlAllocatorStatus):
             assert value >= 0 and value < 65536, \
                 "The 'motor_stop_mask' field must be an unsigned integer in [0, 65535]"
         self._motor_stop_mask = value
+
+    @builtins.property
+    def actuator_group_preflight_check_active(self):
+        """Message field 'actuator_group_preflight_check_active'."""
+        return self._actuator_group_preflight_check_active
+
+    @actuator_group_preflight_check_active.setter
+    def actuator_group_preflight_check_active(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'actuator_group_preflight_check_active' field must be of type 'bool'"
+        self._actuator_group_preflight_check_active = value

@@ -48,6 +48,9 @@ cdr_serialize(
   // Member: rel_vel_valid
   cdr << (ros_message.rel_vel_valid ? true : false);
 
+  // Member: rel_vel_ekf2_valid
+  cdr << (ros_message.rel_vel_ekf2_valid ? true : false);
+
   // Member: x_rel
   cdr << ros_message.x_rel;
 
@@ -63,17 +66,26 @@ cdr_serialize(
   // Member: vy_rel
   cdr << ros_message.vy_rel;
 
+  // Member: vz_rel
+  cdr << ros_message.vz_rel;
+
   // Member: cov_x_rel
   cdr << ros_message.cov_x_rel;
 
   // Member: cov_y_rel
   cdr << ros_message.cov_y_rel;
 
+  // Member: cov_z_rel
+  cdr << ros_message.cov_z_rel;
+
   // Member: cov_vx_rel
   cdr << ros_message.cov_vx_rel;
 
   // Member: cov_vy_rel
   cdr << ros_message.cov_vy_rel;
+
+  // Member: cov_vz_rel
+  cdr << ros_message.cov_vz_rel;
 
   // Member: abs_pos_valid
   cdr << (ros_message.abs_pos_valid ? true : false);
@@ -120,6 +132,13 @@ cdr_deserialize(
     ros_message.rel_vel_valid = tmp ? true : false;
   }
 
+  // Member: rel_vel_ekf2_valid
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.rel_vel_ekf2_valid = tmp ? true : false;
+  }
+
   // Member: x_rel
   cdr >> ros_message.x_rel;
 
@@ -135,17 +154,26 @@ cdr_deserialize(
   // Member: vy_rel
   cdr >> ros_message.vy_rel;
 
+  // Member: vz_rel
+  cdr >> ros_message.vz_rel;
+
   // Member: cov_x_rel
   cdr >> ros_message.cov_x_rel;
 
   // Member: cov_y_rel
   cdr >> ros_message.cov_y_rel;
 
+  // Member: cov_z_rel
+  cdr >> ros_message.cov_z_rel;
+
   // Member: cov_vx_rel
   cdr >> ros_message.cov_vx_rel;
 
   // Member: cov_vy_rel
   cdr >> ros_message.cov_vy_rel;
+
+  // Member: cov_vz_rel
+  cdr >> ros_message.cov_vz_rel;
 
   // Member: abs_pos_valid
   {
@@ -208,6 +236,13 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: rel_vel_ekf2_valid
+  {
+    size_t item_size = sizeof(ros_message.rel_vel_ekf2_valid);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: x_rel
   {
     size_t item_size = sizeof(ros_message.x_rel);
@@ -243,6 +278,13 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: vz_rel
+  {
+    size_t item_size = sizeof(ros_message.vz_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: cov_x_rel
   {
     size_t item_size = sizeof(ros_message.cov_x_rel);
@@ -257,6 +299,13 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: cov_z_rel
+  {
+    size_t item_size = sizeof(ros_message.cov_z_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: cov_vx_rel
   {
     size_t item_size = sizeof(ros_message.cov_vx_rel);
@@ -267,6 +316,13 @@ get_serialized_size(
   // Member: cov_vy_rel
   {
     size_t item_size = sizeof(ros_message.cov_vy_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: cov_vz_rel
+  {
+    size_t item_size = sizeof(ros_message.cov_vz_rel);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -347,6 +403,12 @@ max_serialized_size_LandingTargetPose(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
+  // Member: rel_vel_ekf2_valid
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
   // Member: x_rel
   {
     size_t array_size = 1;
@@ -382,6 +444,13 @@ max_serialized_size_LandingTargetPose(
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
+  // Member: vz_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
   // Member: cov_x_rel
   {
     size_t array_size = 1;
@@ -396,6 +465,13 @@ max_serialized_size_LandingTargetPose(
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
+  // Member: cov_z_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
   // Member: cov_vx_rel
   {
     size_t array_size = 1;
@@ -404,6 +480,13 @@ max_serialized_size_LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
   // Member: cov_vy_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+  // Member: cov_vz_rel
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);
@@ -472,6 +555,9 @@ cdr_serialize_key(
   // Member: rel_vel_valid
   cdr << (ros_message.rel_vel_valid ? true : false);
 
+  // Member: rel_vel_ekf2_valid
+  cdr << (ros_message.rel_vel_ekf2_valid ? true : false);
+
   // Member: x_rel
   cdr << ros_message.x_rel;
 
@@ -487,17 +573,26 @@ cdr_serialize_key(
   // Member: vy_rel
   cdr << ros_message.vy_rel;
 
+  // Member: vz_rel
+  cdr << ros_message.vz_rel;
+
   // Member: cov_x_rel
   cdr << ros_message.cov_x_rel;
 
   // Member: cov_y_rel
   cdr << ros_message.cov_y_rel;
 
+  // Member: cov_z_rel
+  cdr << ros_message.cov_z_rel;
+
   // Member: cov_vx_rel
   cdr << ros_message.cov_vx_rel;
 
   // Member: cov_vy_rel
   cdr << ros_message.cov_vy_rel;
+
+  // Member: cov_vz_rel
+  cdr << ros_message.cov_vz_rel;
 
   // Member: abs_pos_valid
   cdr << (ros_message.abs_pos_valid ? true : false);
@@ -555,6 +650,13 @@ get_serialized_size_key(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: rel_vel_ekf2_valid
+  {
+    size_t item_size = sizeof(ros_message.rel_vel_ekf2_valid);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: x_rel
   {
     size_t item_size = sizeof(ros_message.x_rel);
@@ -590,6 +692,13 @@ get_serialized_size_key(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: vz_rel
+  {
+    size_t item_size = sizeof(ros_message.vz_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: cov_x_rel
   {
     size_t item_size = sizeof(ros_message.cov_x_rel);
@@ -604,6 +713,13 @@ get_serialized_size_key(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: cov_z_rel
+  {
+    size_t item_size = sizeof(ros_message.cov_z_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: cov_vx_rel
   {
     size_t item_size = sizeof(ros_message.cov_vx_rel);
@@ -614,6 +730,13 @@ get_serialized_size_key(
   // Member: cov_vy_rel
   {
     size_t item_size = sizeof(ros_message.cov_vy_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: cov_vz_rel
+  {
+    size_t item_size = sizeof(ros_message.cov_vz_rel);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -697,6 +820,13 @@ max_serialized_size_key_LandingTargetPose(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Member: rel_vel_ekf2_valid
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Member: x_rel
   {
     size_t array_size = 1;
@@ -737,6 +867,14 @@ max_serialized_size_key_LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Member: vz_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Member: cov_x_rel
   {
     size_t array_size = 1;
@@ -753,6 +891,14 @@ max_serialized_size_key_LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Member: cov_z_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Member: cov_vx_rel
   {
     size_t array_size = 1;
@@ -762,6 +908,14 @@ max_serialized_size_key_LandingTargetPose(
   }
 
   // Member: cov_vy_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: cov_vz_rel
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);

@@ -28,7 +28,7 @@ px4_msgs__msg__EscStatus__init(px4_msgs__msg__EscStatus * msg)
   // esc_online_flags
   // esc_armed_flags
   // esc
-  for (size_t i = 0; i < 8; ++i) {
+  for (size_t i = 0; i < 12; ++i) {
     if (!px4_msgs__msg__EscReport__init(&msg->esc[i])) {
       px4_msgs__msg__EscStatus__fini(msg);
       return false;
@@ -50,7 +50,7 @@ px4_msgs__msg__EscStatus__fini(px4_msgs__msg__EscStatus * msg)
   // esc_online_flags
   // esc_armed_flags
   // esc
-  for (size_t i = 0; i < 8; ++i) {
+  for (size_t i = 0; i < 12; ++i) {
     px4_msgs__msg__EscReport__fini(&msg->esc[i]);
   }
 }
@@ -86,7 +86,7 @@ px4_msgs__msg__EscStatus__are_equal(const px4_msgs__msg__EscStatus * lhs, const 
     return false;
   }
   // esc
-  for (size_t i = 0; i < 8; ++i) {
+  for (size_t i = 0; i < 12; ++i) {
     if (!px4_msgs__msg__EscReport__are_equal(
         &(lhs->esc[i]), &(rhs->esc[i])))
     {
@@ -117,7 +117,7 @@ px4_msgs__msg__EscStatus__copy(
   // esc_armed_flags
   output->esc_armed_flags = input->esc_armed_flags;
   // esc
-  for (size_t i = 0; i < 8; ++i) {
+  for (size_t i = 0; i < 12; ++i) {
     if (!px4_msgs__msg__EscReport__copy(
         &(input->esc[i]), &(output->esc[i])))
     {

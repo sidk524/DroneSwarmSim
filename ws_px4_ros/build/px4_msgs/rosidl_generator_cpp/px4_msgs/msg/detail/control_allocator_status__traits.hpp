@@ -114,6 +114,13 @@ inline void to_flow_style_yaml(
   {
     out << "motor_stop_mask: ";
     rosidl_generator_traits::value_to_yaml(msg.motor_stop_mask, out);
+    out << ", ";
+  }
+
+  // member: actuator_group_preflight_check_active
+  {
+    out << "actuator_group_preflight_check_active: ";
+    rosidl_generator_traits::value_to_yaml(msg.actuator_group_preflight_check_active, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -229,6 +236,16 @@ inline void to_block_style_yaml(
     }
     out << "motor_stop_mask: ";
     rosidl_generator_traits::value_to_yaml(msg.motor_stop_mask, out);
+    out << "\n";
+  }
+
+  // member: actuator_group_preflight_check_active
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "actuator_group_preflight_check_active: ";
+    rosidl_generator_traits::value_to_yaml(msg.actuator_group_preflight_check_active, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

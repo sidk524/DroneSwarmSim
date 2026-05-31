@@ -149,6 +149,33 @@ bool px4_msgs__msg__heater_status__convert_from_py(PyObject * _pymsg, void * _ro
     ros_message->feed_forward_value = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
+  {  // supply_voltage
+    PyObject * field = PyObject_GetAttrString(_pymsg, "supply_voltage");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->supply_voltage = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // heater_current
+    PyObject * field = PyObject_GetAttrString(_pymsg, "heater_current");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->heater_current = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // nominal_multiplier
+    PyObject * field = PyObject_GetAttrString(_pymsg, "nominal_multiplier");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->nominal_multiplier = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
   {  // mode
     PyObject * field = PyObject_GetAttrString(_pymsg, "mode");
     if (!field) {
@@ -156,6 +183,15 @@ bool px4_msgs__msg__heater_status__convert_from_py(PyObject * _pymsg, void * _ro
     }
     assert(PyLong_Check(field));
     ros_message->mode = (uint8_t)PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
+  {  // temperature_source
+    PyObject * field = PyObject_GetAttrString(_pymsg, "temperature_source");
+    if (!field) {
+      return false;
+    }
+    assert(PyLong_Check(field));
+    ros_message->temperature_source = (uint8_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
 
@@ -301,11 +337,55 @@ PyObject * px4_msgs__msg__heater_status__convert_to_py(void * raw_ros_message)
       }
     }
   }
+  {  // supply_voltage
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->supply_voltage);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "supply_voltage", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // heater_current
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->heater_current);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "heater_current", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // nominal_multiplier
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->nominal_multiplier);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "nominal_multiplier", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // mode
     PyObject * field = NULL;
     field = PyLong_FromUnsignedLong(ros_message->mode);
     {
       int rc = PyObject_SetAttrString(_pymessage, "mode", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // temperature_source
+    PyObject * field = NULL;
+    field = PyLong_FromUnsignedLong(ros_message->temperature_source);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "temperature_source", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

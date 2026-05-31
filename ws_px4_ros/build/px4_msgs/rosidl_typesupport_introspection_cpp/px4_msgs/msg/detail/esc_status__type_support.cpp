@@ -41,20 +41,20 @@ void EscStatus_fini_function(void * message_memory)
 size_t size_function__EscStatus__esc(const void * untyped_member)
 {
   (void)untyped_member;
-  return 8;
+  return 12;
 }
 
 const void * get_const_function__EscStatus__esc(const void * untyped_member, size_t index)
 {
   const auto & member =
-    *reinterpret_cast<const std::array<px4_msgs::msg::EscReport, 8> *>(untyped_member);
+    *reinterpret_cast<const std::array<px4_msgs::msg::EscReport, 12> *>(untyped_member);
   return &member[index];
 }
 
 void * get_function__EscStatus__esc(void * untyped_member, size_t index)
 {
   auto & member =
-    *reinterpret_cast<std::array<px4_msgs::msg::EscReport, 8> *>(untyped_member);
+    *reinterpret_cast<std::array<px4_msgs::msg::EscReport, 12> *>(untyped_member);
   return &member[index];
 }
 
@@ -151,7 +151,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EscStatus_mes
   },
   {
     "esc_online_flags",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is key
@@ -169,7 +169,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EscStatus_mes
   },
   {
     "esc_armed_flags",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is key
@@ -192,7 +192,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EscStatus_mes
     ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<px4_msgs::msg::EscReport>(),  // members of sub message
     false,  // is key
     true,  // is array
-    8,  // array size
+    12,  // array size
     false,  // is upper bound
     offsetof(px4_msgs::msg::EscStatus, esc),  // bytes offset in struct
     nullptr,  // default value

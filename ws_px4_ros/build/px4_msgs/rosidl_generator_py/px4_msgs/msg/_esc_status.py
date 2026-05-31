@@ -27,7 +27,7 @@ class Metaclass_EscStatus(type):
     _TYPE_SUPPORT = None
 
     __constants = {
-        'CONNECTED_ESC_MAX': 8,
+        'CONNECTED_ESC_MAX': 12,
         'ESC_CONNECTION_TYPE_PPM': 0,
         'ESC_CONNECTION_TYPE_SERIAL': 1,
         'ESC_CONNECTION_TYPE_ONESHOT': 2,
@@ -141,9 +141,9 @@ class EscStatus(metaclass=Metaclass_EscStatus):
         'counter': 'uint16',
         'esc_count': 'uint8',
         'esc_connectiontype': 'uint8',
-        'esc_online_flags': 'uint8',
-        'esc_armed_flags': 'uint8',
-        'esc': 'px4_msgs/EscReport[8]',
+        'esc_online_flags': 'uint16',
+        'esc_armed_flags': 'uint16',
+        'esc': 'px4_msgs/EscReport[12]',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -153,9 +153,9 @@ class EscStatus(metaclass=Metaclass_EscStatus):
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
-        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
-        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
-        rosidl_parser.definition.Array(rosidl_parser.definition.NamespacedType(['px4_msgs', 'msg'], 'EscReport'), 8),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
+        rosidl_parser.definition.Array(rosidl_parser.definition.NamespacedType(['px4_msgs', 'msg'], 'EscReport'), 12),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -176,7 +176,7 @@ class EscStatus(metaclass=Metaclass_EscStatus):
         from px4_msgs.msg import EscReport
         self.esc = kwargs.get(
             'esc',
-            [EscReport() for x in range(8)]
+            [EscReport() for x in range(12)]
         )
 
     def __repr__(self):
@@ -301,8 +301,8 @@ class EscStatus(metaclass=Metaclass_EscStatus):
             assert \
                 isinstance(value, int), \
                 "The 'esc_online_flags' field must be of type 'int'"
-            assert value >= 0 and value < 256, \
-                "The 'esc_online_flags' field must be an unsigned integer in [0, 255]"
+            assert value >= 0 and value < 65536, \
+                "The 'esc_online_flags' field must be an unsigned integer in [0, 65535]"
         self._esc_online_flags = value
 
     @builtins.property
@@ -316,8 +316,8 @@ class EscStatus(metaclass=Metaclass_EscStatus):
             assert \
                 isinstance(value, int), \
                 "The 'esc_armed_flags' field must be of type 'int'"
-            assert value >= 0 and value < 256, \
-                "The 'esc_armed_flags' field must be an unsigned integer in [0, 255]"
+            assert value >= 0 and value < 65536, \
+                "The 'esc_armed_flags' field must be an unsigned integer in [0, 65535]"
         self._esc_armed_flags = value
 
     @builtins.property
@@ -339,8 +339,8 @@ class EscStatus(metaclass=Metaclass_EscStatus):
                   isinstance(value, UserList)) and
                  not isinstance(value, str) and
                  not isinstance(value, UserString) and
-                 len(value) == 8 and
+                 len(value) == 12 and
                  all(isinstance(v, EscReport) for v in value) and
                  True), \
-                "The 'esc' field must be a set or sequence with length 8 and each value of type 'EscReport'"
+                "The 'esc' field must be a set or sequence with length 12 and each value of type 'EscReport'"
         self._esc = value

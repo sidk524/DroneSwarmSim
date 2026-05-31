@@ -28,18 +28,19 @@ enum
 /// Struct defined in msg/FixedWingLateralSetpoint in the package px4_msgs.
 /**
   * Fixed Wing Lateral Setpoint message
+  *
   * Used by the fw_lateral_longitudinal_control module
   * At least one of course, airspeed_direction, or lateral_acceleration must be finite.
  */
 typedef struct px4_msgs__msg__FixedWingLateralSetpoint
 {
-  /// time since system start (microseconds)
+  /// Time since system start
   uint64_t timestamp;
   /// [@range -pi, pi] Desired direction of travel over ground w.r.t (true) North. NAN if not controlled directly.
   float course;
   /// [@range -pi, pi] Desired horizontal angle of airspeed vector w.r.t. (true) North. Same as vehicle heading if in the absence of sideslip. NAN if not controlled directly, takes precedence over course if finite.
   float airspeed_direction;
-  /// [m/s^2] [FRD] Lateral acceleration setpoint. NAN if not controlled directly, used as feedforward if either course setpoint or airspeed_direction is finite.
+  /// [m/s^2] [@frame FRD] Lateral acceleration setpoint. NAN if not controlled directly, used as feedforward if either course setpoint or airspeed_direction is finite.
   float lateral_acceleration;
 } px4_msgs__msg__FixedWingLateralSetpoint;
 

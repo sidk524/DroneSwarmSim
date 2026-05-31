@@ -68,6 +68,11 @@ bool cdr_serialize_px4_msgs__msg__LandingTargetPose(
     cdr << (ros_message->rel_vel_valid ? true : false);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    cdr << (ros_message->rel_vel_ekf2_valid ? true : false);
+  }
+
   // Field name: x_rel
   {
     cdr << ros_message->x_rel;
@@ -93,6 +98,11 @@ bool cdr_serialize_px4_msgs__msg__LandingTargetPose(
     cdr << ros_message->vy_rel;
   }
 
+  // Field name: vz_rel
+  {
+    cdr << ros_message->vz_rel;
+  }
+
   // Field name: cov_x_rel
   {
     cdr << ros_message->cov_x_rel;
@@ -103,6 +113,11 @@ bool cdr_serialize_px4_msgs__msg__LandingTargetPose(
     cdr << ros_message->cov_y_rel;
   }
 
+  // Field name: cov_z_rel
+  {
+    cdr << ros_message->cov_z_rel;
+  }
+
   // Field name: cov_vx_rel
   {
     cdr << ros_message->cov_vx_rel;
@@ -111,6 +126,11 @@ bool cdr_serialize_px4_msgs__msg__LandingTargetPose(
   // Field name: cov_vy_rel
   {
     cdr << ros_message->cov_vy_rel;
+  }
+
+  // Field name: cov_vz_rel
+  {
+    cdr << ros_message->cov_vz_rel;
   }
 
   // Field name: abs_pos_valid
@@ -167,6 +187,13 @@ bool cdr_deserialize_px4_msgs__msg__LandingTargetPose(
     ros_message->rel_vel_valid = tmp ? true : false;
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->rel_vel_ekf2_valid = tmp ? true : false;
+  }
+
   // Field name: x_rel
   {
     cdr >> ros_message->x_rel;
@@ -192,6 +219,11 @@ bool cdr_deserialize_px4_msgs__msg__LandingTargetPose(
     cdr >> ros_message->vy_rel;
   }
 
+  // Field name: vz_rel
+  {
+    cdr >> ros_message->vz_rel;
+  }
+
   // Field name: cov_x_rel
   {
     cdr >> ros_message->cov_x_rel;
@@ -202,6 +234,11 @@ bool cdr_deserialize_px4_msgs__msg__LandingTargetPose(
     cdr >> ros_message->cov_y_rel;
   }
 
+  // Field name: cov_z_rel
+  {
+    cdr >> ros_message->cov_z_rel;
+  }
+
   // Field name: cov_vx_rel
   {
     cdr >> ros_message->cov_vx_rel;
@@ -210,6 +247,11 @@ bool cdr_deserialize_px4_msgs__msg__LandingTargetPose(
   // Field name: cov_vy_rel
   {
     cdr >> ros_message->cov_vy_rel;
+  }
+
+  // Field name: cov_vz_rel
+  {
+    cdr >> ros_message->cov_vz_rel;
   }
 
   // Field name: abs_pos_valid
@@ -280,6 +322,13 @@ size_t get_serialized_size_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    size_t item_size = sizeof(ros_message->rel_vel_ekf2_valid);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: x_rel
   {
     size_t item_size = sizeof(ros_message->x_rel);
@@ -315,6 +364,13 @@ size_t get_serialized_size_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: vz_rel
+  {
+    size_t item_size = sizeof(ros_message->vz_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: cov_x_rel
   {
     size_t item_size = sizeof(ros_message->cov_x_rel);
@@ -329,6 +385,13 @@ size_t get_serialized_size_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: cov_z_rel
+  {
+    size_t item_size = sizeof(ros_message->cov_z_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: cov_vx_rel
   {
     size_t item_size = sizeof(ros_message->cov_vx_rel);
@@ -339,6 +402,13 @@ size_t get_serialized_size_px4_msgs__msg__LandingTargetPose(
   // Field name: cov_vy_rel
   {
     size_t item_size = sizeof(ros_message->cov_vy_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: cov_vz_rel
+  {
+    size_t item_size = sizeof(ros_message->cov_vz_rel);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -422,6 +492,13 @@ size_t max_serialized_size_px4_msgs__msg__LandingTargetPose(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: x_rel
   {
     size_t array_size = 1;
@@ -462,6 +539,14 @@ size_t max_serialized_size_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: vz_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: cov_x_rel
   {
     size_t array_size = 1;
@@ -478,6 +563,14 @@ size_t max_serialized_size_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: cov_z_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: cov_vx_rel
   {
     size_t array_size = 1;
@@ -487,6 +580,14 @@ size_t max_serialized_size_px4_msgs__msg__LandingTargetPose(
   }
 
   // Field name: cov_vy_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: cov_vz_rel
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);
@@ -566,6 +667,11 @@ bool cdr_serialize_key_px4_msgs__msg__LandingTargetPose(
     cdr << (ros_message->rel_vel_valid ? true : false);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    cdr << (ros_message->rel_vel_ekf2_valid ? true : false);
+  }
+
   // Field name: x_rel
   {
     cdr << ros_message->x_rel;
@@ -591,6 +697,11 @@ bool cdr_serialize_key_px4_msgs__msg__LandingTargetPose(
     cdr << ros_message->vy_rel;
   }
 
+  // Field name: vz_rel
+  {
+    cdr << ros_message->vz_rel;
+  }
+
   // Field name: cov_x_rel
   {
     cdr << ros_message->cov_x_rel;
@@ -601,6 +712,11 @@ bool cdr_serialize_key_px4_msgs__msg__LandingTargetPose(
     cdr << ros_message->cov_y_rel;
   }
 
+  // Field name: cov_z_rel
+  {
+    cdr << ros_message->cov_z_rel;
+  }
+
   // Field name: cov_vx_rel
   {
     cdr << ros_message->cov_vx_rel;
@@ -609,6 +725,11 @@ bool cdr_serialize_key_px4_msgs__msg__LandingTargetPose(
   // Field name: cov_vy_rel
   {
     cdr << ros_message->cov_vy_rel;
+  }
+
+  // Field name: cov_vz_rel
+  {
+    cdr << ros_message->cov_vz_rel;
   }
 
   // Field name: abs_pos_valid
@@ -677,6 +798,13 @@ size_t get_serialized_size_key_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    size_t item_size = sizeof(ros_message->rel_vel_ekf2_valid);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: x_rel
   {
     size_t item_size = sizeof(ros_message->x_rel);
@@ -712,6 +840,13 @@ size_t get_serialized_size_key_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: vz_rel
+  {
+    size_t item_size = sizeof(ros_message->vz_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: cov_x_rel
   {
     size_t item_size = sizeof(ros_message->cov_x_rel);
@@ -726,6 +861,13 @@ size_t get_serialized_size_key_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: cov_z_rel
+  {
+    size_t item_size = sizeof(ros_message->cov_z_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: cov_vx_rel
   {
     size_t item_size = sizeof(ros_message->cov_vx_rel);
@@ -736,6 +878,13 @@ size_t get_serialized_size_key_px4_msgs__msg__LandingTargetPose(
   // Field name: cov_vy_rel
   {
     size_t item_size = sizeof(ros_message->cov_vy_rel);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: cov_vz_rel
+  {
+    size_t item_size = sizeof(ros_message->cov_vz_rel);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -817,6 +966,13 @@ size_t max_serialized_size_key_px4_msgs__msg__LandingTargetPose(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: rel_vel_ekf2_valid
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: x_rel
   {
     size_t array_size = 1;
@@ -857,6 +1013,14 @@ size_t max_serialized_size_key_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: vz_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: cov_x_rel
   {
     size_t array_size = 1;
@@ -873,6 +1037,14 @@ size_t max_serialized_size_key_px4_msgs__msg__LandingTargetPose(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: cov_z_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: cov_vx_rel
   {
     size_t array_size = 1;
@@ -882,6 +1054,14 @@ size_t max_serialized_size_key_px4_msgs__msg__LandingTargetPose(
   }
 
   // Field name: cov_vy_rel
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: cov_vz_rel
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);

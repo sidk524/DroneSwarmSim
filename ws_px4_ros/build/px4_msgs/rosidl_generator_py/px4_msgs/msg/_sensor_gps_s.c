@@ -383,6 +383,33 @@ bool px4_msgs__msg__sensor_gps__convert_from_py(PyObject * _pymsg, void * _ros_m
     ros_message->rtcm_msg_used = (uint8_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
+  {  // antenna_offset_x
+    PyObject * field = PyObject_GetAttrString(_pymsg, "antenna_offset_x");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->antenna_offset_x = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // antenna_offset_y
+    PyObject * field = PyObject_GetAttrString(_pymsg, "antenna_offset_y");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->antenna_offset_y = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // antenna_offset_z
+    PyObject * field = PyObject_GetAttrString(_pymsg, "antenna_offset_z");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->antenna_offset_z = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -806,6 +833,39 @@ PyObject * px4_msgs__msg__sensor_gps__convert_to_py(void * raw_ros_message)
     field = PyLong_FromUnsignedLong(ros_message->rtcm_msg_used);
     {
       int rc = PyObject_SetAttrString(_pymessage, "rtcm_msg_used", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // antenna_offset_x
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->antenna_offset_x);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "antenna_offset_x", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // antenna_offset_y
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->antenna_offset_y);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "antenna_offset_y", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // antenna_offset_z
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->antenna_offset_z);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "antenna_offset_z", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

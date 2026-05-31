@@ -138,7 +138,7 @@ typedef struct px4_msgs__msg__VehicleLocalPosition
   bool dist_bottom_valid;
   /// Distance from from bottom surface to ground, (metres)
   float dist_bottom;
-  /// terrain estimate variance (m^2)
+  /// height above ground estimate variance (m^2)
   float dist_bottom_var;
   /// Amount of vertical shift of dist bottom estimate in latest reset
   float delta_dist_bottom;

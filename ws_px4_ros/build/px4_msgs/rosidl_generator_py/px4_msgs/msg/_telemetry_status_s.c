@@ -284,6 +284,15 @@ bool px4_msgs__msg__telemetry_status__convert_from_py(PyObject * _pymsg, void * 
     ros_message->heartbeat_type_adsb = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // heartbeat_type_flarm
+    PyObject * field = PyObject_GetAttrString(_pymsg, "heartbeat_type_flarm");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->heartbeat_type_flarm = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // heartbeat_type_camera
     PyObject * field = PyObject_GetAttrString(_pymsg, "heartbeat_type_camera");
     if (!field) {
@@ -694,6 +703,17 @@ PyObject * px4_msgs__msg__telemetry_status__convert_to_py(void * raw_ros_message
     field = PyBool_FromLong(ros_message->heartbeat_type_adsb ? 1 : 0);
     {
       int rc = PyObject_SetAttrString(_pymessage, "heartbeat_type_adsb", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // heartbeat_type_flarm
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->heartbeat_type_flarm ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "heartbeat_type_flarm", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

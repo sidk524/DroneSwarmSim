@@ -105,6 +105,8 @@ typedef struct px4_msgs__msg__TelemetryStatus
   bool heartbeat_type_gimbal;
   /// MAV_TYPE_ADSB
   bool heartbeat_type_adsb;
+  /// MAV_TYPE_FLARM
+  bool heartbeat_type_flarm;
   /// MAV_TYPE_CAMERA
   bool heartbeat_type_camera;
   /// MAV_TYPE_PARACHUTE

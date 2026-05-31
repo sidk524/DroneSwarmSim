@@ -66,6 +66,9 @@ cdr_serialize(
   // Member: motor_stop_mask
   cdr << ros_message.motor_stop_mask;
 
+  // Member: actuator_group_preflight_check_active
+  cdr << (ros_message.actuator_group_preflight_check_active ? true : false);
+
   return true;
 }
 
@@ -112,6 +115,13 @@ cdr_deserialize(
 
   // Member: motor_stop_mask
   cdr >> ros_message.motor_stop_mask;
+
+  // Member: actuator_group_preflight_check_active
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.actuator_group_preflight_check_active = tmp ? true : false;
+  }
 
   return true;
 }  // NOLINT(readability/fn_size)
@@ -185,6 +195,13 @@ get_serialized_size(
   // Member: motor_stop_mask
   {
     size_t item_size = sizeof(ros_message.motor_stop_mask);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: actuator_group_preflight_check_active
+  {
+    size_t item_size = sizeof(ros_message.actuator_group_preflight_check_active);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -265,6 +282,12 @@ max_serialized_size_ControlAllocatorStatus(
     current_alignment += array_size * sizeof(uint16_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
+  // Member: actuator_group_preflight_check_active
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -274,7 +297,7 @@ max_serialized_size_ControlAllocatorStatus(
     using DataType = px4_msgs::msg::ControlAllocatorStatus;
     is_plain =
       (
-      offsetof(DataType, motor_stop_mask) +
+      offsetof(DataType, actuator_group_preflight_check_active) +
       last_member_size
       ) == ret_val;
   }
@@ -317,6 +340,9 @@ cdr_serialize_key(
 
   // Member: motor_stop_mask
   cdr << ros_message.motor_stop_mask;
+
+  // Member: actuator_group_preflight_check_active
+  cdr << (ros_message.actuator_group_preflight_check_active ? true : false);
 
   return true;
 }
@@ -389,6 +415,13 @@ get_serialized_size_key(
   // Member: motor_stop_mask
   {
     size_t item_size = sizeof(ros_message.motor_stop_mask);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: actuator_group_preflight_check_active
+  {
+    size_t item_size = sizeof(ros_message.actuator_group_preflight_check_active);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -476,6 +509,13 @@ max_serialized_size_key_ControlAllocatorStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
+  // Member: actuator_group_preflight_check_active
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -484,7 +524,7 @@ max_serialized_size_key_ControlAllocatorStatus(
     using DataType = px4_msgs::msg::ControlAllocatorStatus;
     is_plain =
       (
-      offsetof(DataType, motor_stop_mask) +
+      offsetof(DataType, actuator_group_preflight_check_active) +
       last_member_size
       ) == ret_val;
   }

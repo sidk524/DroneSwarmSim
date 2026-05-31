@@ -113,6 +113,13 @@ inline void to_flow_style_yaml(
   {
     out << "not_user_selectable: ";
     rosidl_generator_traits::value_to_yaml(msg.not_user_selectable, out);
+    out << ", ";
+  }
+
+  // member: request_offboard_setpoints
+  {
+    out << "request_offboard_setpoints: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_offboard_setpoints, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -238,6 +245,16 @@ inline void to_block_style_yaml(
     }
     out << "not_user_selectable: ";
     rosidl_generator_traits::value_to_yaml(msg.not_user_selectable, out);
+    out << "\n";
+  }
+
+  // member: request_offboard_setpoints
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "request_offboard_setpoints: ";
+    rosidl_generator_traits::value_to_yaml(msg.request_offboard_setpoints, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

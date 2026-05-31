@@ -31,6 +31,8 @@ class Metaclass_HeaterStatus(type):
     __constants = {
         'MODE_GPIO': 1,
         'MODE_PX4IO': 2,
+        'TEMPERATURE_SOURCE_IMU': 0,
+        'TEMPERATURE_SOURCE_HYGRO': 1,
     }
 
     @classmethod
@@ -61,6 +63,8 @@ class Metaclass_HeaterStatus(type):
         return {
             'MODE_GPIO': cls.__constants['MODE_GPIO'],
             'MODE_PX4IO': cls.__constants['MODE_PX4IO'],
+            'TEMPERATURE_SOURCE_IMU': cls.__constants['TEMPERATURE_SOURCE_IMU'],
+            'TEMPERATURE_SOURCE_HYGRO': cls.__constants['TEMPERATURE_SOURCE_HYGRO'],
         }
 
     @property
@@ -73,6 +77,16 @@ class Metaclass_HeaterStatus(type):
         """Message constant 'MODE_PX4IO'."""
         return Metaclass_HeaterStatus.__constants['MODE_PX4IO']
 
+    @property
+    def TEMPERATURE_SOURCE_IMU(self):
+        """Message constant 'TEMPERATURE_SOURCE_IMU'."""
+        return Metaclass_HeaterStatus.__constants['TEMPERATURE_SOURCE_IMU']
+
+    @property
+    def TEMPERATURE_SOURCE_HYGRO(self):
+        """Message constant 'TEMPERATURE_SOURCE_HYGRO'."""
+        return Metaclass_HeaterStatus.__constants['TEMPERATURE_SOURCE_HYGRO']
+
 
 class HeaterStatus(metaclass=Metaclass_HeaterStatus):
     """
@@ -81,6 +95,8 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
     Constants:
       MODE_GPIO
       MODE_PX4IO
+      TEMPERATURE_SOURCE_IMU
+      TEMPERATURE_SOURCE_HYGRO
     """
 
     __slots__ = [
@@ -95,7 +111,11 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
         '_proportional_value',
         '_integrator_value',
         '_feed_forward_value',
+        '_supply_voltage',
+        '_heater_current',
+        '_nominal_multiplier',
         '_mode',
+        '_temperature_source',
         '_check_fields',
     ]
 
@@ -111,7 +131,11 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
         'proportional_value': 'float',
         'integrator_value': 'float',
         'feed_forward_value': 'float',
+        'supply_voltage': 'float',
+        'heater_current': 'float',
+        'nominal_multiplier': 'float',
         'mode': 'uint8',
+        'temperature_source': 'uint8',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -128,6 +152,10 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
     )
 
@@ -151,7 +179,11 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
         self.proportional_value = kwargs.get('proportional_value', float())
         self.integrator_value = kwargs.get('integrator_value', float())
         self.feed_forward_value = kwargs.get('feed_forward_value', float())
+        self.supply_voltage = kwargs.get('supply_voltage', float())
+        self.heater_current = kwargs.get('heater_current', float())
+        self.nominal_multiplier = kwargs.get('nominal_multiplier', float())
         self.mode = kwargs.get('mode', int())
+        self.temperature_source = kwargs.get('temperature_source', int())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -205,7 +237,15 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
             return False
         if self.feed_forward_value != other.feed_forward_value:
             return False
+        if self.supply_voltage != other.supply_voltage:
+            return False
+        if self.heater_current != other.heater_current:
+            return False
+        if self.nominal_multiplier != other.nominal_multiplier:
+            return False
         if self.mode != other.mode:
+            return False
+        if self.temperature_source != other.temperature_source:
             return False
         return True
 
@@ -376,6 +416,51 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
         self._feed_forward_value = value
 
     @builtins.property
+    def supply_voltage(self):
+        """Message field 'supply_voltage'."""
+        return self._supply_voltage
+
+    @supply_voltage.setter
+    def supply_voltage(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'supply_voltage' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'supply_voltage' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._supply_voltage = value
+
+    @builtins.property
+    def heater_current(self):
+        """Message field 'heater_current'."""
+        return self._heater_current
+
+    @heater_current.setter
+    def heater_current(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'heater_current' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'heater_current' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._heater_current = value
+
+    @builtins.property
+    def nominal_multiplier(self):
+        """Message field 'nominal_multiplier'."""
+        return self._nominal_multiplier
+
+    @nominal_multiplier.setter
+    def nominal_multiplier(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'nominal_multiplier' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'nominal_multiplier' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._nominal_multiplier = value
+
+    @builtins.property
     def mode(self):
         """Message field 'mode'."""
         return self._mode
@@ -389,3 +474,18 @@ class HeaterStatus(metaclass=Metaclass_HeaterStatus):
             assert value >= 0 and value < 256, \
                 "The 'mode' field must be an unsigned integer in [0, 255]"
         self._mode = value
+
+    @builtins.property
+    def temperature_source(self):
+        """Message field 'temperature_source'."""
+        return self._temperature_source
+
+    @temperature_source.setter
+    def temperature_source(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, int), \
+                "The 'temperature_source' field must be of type 'int'"
+            assert value >= 0 and value < 256, \
+                "The 'temperature_source' field must be an unsigned integer in [0, 255]"
+        self._temperature_source = value

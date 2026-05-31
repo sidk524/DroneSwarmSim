@@ -38,7 +38,7 @@ void LaunchDetectionStatus_fini_function(void * message_memory)
   typed_message->~LaunchDetectionStatus();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember LaunchDetectionStatus_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember LaunchDetectionStatus_message_member_array[3] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
@@ -74,13 +74,31 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember LaunchDetecti
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "selected_control_surface_disarmed",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::LaunchDetectionStatus, selected_control_surface_disarmed),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers LaunchDetectionStatus_message_members = {
   "px4_msgs::msg",  // message namespace
   "LaunchDetectionStatus",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(px4_msgs::msg::LaunchDetectionStatus),
   false,  // has_any_key_member_
   LaunchDetectionStatus_message_member_array,  // message members

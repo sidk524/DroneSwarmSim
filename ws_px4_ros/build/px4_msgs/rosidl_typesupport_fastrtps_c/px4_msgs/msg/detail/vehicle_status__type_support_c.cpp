@@ -98,6 +98,16 @@ bool cdr_serialize_px4_msgs__msg__VehicleStatus(
     cdr << ros_message->executor_in_charge;
   }
 
+  // Field name: nav_state_display
+  {
+    cdr << ros_message->nav_state_display;
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    cdr << (ros_message->accepts_offboard_setpoints ? true : false);
+  }
+
   // Field name: valid_nav_states_mask
   {
     cdr << ros_message->valid_nav_states_mask;
@@ -106,11 +116,6 @@ bool cdr_serialize_px4_msgs__msg__VehicleStatus(
   // Field name: can_set_nav_states_mask
   {
     cdr << ros_message->can_set_nav_states_mask;
-  }
-
-  // Field name: failure_detector_status
-  {
-    cdr << ros_message->failure_detector_status;
   }
 
   // Field name: hil_state
@@ -228,6 +233,11 @@ bool cdr_serialize_px4_msgs__msg__VehicleStatus(
     cdr << (ros_message->parachute_system_healthy ? true : false);
   }
 
+  // Field name: traffic_avoidance_system_present
+  {
+    cdr << (ros_message->traffic_avoidance_system_present ? true : false);
+  }
+
   // Field name: rc_calibration_in_progress
   {
     cdr << (ros_message->rc_calibration_in_progress ? true : false);
@@ -301,6 +311,18 @@ bool cdr_deserialize_px4_msgs__msg__VehicleStatus(
     cdr >> ros_message->executor_in_charge;
   }
 
+  // Field name: nav_state_display
+  {
+    cdr >> ros_message->nav_state_display;
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->accepts_offboard_setpoints = tmp ? true : false;
+  }
+
   // Field name: valid_nav_states_mask
   {
     cdr >> ros_message->valid_nav_states_mask;
@@ -309,11 +331,6 @@ bool cdr_deserialize_px4_msgs__msg__VehicleStatus(
   // Field name: can_set_nav_states_mask
   {
     cdr >> ros_message->can_set_nav_states_mask;
-  }
-
-  // Field name: failure_detector_status
-  {
-    cdr >> ros_message->failure_detector_status;
   }
 
   // Field name: hil_state
@@ -463,6 +480,13 @@ bool cdr_deserialize_px4_msgs__msg__VehicleStatus(
     ros_message->parachute_system_healthy = tmp ? true : false;
   }
 
+  // Field name: traffic_avoidance_system_present
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->traffic_avoidance_system_present = tmp ? true : false;
+  }
+
   // Field name: rc_calibration_in_progress
   {
     uint8_t tmp;
@@ -572,6 +596,20 @@ size_t get_serialized_size_px4_msgs__msg__VehicleStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: nav_state_display
+  {
+    size_t item_size = sizeof(ros_message->nav_state_display);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    size_t item_size = sizeof(ros_message->accepts_offboard_setpoints);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: valid_nav_states_mask
   {
     size_t item_size = sizeof(ros_message->valid_nav_states_mask);
@@ -582,13 +620,6 @@ size_t get_serialized_size_px4_msgs__msg__VehicleStatus(
   // Field name: can_set_nav_states_mask
   {
     size_t item_size = sizeof(ros_message->can_set_nav_states_mask);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: failure_detector_status
-  {
-    size_t item_size = sizeof(ros_message->failure_detector_status);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -750,6 +781,13 @@ size_t get_serialized_size_px4_msgs__msg__VehicleStatus(
   // Field name: parachute_system_healthy
   {
     size_t item_size = sizeof(ros_message->parachute_system_healthy);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: traffic_avoidance_system_present
+  {
+    size_t item_size = sizeof(ros_message->traffic_avoidance_system_present);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -871,6 +909,20 @@ size_t max_serialized_size_px4_msgs__msg__VehicleStatus(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: nav_state_display
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: valid_nav_states_mask
   {
     size_t array_size = 1;
@@ -885,14 +937,6 @@ size_t max_serialized_size_px4_msgs__msg__VehicleStatus(
     last_member_size = array_size * sizeof(uint32_t);
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-
-  // Field name: failure_detector_status
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint16_t);
-    current_alignment += array_size * sizeof(uint16_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: hil_state
@@ -1056,6 +1100,13 @@ size_t max_serialized_size_px4_msgs__msg__VehicleStatus(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: traffic_avoidance_system_present
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: rc_calibration_in_progress
   {
     size_t array_size = 1;
@@ -1148,6 +1199,16 @@ bool cdr_serialize_key_px4_msgs__msg__VehicleStatus(
     cdr << ros_message->executor_in_charge;
   }
 
+  // Field name: nav_state_display
+  {
+    cdr << ros_message->nav_state_display;
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    cdr << (ros_message->accepts_offboard_setpoints ? true : false);
+  }
+
   // Field name: valid_nav_states_mask
   {
     cdr << ros_message->valid_nav_states_mask;
@@ -1156,11 +1217,6 @@ bool cdr_serialize_key_px4_msgs__msg__VehicleStatus(
   // Field name: can_set_nav_states_mask
   {
     cdr << ros_message->can_set_nav_states_mask;
-  }
-
-  // Field name: failure_detector_status
-  {
-    cdr << ros_message->failure_detector_status;
   }
 
   // Field name: hil_state
@@ -1278,6 +1334,11 @@ bool cdr_serialize_key_px4_msgs__msg__VehicleStatus(
     cdr << (ros_message->parachute_system_healthy ? true : false);
   }
 
+  // Field name: traffic_avoidance_system_present
+  {
+    cdr << (ros_message->traffic_avoidance_system_present ? true : false);
+  }
+
   // Field name: rc_calibration_in_progress
   {
     cdr << (ros_message->rc_calibration_in_progress ? true : false);
@@ -1381,6 +1442,20 @@ size_t get_serialized_size_key_px4_msgs__msg__VehicleStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: nav_state_display
+  {
+    size_t item_size = sizeof(ros_message->nav_state_display);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    size_t item_size = sizeof(ros_message->accepts_offboard_setpoints);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: valid_nav_states_mask
   {
     size_t item_size = sizeof(ros_message->valid_nav_states_mask);
@@ -1391,13 +1466,6 @@ size_t get_serialized_size_key_px4_msgs__msg__VehicleStatus(
   // Field name: can_set_nav_states_mask
   {
     size_t item_size = sizeof(ros_message->can_set_nav_states_mask);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: failure_detector_status
-  {
-    size_t item_size = sizeof(ros_message->failure_detector_status);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1563,6 +1631,13 @@ size_t get_serialized_size_key_px4_msgs__msg__VehicleStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: traffic_avoidance_system_present
+  {
+    size_t item_size = sizeof(ros_message->traffic_avoidance_system_present);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: rc_calibration_in_progress
   {
     size_t item_size = sizeof(ros_message->rc_calibration_in_progress);
@@ -1678,6 +1753,20 @@ size_t max_serialized_size_key_px4_msgs__msg__VehicleStatus(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: nav_state_display
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: accepts_offboard_setpoints
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: valid_nav_states_mask
   {
     size_t array_size = 1;
@@ -1692,14 +1781,6 @@ size_t max_serialized_size_key_px4_msgs__msg__VehicleStatus(
     last_member_size = array_size * sizeof(uint32_t);
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-
-  // Field name: failure_detector_status
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint16_t);
-    current_alignment += array_size * sizeof(uint16_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: hil_state
@@ -1857,6 +1938,13 @@ size_t max_serialized_size_key_px4_msgs__msg__VehicleStatus(
   }
 
   // Field name: parachute_system_healthy
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: traffic_avoidance_system_present
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);

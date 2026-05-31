@@ -31,7 +31,7 @@ void px4_msgs__msg__FixedWingRunwayControl__rosidl_typesupport_introspection_c__
   px4_msgs__msg__FixedWingRunwayControl__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__FixedWingRunwayControl__rosidl_typesupport_introspection_c__FixedWingRunwayControl_message_member_array[3] = {
+static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__FixedWingRunwayControl__rosidl_typesupport_introspection_c__FixedWingRunwayControl_message_member_array[4] = {
   {
     "timestamp",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_UINT64,  // type
@@ -42,6 +42,24 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__FixedWin
     0,  // array size
     false,  // is upper bound
     offsetof(px4_msgs__msg__FixedWingRunwayControl, timestamp),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "runway_takeoff_state",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__FixedWingRunwayControl, runway_takeoff_state),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -91,7 +109,7 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__FixedWin
 static const rosidl_typesupport_introspection_c__MessageMembers px4_msgs__msg__FixedWingRunwayControl__rosidl_typesupport_introspection_c__FixedWingRunwayControl_message_members = {
   "px4_msgs__msg",  // message namespace
   "FixedWingRunwayControl",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(px4_msgs__msg__FixedWingRunwayControl),
   false,  // has_any_key_member_
   px4_msgs__msg__FixedWingRunwayControl__rosidl_typesupport_introspection_c__FixedWingRunwayControl_message_member_array,  // message members

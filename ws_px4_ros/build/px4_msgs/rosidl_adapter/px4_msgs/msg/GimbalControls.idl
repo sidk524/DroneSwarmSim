@@ -20,6 +20,8 @@ module px4_msgs {
         "the timestamp the data this control response is based on was sampled")
       uint64 timestamp_sample;
 
+      @verbatim (language="comment", text=
+        "Normalized output. 1 means maximum positive position. -1 maximum negative position. 0 means no deflection. NaN maps to disarmed.")
       float__3 control;
     };
   };

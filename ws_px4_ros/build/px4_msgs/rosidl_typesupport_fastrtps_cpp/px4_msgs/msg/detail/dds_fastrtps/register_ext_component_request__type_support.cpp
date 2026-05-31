@@ -71,6 +71,9 @@ cdr_serialize(
   // Member: not_user_selectable
   cdr << (ros_message.not_user_selectable ? true : false);
 
+  // Member: request_offboard_setpoints
+  cdr << (ros_message.request_offboard_setpoints ? true : false);
+
   return true;
 }
 
@@ -137,6 +140,13 @@ cdr_deserialize(
     uint8_t tmp;
     cdr >> tmp;
     ros_message.not_user_selectable = tmp ? true : false;
+  }
+
+  // Member: request_offboard_setpoints
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.request_offboard_setpoints = tmp ? true : false;
   }
 
   return true;
@@ -234,6 +244,13 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: request_offboard_setpoints
+  {
+    size_t item_size = sizeof(ros_message.request_offboard_setpoints);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   return current_alignment - initial_alignment;
 }
 
@@ -326,6 +343,12 @@ max_serialized_size_RegisterExtComponentRequest(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
+  // Member: request_offboard_setpoints
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -335,7 +358,7 @@ max_serialized_size_RegisterExtComponentRequest(
     using DataType = px4_msgs::msg::RegisterExtComponentRequest;
     is_plain =
       (
-      offsetof(DataType, not_user_selectable) +
+      offsetof(DataType, request_offboard_setpoints) +
       last_member_size
       ) == ret_val;
   }
@@ -383,6 +406,9 @@ cdr_serialize_key(
 
   // Member: not_user_selectable
   cdr << (ros_message.not_user_selectable ? true : false);
+
+  // Member: request_offboard_setpoints
+  cdr << (ros_message.request_offboard_setpoints ? true : false);
 
   return true;
 }
@@ -474,6 +500,13 @@ get_serialized_size_key(
   // Member: not_user_selectable
   {
     size_t item_size = sizeof(ros_message.not_user_selectable);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: request_offboard_setpoints
+  {
+    size_t item_size = sizeof(ros_message.request_offboard_setpoints);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -580,6 +613,13 @@ max_serialized_size_key_RegisterExtComponentRequest(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Member: request_offboard_setpoints
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -588,7 +628,7 @@ max_serialized_size_key_RegisterExtComponentRequest(
     using DataType = px4_msgs::msg::RegisterExtComponentRequest;
     is_plain =
       (
-      offsetof(DataType, not_user_selectable) +
+      offsetof(DataType, request_offboard_setpoints) +
       last_member_size
       ) == ret_val;
   }

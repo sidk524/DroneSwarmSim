@@ -29,6 +29,10 @@ class Metaclass_FixedWingRunwayControl(type):
     _TYPE_SUPPORT = None
 
     __constants = {
+        'STATE_THROTTLE_RAMP': 0,
+        'STATE_CLAMPED_TO_RUNWAY': 1,
+        'STATE_CLIMBOUT': 2,
+        'STATE_FLYING': 3,
     }
 
     @classmethod
@@ -57,14 +61,47 @@ class Metaclass_FixedWingRunwayControl(type):
         # the message class under "Data and other attributes defined here:"
         # as well as populate each message instance
         return {
+            'STATE_THROTTLE_RAMP': cls.__constants['STATE_THROTTLE_RAMP'],
+            'STATE_CLAMPED_TO_RUNWAY': cls.__constants['STATE_CLAMPED_TO_RUNWAY'],
+            'STATE_CLIMBOUT': cls.__constants['STATE_CLIMBOUT'],
+            'STATE_FLYING': cls.__constants['STATE_FLYING'],
         }
+
+    @property
+    def STATE_THROTTLE_RAMP(self):
+        """Message constant 'STATE_THROTTLE_RAMP'."""
+        return Metaclass_FixedWingRunwayControl.__constants['STATE_THROTTLE_RAMP']
+
+    @property
+    def STATE_CLAMPED_TO_RUNWAY(self):
+        """Message constant 'STATE_CLAMPED_TO_RUNWAY'."""
+        return Metaclass_FixedWingRunwayControl.__constants['STATE_CLAMPED_TO_RUNWAY']
+
+    @property
+    def STATE_CLIMBOUT(self):
+        """Message constant 'STATE_CLIMBOUT'."""
+        return Metaclass_FixedWingRunwayControl.__constants['STATE_CLIMBOUT']
+
+    @property
+    def STATE_FLYING(self):
+        """Message constant 'STATE_FLYING'."""
+        return Metaclass_FixedWingRunwayControl.__constants['STATE_FLYING']
 
 
 class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
-    """Message class 'FixedWingRunwayControl'."""
+    """
+    Message class 'FixedWingRunwayControl'.
+
+    Constants:
+      STATE_THROTTLE_RAMP
+      STATE_CLAMPED_TO_RUNWAY
+      STATE_CLIMBOUT
+      STATE_FLYING
+    """
 
     __slots__ = [
         '_timestamp',
+        '_runway_takeoff_state',
         '_wheel_steering_enabled',
         '_wheel_steering_nudging_rate',
         '_check_fields',
@@ -72,6 +109,7 @@ class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
 
     _fields_and_field_types = {
         'timestamp': 'uint64',
+        'runway_takeoff_state': 'uint8',
         'wheel_steering_enabled': 'boolean',
         'wheel_steering_nudging_rate': 'float',
     }
@@ -80,6 +118,7 @@ class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
     # related to the data type of each of the components the message.
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
     )
@@ -94,6 +133,7 @@ class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
                 'Invalid arguments passed to constructor: %s' % \
                 ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
+        self.runway_takeoff_state = kwargs.get('runway_takeoff_state', int())
         self.wheel_steering_enabled = kwargs.get('wheel_steering_enabled', bool())
         self.wheel_steering_nudging_rate = kwargs.get('wheel_steering_nudging_rate', float())
 
@@ -129,6 +169,8 @@ class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
             return False
         if self.timestamp != other.timestamp:
             return False
+        if self.runway_takeoff_state != other.runway_takeoff_state:
+            return False
         if self.wheel_steering_enabled != other.wheel_steering_enabled:
             return False
         if self.wheel_steering_nudging_rate != other.wheel_steering_nudging_rate:
@@ -154,6 +196,21 @@ class FixedWingRunwayControl(metaclass=Metaclass_FixedWingRunwayControl):
             assert value >= 0 and value < 18446744073709551616, \
                 "The 'timestamp' field must be an unsigned integer in [0, 18446744073709551615]"
         self._timestamp = value
+
+    @builtins.property
+    def runway_takeoff_state(self):
+        """Message field 'runway_takeoff_state'."""
+        return self._runway_takeoff_state
+
+    @runway_takeoff_state.setter
+    def runway_takeoff_state(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, int), \
+                "The 'runway_takeoff_state' field must be of type 'int'"
+            assert value >= 0 and value < 256, \
+                "The 'runway_takeoff_state' field must be an unsigned integer in [0, 255]"
+        self._runway_takeoff_state = value
 
     @builtins.property
     def wheel_steering_enabled(self):

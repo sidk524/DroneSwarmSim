@@ -77,7 +77,7 @@ typedef struct px4_msgs__msg__RtlStatus
   bool has_vtol_approach;
   /// Type of RTL chosen
   uint8_t rtl_type;
-  /// index of the chosen safe point, if in RTL_STATUS_TYPE_DIRECT_SAFE_POINT mode
+  /// index of the chosen safe point, UINT8_MAX if no rally point was chosen
   uint8_t safe_point_index;
 } px4_msgs__msg__RtlStatus;
 

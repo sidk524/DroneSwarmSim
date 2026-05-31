@@ -170,6 +170,15 @@ bool px4_msgs__msg__control_allocator_status__convert_from_py(PyObject * _pymsg,
     ros_message->motor_stop_mask = (uint16_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
+  {  // actuator_group_preflight_check_active
+    PyObject * field = PyObject_GetAttrString(_pymsg, "actuator_group_preflight_check_active");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->actuator_group_preflight_check_active = (Py_True == field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -295,6 +304,17 @@ PyObject * px4_msgs__msg__control_allocator_status__convert_to_py(void * raw_ros
     field = PyLong_FromUnsignedLong(ros_message->motor_stop_mask);
     {
       int rc = PyObject_SetAttrString(_pymessage, "motor_stop_mask", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // actuator_group_preflight_check_active
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->actuator_group_preflight_check_active ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "actuator_group_preflight_check_active", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

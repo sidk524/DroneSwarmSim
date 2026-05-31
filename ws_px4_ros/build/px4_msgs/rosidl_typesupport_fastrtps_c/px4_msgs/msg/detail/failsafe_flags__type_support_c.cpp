@@ -203,6 +203,31 @@ bool cdr_serialize_px4_msgs__msg__FailsafeFlags(
     cdr << (ros_message->battery_unhealthy ? true : false);
   }
 
+  // Field name: fd_critical_failure
+  {
+    cdr << (ros_message->fd_critical_failure ? true : false);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    cdr << (ros_message->fd_esc_arming_failure ? true : false);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    cdr << (ros_message->fd_imbalanced_prop ? true : false);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    cdr << (ros_message->fd_motor_failure ? true : false);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    cdr << (ros_message->fd_alt_loss ? true : false);
+  }
+
   // Field name: geofence_breached
   {
     cdr << (ros_message->geofence_breached ? true : false);
@@ -238,24 +263,19 @@ bool cdr_serialize_px4_msgs__msg__FailsafeFlags(
     cdr << (ros_message->navigator_failure ? true : false);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
-    cdr << (ros_message->fd_critical_failure ? true : false);
+    cdr << (ros_message->parachute_unhealthy ? true : false);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
-    cdr << (ros_message->fd_esc_arming_failure ? true : false);
+    cdr << (ros_message->remote_id_unhealthy ? true : false);
   }
 
-  // Field name: fd_imbalanced_prop
+  // Field name: gnss_lost
   {
-    cdr << (ros_message->fd_imbalanced_prop ? true : false);
-  }
-
-  // Field name: fd_motor_failure
-  {
-    cdr << (ros_message->fd_motor_failure ? true : false);
+    cdr << (ros_message->gnss_lost ? true : false);
   }
 
   return true;
@@ -451,6 +471,41 @@ bool cdr_deserialize_px4_msgs__msg__FailsafeFlags(
     ros_message->battery_unhealthy = tmp ? true : false;
   }
 
+  // Field name: fd_critical_failure
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->fd_critical_failure = tmp ? true : false;
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->fd_esc_arming_failure = tmp ? true : false;
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->fd_imbalanced_prop = tmp ? true : false;
+  }
+
+  // Field name: fd_motor_failure
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->fd_motor_failure = tmp ? true : false;
+  }
+
+  // Field name: fd_alt_loss
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->fd_alt_loss = tmp ? true : false;
+  }
+
   // Field name: geofence_breached
   {
     uint8_t tmp;
@@ -500,32 +555,25 @@ bool cdr_deserialize_px4_msgs__msg__FailsafeFlags(
     ros_message->navigator_failure = tmp ? true : false;
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
     uint8_t tmp;
     cdr >> tmp;
-    ros_message->fd_critical_failure = tmp ? true : false;
+    ros_message->parachute_unhealthy = tmp ? true : false;
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
     uint8_t tmp;
     cdr >> tmp;
-    ros_message->fd_esc_arming_failure = tmp ? true : false;
+    ros_message->remote_id_unhealthy = tmp ? true : false;
   }
 
-  // Field name: fd_imbalanced_prop
+  // Field name: gnss_lost
   {
     uint8_t tmp;
     cdr >> tmp;
-    ros_message->fd_imbalanced_prop = tmp ? true : false;
-  }
-
-  // Field name: fd_motor_failure
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->fd_motor_failure = tmp ? true : false;
+    ros_message->gnss_lost = tmp ? true : false;
   }
 
   return true;
@@ -763,6 +811,41 @@ size_t get_serialized_size_px4_msgs__msg__FailsafeFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: fd_critical_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_critical_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_esc_arming_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    size_t item_size = sizeof(ros_message->fd_imbalanced_prop);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_motor_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    size_t item_size = sizeof(ros_message->fd_alt_loss);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: geofence_breached
   {
     size_t item_size = sizeof(ros_message->geofence_breached);
@@ -812,30 +895,23 @@ size_t get_serialized_size_px4_msgs__msg__FailsafeFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
-    size_t item_size = sizeof(ros_message->fd_critical_failure);
+    size_t item_size = sizeof(ros_message->parachute_unhealthy);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
-    size_t item_size = sizeof(ros_message->fd_esc_arming_failure);
+    size_t item_size = sizeof(ros_message->remote_id_unhealthy);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_imbalanced_prop
+  // Field name: gnss_lost
   {
-    size_t item_size = sizeof(ros_message->fd_imbalanced_prop);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: fd_motor_failure
-  {
-    size_t item_size = sizeof(ros_message->fd_motor_failure);
+    size_t item_size = sizeof(ros_message->gnss_lost);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1094,6 +1170,41 @@ size_t max_serialized_size_px4_msgs__msg__FailsafeFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: fd_critical_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: geofence_breached
   {
     size_t array_size = 1;
@@ -1143,28 +1254,21 @@ size_t max_serialized_size_px4_msgs__msg__FailsafeFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_imbalanced_prop
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: fd_motor_failure
+  // Field name: gnss_lost
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -1180,7 +1284,7 @@ size_t max_serialized_size_px4_msgs__msg__FailsafeFlags(
     using DataType = px4_msgs__msg__FailsafeFlags;
     is_plain =
       (
-      offsetof(DataType, fd_motor_failure) +
+      offsetof(DataType, gnss_lost) +
       last_member_size
       ) == ret_val;
   }
@@ -1347,6 +1451,31 @@ bool cdr_serialize_key_px4_msgs__msg__FailsafeFlags(
     cdr << (ros_message->battery_unhealthy ? true : false);
   }
 
+  // Field name: fd_critical_failure
+  {
+    cdr << (ros_message->fd_critical_failure ? true : false);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    cdr << (ros_message->fd_esc_arming_failure ? true : false);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    cdr << (ros_message->fd_imbalanced_prop ? true : false);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    cdr << (ros_message->fd_motor_failure ? true : false);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    cdr << (ros_message->fd_alt_loss ? true : false);
+  }
+
   // Field name: geofence_breached
   {
     cdr << (ros_message->geofence_breached ? true : false);
@@ -1382,24 +1511,19 @@ bool cdr_serialize_key_px4_msgs__msg__FailsafeFlags(
     cdr << (ros_message->navigator_failure ? true : false);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
-    cdr << (ros_message->fd_critical_failure ? true : false);
+    cdr << (ros_message->parachute_unhealthy ? true : false);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
-    cdr << (ros_message->fd_esc_arming_failure ? true : false);
+    cdr << (ros_message->remote_id_unhealthy ? true : false);
   }
 
-  // Field name: fd_imbalanced_prop
+  // Field name: gnss_lost
   {
-    cdr << (ros_message->fd_imbalanced_prop ? true : false);
-  }
-
-  // Field name: fd_motor_failure
-  {
-    cdr << (ros_message->fd_motor_failure ? true : false);
+    cdr << (ros_message->gnss_lost ? true : false);
   }
 
   return true;
@@ -1637,6 +1761,41 @@ size_t get_serialized_size_key_px4_msgs__msg__FailsafeFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: fd_critical_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_critical_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_esc_arming_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    size_t item_size = sizeof(ros_message->fd_imbalanced_prop);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    size_t item_size = sizeof(ros_message->fd_motor_failure);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    size_t item_size = sizeof(ros_message->fd_alt_loss);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: geofence_breached
   {
     size_t item_size = sizeof(ros_message->geofence_breached);
@@ -1686,30 +1845,23 @@ size_t get_serialized_size_key_px4_msgs__msg__FailsafeFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
-    size_t item_size = sizeof(ros_message->fd_critical_failure);
+    size_t item_size = sizeof(ros_message->parachute_unhealthy);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
-    size_t item_size = sizeof(ros_message->fd_esc_arming_failure);
+    size_t item_size = sizeof(ros_message->remote_id_unhealthy);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: fd_imbalanced_prop
+  // Field name: gnss_lost
   {
-    size_t item_size = sizeof(ros_message->fd_imbalanced_prop);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: fd_motor_failure
-  {
-    size_t item_size = sizeof(ros_message->fd_motor_failure);
+    size_t item_size = sizeof(ros_message->gnss_lost);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1966,6 +2118,41 @@ size_t max_serialized_size_key_px4_msgs__msg__FailsafeFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: fd_critical_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_esc_arming_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_imbalanced_prop
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_motor_failure
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: fd_alt_loss
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: geofence_breached
   {
     size_t array_size = 1;
@@ -2015,28 +2202,21 @@ size_t max_serialized_size_key_px4_msgs__msg__FailsafeFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_critical_failure
+  // Field name: parachute_unhealthy
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_esc_arming_failure
+  // Field name: remote_id_unhealthy
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: fd_imbalanced_prop
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: fd_motor_failure
+  // Field name: gnss_lost
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -2051,7 +2231,7 @@ size_t max_serialized_size_key_px4_msgs__msg__FailsafeFlags(
     using DataType = px4_msgs__msg__FailsafeFlags;
     is_plain =
       (
-      offsetof(DataType, fd_motor_failure) +
+      offsetof(DataType, gnss_lost) +
       last_member_size
       ) == ret_val;
   }

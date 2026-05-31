@@ -39,6 +39,9 @@ cdr_serialize(
   // Member: timestamp
   cdr << ros_message.timestamp;
 
+  // Member: runway_takeoff_state
+  cdr << ros_message.runway_takeoff_state;
+
   // Member: wheel_steering_enabled
   cdr << (ros_message.wheel_steering_enabled ? true : false);
 
@@ -56,6 +59,9 @@ cdr_deserialize(
 {
   // Member: timestamp
   cdr >> ros_message.timestamp;
+
+  // Member: runway_takeoff_state
+  cdr >> ros_message.runway_takeoff_state;
 
   // Member: wheel_steering_enabled
   {
@@ -87,6 +93,13 @@ get_serialized_size(
   // Member: timestamp
   {
     size_t item_size = sizeof(ros_message.timestamp);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: runway_takeoff_state
+  {
+    size_t item_size = sizeof(ros_message.runway_takeoff_state);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -135,6 +148,12 @@ max_serialized_size_FixedWingRunwayControl(
     current_alignment += array_size * sizeof(uint64_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
   }
+  // Member: runway_takeoff_state
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
   // Member: wheel_steering_enabled
   {
     size_t array_size = 1;
@@ -174,6 +193,9 @@ cdr_serialize_key(
   // Member: timestamp
   cdr << ros_message.timestamp;
 
+  // Member: runway_takeoff_state
+  cdr << ros_message.runway_takeoff_state;
+
   // Member: wheel_steering_enabled
   cdr << (ros_message.wheel_steering_enabled ? true : false);
 
@@ -199,6 +221,13 @@ get_serialized_size_key(
   // Member: timestamp
   {
     size_t item_size = sizeof(ros_message.timestamp);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: runway_takeoff_state
+  {
+    size_t item_size = sizeof(ros_message.runway_takeoff_state);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -245,6 +274,13 @@ max_serialized_size_key_FixedWingRunwayControl(
     last_member_size = array_size * sizeof(uint64_t);
     current_alignment += array_size * sizeof(uint64_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
+  }
+
+  // Member: runway_takeoff_state
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
   }
 
   // Member: wheel_steering_enabled

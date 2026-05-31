@@ -27,7 +27,8 @@ class Metaclass_VehicleCommandAck(type):
     _TYPE_SUPPORT = None
 
     __constants = {
-        'MESSAGE_VERSION': 0,
+        'MESSAGE_VERSION': 1,
+        'ORB_QUEUE_LENGTH': 8,
         'VEHICLE_CMD_RESULT_ACCEPTED': 0,
         'VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED': 1,
         'VEHICLE_CMD_RESULT_DENIED': 2,
@@ -35,13 +36,15 @@ class Metaclass_VehicleCommandAck(type):
         'VEHICLE_CMD_RESULT_FAILED': 4,
         'VEHICLE_CMD_RESULT_IN_PROGRESS': 5,
         'VEHICLE_CMD_RESULT_CANCELLED': 6,
+        'VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY': 7,
+        'VEHICLE_CMD_RESULT_COMMAND_INT_ONLY': 8,
+        'VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME': 9,
         'ARM_AUTH_DENIED_REASON_GENERIC': 0,
         'ARM_AUTH_DENIED_REASON_NONE': 1,
         'ARM_AUTH_DENIED_REASON_INVALID_WAYPOINT': 2,
         'ARM_AUTH_DENIED_REASON_TIMEOUT': 3,
         'ARM_AUTH_DENIED_REASON_AIRSPACE_IN_USE': 4,
         'ARM_AUTH_DENIED_REASON_BAD_WEATHER': 5,
-        'ORB_QUEUE_LENGTH': 4,
     }
 
     @classmethod
@@ -71,6 +74,7 @@ class Metaclass_VehicleCommandAck(type):
         # as well as populate each message instance
         return {
             'MESSAGE_VERSION': cls.__constants['MESSAGE_VERSION'],
+            'ORB_QUEUE_LENGTH': cls.__constants['ORB_QUEUE_LENGTH'],
             'VEHICLE_CMD_RESULT_ACCEPTED': cls.__constants['VEHICLE_CMD_RESULT_ACCEPTED'],
             'VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED': cls.__constants['VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED'],
             'VEHICLE_CMD_RESULT_DENIED': cls.__constants['VEHICLE_CMD_RESULT_DENIED'],
@@ -78,19 +82,26 @@ class Metaclass_VehicleCommandAck(type):
             'VEHICLE_CMD_RESULT_FAILED': cls.__constants['VEHICLE_CMD_RESULT_FAILED'],
             'VEHICLE_CMD_RESULT_IN_PROGRESS': cls.__constants['VEHICLE_CMD_RESULT_IN_PROGRESS'],
             'VEHICLE_CMD_RESULT_CANCELLED': cls.__constants['VEHICLE_CMD_RESULT_CANCELLED'],
+            'VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY': cls.__constants['VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY'],
+            'VEHICLE_CMD_RESULT_COMMAND_INT_ONLY': cls.__constants['VEHICLE_CMD_RESULT_COMMAND_INT_ONLY'],
+            'VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME': cls.__constants['VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME'],
             'ARM_AUTH_DENIED_REASON_GENERIC': cls.__constants['ARM_AUTH_DENIED_REASON_GENERIC'],
             'ARM_AUTH_DENIED_REASON_NONE': cls.__constants['ARM_AUTH_DENIED_REASON_NONE'],
             'ARM_AUTH_DENIED_REASON_INVALID_WAYPOINT': cls.__constants['ARM_AUTH_DENIED_REASON_INVALID_WAYPOINT'],
             'ARM_AUTH_DENIED_REASON_TIMEOUT': cls.__constants['ARM_AUTH_DENIED_REASON_TIMEOUT'],
             'ARM_AUTH_DENIED_REASON_AIRSPACE_IN_USE': cls.__constants['ARM_AUTH_DENIED_REASON_AIRSPACE_IN_USE'],
             'ARM_AUTH_DENIED_REASON_BAD_WEATHER': cls.__constants['ARM_AUTH_DENIED_REASON_BAD_WEATHER'],
-            'ORB_QUEUE_LENGTH': cls.__constants['ORB_QUEUE_LENGTH'],
         }
 
     @property
     def MESSAGE_VERSION(self):
         """Message constant 'MESSAGE_VERSION'."""
         return Metaclass_VehicleCommandAck.__constants['MESSAGE_VERSION']
+
+    @property
+    def ORB_QUEUE_LENGTH(self):
+        """Message constant 'ORB_QUEUE_LENGTH'."""
+        return Metaclass_VehicleCommandAck.__constants['ORB_QUEUE_LENGTH']
 
     @property
     def VEHICLE_CMD_RESULT_ACCEPTED(self):
@@ -128,6 +139,21 @@ class Metaclass_VehicleCommandAck(type):
         return Metaclass_VehicleCommandAck.__constants['VEHICLE_CMD_RESULT_CANCELLED']
 
     @property
+    def VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY(self):
+        """Message constant 'VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY'."""
+        return Metaclass_VehicleCommandAck.__constants['VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY']
+
+    @property
+    def VEHICLE_CMD_RESULT_COMMAND_INT_ONLY(self):
+        """Message constant 'VEHICLE_CMD_RESULT_COMMAND_INT_ONLY'."""
+        return Metaclass_VehicleCommandAck.__constants['VEHICLE_CMD_RESULT_COMMAND_INT_ONLY']
+
+    @property
+    def VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME(self):
+        """Message constant 'VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME'."""
+        return Metaclass_VehicleCommandAck.__constants['VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME']
+
+    @property
     def ARM_AUTH_DENIED_REASON_GENERIC(self):
         """Message constant 'ARM_AUTH_DENIED_REASON_GENERIC'."""
         return Metaclass_VehicleCommandAck.__constants['ARM_AUTH_DENIED_REASON_GENERIC']
@@ -157,11 +183,6 @@ class Metaclass_VehicleCommandAck(type):
         """Message constant 'ARM_AUTH_DENIED_REASON_BAD_WEATHER'."""
         return Metaclass_VehicleCommandAck.__constants['ARM_AUTH_DENIED_REASON_BAD_WEATHER']
 
-    @property
-    def ORB_QUEUE_LENGTH(self):
-        """Message constant 'ORB_QUEUE_LENGTH'."""
-        return Metaclass_VehicleCommandAck.__constants['ORB_QUEUE_LENGTH']
-
 
 class VehicleCommandAck(metaclass=Metaclass_VehicleCommandAck):
     """
@@ -169,6 +190,7 @@ class VehicleCommandAck(metaclass=Metaclass_VehicleCommandAck):
 
     Constants:
       MESSAGE_VERSION
+      ORB_QUEUE_LENGTH
       VEHICLE_CMD_RESULT_ACCEPTED
       VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED
       VEHICLE_CMD_RESULT_DENIED
@@ -176,13 +198,15 @@ class VehicleCommandAck(metaclass=Metaclass_VehicleCommandAck):
       VEHICLE_CMD_RESULT_FAILED
       VEHICLE_CMD_RESULT_IN_PROGRESS
       VEHICLE_CMD_RESULT_CANCELLED
+      VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY
+      VEHICLE_CMD_RESULT_COMMAND_INT_ONLY
+      VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME
       ARM_AUTH_DENIED_REASON_GENERIC
       ARM_AUTH_DENIED_REASON_NONE
       ARM_AUTH_DENIED_REASON_INVALID_WAYPOINT
       ARM_AUTH_DENIED_REASON_TIMEOUT
       ARM_AUTH_DENIED_REASON_AIRSPACE_IN_USE
       ARM_AUTH_DENIED_REASON_BAD_WEATHER
-      ORB_QUEUE_LENGTH
     """
 
     __slots__ = [

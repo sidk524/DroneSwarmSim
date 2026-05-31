@@ -68,6 +68,8 @@ px4_msgs__msg__EstimatorStatusFlags__init(px4_msgs__msg__EstimatorStatusFlags * 
   // cs_gnss_fault
   // cs_yaw_manual
   // cs_gnss_hgt_fault
+  // cs_in_transition
+  // cs_heading_observable
   // fault_status_changes
   // fs_bad_mag_x
   // fs_bad_mag_y
@@ -80,17 +82,6 @@ px4_msgs__msg__EstimatorStatusFlags__init(px4_msgs__msg__EstimatorStatusFlags * 
   // fs_bad_optflow_y
   // fs_bad_acc_vertical
   // fs_bad_acc_clipping
-  // innovation_fault_status_changes
-  // reject_hor_vel
-  // reject_ver_vel
-  // reject_hor_pos
-  // reject_ver_pos
-  // reject_yaw
-  // reject_airspeed
-  // reject_sideslip
-  // reject_hagl
-  // reject_optflow_x
-  // reject_optflow_y
   return true;
 }
 
@@ -151,6 +142,8 @@ px4_msgs__msg__EstimatorStatusFlags__fini(px4_msgs__msg__EstimatorStatusFlags * 
   // cs_gnss_fault
   // cs_yaw_manual
   // cs_gnss_hgt_fault
+  // cs_in_transition
+  // cs_heading_observable
   // fault_status_changes
   // fs_bad_mag_x
   // fs_bad_mag_y
@@ -163,17 +156,6 @@ px4_msgs__msg__EstimatorStatusFlags__fini(px4_msgs__msg__EstimatorStatusFlags * 
   // fs_bad_optflow_y
   // fs_bad_acc_vertical
   // fs_bad_acc_clipping
-  // innovation_fault_status_changes
-  // reject_hor_vel
-  // reject_ver_vel
-  // reject_hor_pos
-  // reject_ver_pos
-  // reject_yaw
-  // reject_airspeed
-  // reject_sideslip
-  // reject_hagl
-  // reject_optflow_x
-  // reject_optflow_y
 }
 
 bool
@@ -386,6 +368,14 @@ px4_msgs__msg__EstimatorStatusFlags__are_equal(const px4_msgs__msg__EstimatorSta
   if (lhs->cs_gnss_hgt_fault != rhs->cs_gnss_hgt_fault) {
     return false;
   }
+  // cs_in_transition
+  if (lhs->cs_in_transition != rhs->cs_in_transition) {
+    return false;
+  }
+  // cs_heading_observable
+  if (lhs->cs_heading_observable != rhs->cs_heading_observable) {
+    return false;
+  }
   // fault_status_changes
   if (lhs->fault_status_changes != rhs->fault_status_changes) {
     return false;
@@ -432,50 +422,6 @@ px4_msgs__msg__EstimatorStatusFlags__are_equal(const px4_msgs__msg__EstimatorSta
   }
   // fs_bad_acc_clipping
   if (lhs->fs_bad_acc_clipping != rhs->fs_bad_acc_clipping) {
-    return false;
-  }
-  // innovation_fault_status_changes
-  if (lhs->innovation_fault_status_changes != rhs->innovation_fault_status_changes) {
-    return false;
-  }
-  // reject_hor_vel
-  if (lhs->reject_hor_vel != rhs->reject_hor_vel) {
-    return false;
-  }
-  // reject_ver_vel
-  if (lhs->reject_ver_vel != rhs->reject_ver_vel) {
-    return false;
-  }
-  // reject_hor_pos
-  if (lhs->reject_hor_pos != rhs->reject_hor_pos) {
-    return false;
-  }
-  // reject_ver_pos
-  if (lhs->reject_ver_pos != rhs->reject_ver_pos) {
-    return false;
-  }
-  // reject_yaw
-  if (lhs->reject_yaw != rhs->reject_yaw) {
-    return false;
-  }
-  // reject_airspeed
-  if (lhs->reject_airspeed != rhs->reject_airspeed) {
-    return false;
-  }
-  // reject_sideslip
-  if (lhs->reject_sideslip != rhs->reject_sideslip) {
-    return false;
-  }
-  // reject_hagl
-  if (lhs->reject_hagl != rhs->reject_hagl) {
-    return false;
-  }
-  // reject_optflow_x
-  if (lhs->reject_optflow_x != rhs->reject_optflow_x) {
-    return false;
-  }
-  // reject_optflow_y
-  if (lhs->reject_optflow_y != rhs->reject_optflow_y) {
     return false;
   }
   return true;
@@ -591,6 +537,10 @@ px4_msgs__msg__EstimatorStatusFlags__copy(
   output->cs_yaw_manual = input->cs_yaw_manual;
   // cs_gnss_hgt_fault
   output->cs_gnss_hgt_fault = input->cs_gnss_hgt_fault;
+  // cs_in_transition
+  output->cs_in_transition = input->cs_in_transition;
+  // cs_heading_observable
+  output->cs_heading_observable = input->cs_heading_observable;
   // fault_status_changes
   output->fault_status_changes = input->fault_status_changes;
   // fs_bad_mag_x
@@ -615,28 +565,6 @@ px4_msgs__msg__EstimatorStatusFlags__copy(
   output->fs_bad_acc_vertical = input->fs_bad_acc_vertical;
   // fs_bad_acc_clipping
   output->fs_bad_acc_clipping = input->fs_bad_acc_clipping;
-  // innovation_fault_status_changes
-  output->innovation_fault_status_changes = input->innovation_fault_status_changes;
-  // reject_hor_vel
-  output->reject_hor_vel = input->reject_hor_vel;
-  // reject_ver_vel
-  output->reject_ver_vel = input->reject_ver_vel;
-  // reject_hor_pos
-  output->reject_hor_pos = input->reject_hor_pos;
-  // reject_ver_pos
-  output->reject_ver_pos = input->reject_ver_pos;
-  // reject_yaw
-  output->reject_yaw = input->reject_yaw;
-  // reject_airspeed
-  output->reject_airspeed = input->reject_airspeed;
-  // reject_sideslip
-  output->reject_sideslip = input->reject_sideslip;
-  // reject_hagl
-  output->reject_hagl = input->reject_hagl;
-  // reject_optflow_x
-  output->reject_optflow_x = input->reject_optflow_x;
-  // reject_optflow_y
-  output->reject_optflow_y = input->reject_optflow_y;
   return true;
 }
 

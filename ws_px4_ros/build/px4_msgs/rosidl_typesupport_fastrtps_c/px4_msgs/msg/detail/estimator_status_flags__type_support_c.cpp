@@ -303,6 +303,16 @@ bool cdr_serialize_px4_msgs__msg__EstimatorStatusFlags(
     cdr << (ros_message->cs_gnss_hgt_fault ? true : false);
   }
 
+  // Field name: cs_in_transition
+  {
+    cdr << (ros_message->cs_in_transition ? true : false);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    cdr << (ros_message->cs_heading_observable ? true : false);
+  }
+
   // Field name: fault_status_changes
   {
     cdr << ros_message->fault_status_changes;
@@ -361,61 +371,6 @@ bool cdr_serialize_px4_msgs__msg__EstimatorStatusFlags(
   // Field name: fs_bad_acc_clipping
   {
     cdr << (ros_message->fs_bad_acc_clipping ? true : false);
-  }
-
-  // Field name: innovation_fault_status_changes
-  {
-    cdr << ros_message->innovation_fault_status_changes;
-  }
-
-  // Field name: reject_hor_vel
-  {
-    cdr << (ros_message->reject_hor_vel ? true : false);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    cdr << (ros_message->reject_ver_vel ? true : false);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    cdr << (ros_message->reject_hor_pos ? true : false);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    cdr << (ros_message->reject_ver_pos ? true : false);
-  }
-
-  // Field name: reject_yaw
-  {
-    cdr << (ros_message->reject_yaw ? true : false);
-  }
-
-  // Field name: reject_airspeed
-  {
-    cdr << (ros_message->reject_airspeed ? true : false);
-  }
-
-  // Field name: reject_sideslip
-  {
-    cdr << (ros_message->reject_sideslip ? true : false);
-  }
-
-  // Field name: reject_hagl
-  {
-    cdr << (ros_message->reject_hagl ? true : false);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    cdr << (ros_message->reject_optflow_x ? true : false);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    cdr << (ros_message->reject_optflow_y ? true : false);
   }
 
   return true;
@@ -777,6 +732,20 @@ bool cdr_deserialize_px4_msgs__msg__EstimatorStatusFlags(
     ros_message->cs_gnss_hgt_fault = tmp ? true : false;
   }
 
+  // Field name: cs_in_transition
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->cs_in_transition = tmp ? true : false;
+  }
+
+  // Field name: cs_heading_observable
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->cs_heading_observable = tmp ? true : false;
+  }
+
   // Field name: fault_status_changes
   {
     cdr >> ros_message->fault_status_changes;
@@ -857,81 +826,6 @@ bool cdr_deserialize_px4_msgs__msg__EstimatorStatusFlags(
     uint8_t tmp;
     cdr >> tmp;
     ros_message->fs_bad_acc_clipping = tmp ? true : false;
-  }
-
-  // Field name: innovation_fault_status_changes
-  {
-    cdr >> ros_message->innovation_fault_status_changes;
-  }
-
-  // Field name: reject_hor_vel
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_hor_vel = tmp ? true : false;
-  }
-
-  // Field name: reject_ver_vel
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_ver_vel = tmp ? true : false;
-  }
-
-  // Field name: reject_hor_pos
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_hor_pos = tmp ? true : false;
-  }
-
-  // Field name: reject_ver_pos
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_ver_pos = tmp ? true : false;
-  }
-
-  // Field name: reject_yaw
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_yaw = tmp ? true : false;
-  }
-
-  // Field name: reject_airspeed
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_airspeed = tmp ? true : false;
-  }
-
-  // Field name: reject_sideslip
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_sideslip = tmp ? true : false;
-  }
-
-  // Field name: reject_hagl
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_hagl = tmp ? true : false;
-  }
-
-  // Field name: reject_optflow_x
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_optflow_x = tmp ? true : false;
-  }
-
-  // Field name: reject_optflow_y
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message->reject_optflow_y = tmp ? true : false;
   }
 
   return true;
@@ -1309,6 +1203,20 @@ size_t get_serialized_size_px4_msgs__msg__EstimatorStatusFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: cs_in_transition
+  {
+    size_t item_size = sizeof(ros_message->cs_in_transition);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    size_t item_size = sizeof(ros_message->cs_heading_observable);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: fault_status_changes
   {
     size_t item_size = sizeof(ros_message->fault_status_changes);
@@ -1389,83 +1297,6 @@ size_t get_serialized_size_px4_msgs__msg__EstimatorStatusFlags(
   // Field name: fs_bad_acc_clipping
   {
     size_t item_size = sizeof(ros_message->fs_bad_acc_clipping);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: innovation_fault_status_changes
-  {
-    size_t item_size = sizeof(ros_message->innovation_fault_status_changes);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hor_vel
-  {
-    size_t item_size = sizeof(ros_message->reject_hor_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    size_t item_size = sizeof(ros_message->reject_ver_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    size_t item_size = sizeof(ros_message->reject_hor_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    size_t item_size = sizeof(ros_message->reject_ver_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_yaw
-  {
-    size_t item_size = sizeof(ros_message->reject_yaw);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_airspeed
-  {
-    size_t item_size = sizeof(ros_message->reject_airspeed);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_sideslip
-  {
-    size_t item_size = sizeof(ros_message->reject_sideslip);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hagl
-  {
-    size_t item_size = sizeof(ros_message->reject_hagl);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    size_t item_size = sizeof(ros_message->reject_optflow_x);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    size_t item_size = sizeof(ros_message->reject_optflow_y);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1852,6 +1683,20 @@ size_t max_serialized_size_px4_msgs__msg__EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: cs_in_transition
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: fault_status_changes
   {
     size_t array_size = 1;
@@ -1937,84 +1782,6 @@ size_t max_serialized_size_px4_msgs__msg__EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: innovation_fault_status_changes
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint32_t);
-    current_alignment += array_size * sizeof(uint32_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-
-  // Field name: reject_hor_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_yaw
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_airspeed
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_sideslip
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_hagl
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -2024,7 +1791,7 @@ size_t max_serialized_size_px4_msgs__msg__EstimatorStatusFlags(
     using DataType = px4_msgs__msg__EstimatorStatusFlags;
     is_plain =
       (
-      offsetof(DataType, reject_optflow_y) +
+      offsetof(DataType, fs_bad_acc_clipping) +
       last_member_size
       ) == ret_val;
   }
@@ -2291,6 +2058,16 @@ bool cdr_serialize_key_px4_msgs__msg__EstimatorStatusFlags(
     cdr << (ros_message->cs_gnss_hgt_fault ? true : false);
   }
 
+  // Field name: cs_in_transition
+  {
+    cdr << (ros_message->cs_in_transition ? true : false);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    cdr << (ros_message->cs_heading_observable ? true : false);
+  }
+
   // Field name: fault_status_changes
   {
     cdr << ros_message->fault_status_changes;
@@ -2349,61 +2126,6 @@ bool cdr_serialize_key_px4_msgs__msg__EstimatorStatusFlags(
   // Field name: fs_bad_acc_clipping
   {
     cdr << (ros_message->fs_bad_acc_clipping ? true : false);
-  }
-
-  // Field name: innovation_fault_status_changes
-  {
-    cdr << ros_message->innovation_fault_status_changes;
-  }
-
-  // Field name: reject_hor_vel
-  {
-    cdr << (ros_message->reject_hor_vel ? true : false);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    cdr << (ros_message->reject_ver_vel ? true : false);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    cdr << (ros_message->reject_hor_pos ? true : false);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    cdr << (ros_message->reject_ver_pos ? true : false);
-  }
-
-  // Field name: reject_yaw
-  {
-    cdr << (ros_message->reject_yaw ? true : false);
-  }
-
-  // Field name: reject_airspeed
-  {
-    cdr << (ros_message->reject_airspeed ? true : false);
-  }
-
-  // Field name: reject_sideslip
-  {
-    cdr << (ros_message->reject_sideslip ? true : false);
-  }
-
-  // Field name: reject_hagl
-  {
-    cdr << (ros_message->reject_hagl ? true : false);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    cdr << (ros_message->reject_optflow_x ? true : false);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    cdr << (ros_message->reject_optflow_y ? true : false);
   }
 
   return true;
@@ -2781,6 +2503,20 @@ size_t get_serialized_size_key_px4_msgs__msg__EstimatorStatusFlags(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: cs_in_transition
+  {
+    size_t item_size = sizeof(ros_message->cs_in_transition);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    size_t item_size = sizeof(ros_message->cs_heading_observable);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: fault_status_changes
   {
     size_t item_size = sizeof(ros_message->fault_status_changes);
@@ -2861,83 +2597,6 @@ size_t get_serialized_size_key_px4_msgs__msg__EstimatorStatusFlags(
   // Field name: fs_bad_acc_clipping
   {
     size_t item_size = sizeof(ros_message->fs_bad_acc_clipping);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: innovation_fault_status_changes
-  {
-    size_t item_size = sizeof(ros_message->innovation_fault_status_changes);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hor_vel
-  {
-    size_t item_size = sizeof(ros_message->reject_hor_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    size_t item_size = sizeof(ros_message->reject_ver_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    size_t item_size = sizeof(ros_message->reject_hor_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    size_t item_size = sizeof(ros_message->reject_ver_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_yaw
-  {
-    size_t item_size = sizeof(ros_message->reject_yaw);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_airspeed
-  {
-    size_t item_size = sizeof(ros_message->reject_airspeed);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_sideslip
-  {
-    size_t item_size = sizeof(ros_message->reject_sideslip);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_hagl
-  {
-    size_t item_size = sizeof(ros_message->reject_hagl);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    size_t item_size = sizeof(ros_message->reject_optflow_x);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    size_t item_size = sizeof(ros_message->reject_optflow_y);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -3322,6 +2981,20 @@ size_t max_serialized_size_key_px4_msgs__msg__EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: cs_in_transition
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: cs_heading_observable
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: fault_status_changes
   {
     size_t array_size = 1;
@@ -3407,84 +3080,6 @@ size_t max_serialized_size_key_px4_msgs__msg__EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Field name: innovation_fault_status_changes
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint32_t);
-    current_alignment += array_size * sizeof(uint32_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-
-  // Field name: reject_hor_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_ver_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_hor_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_ver_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_yaw
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_airspeed
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_sideslip
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_hagl
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_optflow_x
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: reject_optflow_y
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -3493,7 +3088,7 @@ size_t max_serialized_size_key_px4_msgs__msg__EstimatorStatusFlags(
     using DataType = px4_msgs__msg__EstimatorStatusFlags;
     is_plain =
       (
-      offsetof(DataType, reject_optflow_y) +
+      offsetof(DataType, fs_bad_acc_clipping) +
       last_member_size
       ) == ret_val;
   }

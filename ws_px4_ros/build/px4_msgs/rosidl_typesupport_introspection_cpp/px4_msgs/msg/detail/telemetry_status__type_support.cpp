@@ -38,7 +38,7 @@ void TelemetryStatus_fini_function(void * message_memory)
   typed_message->~TelemetryStatus();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember TelemetryStatus_message_member_array[38] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember TelemetryStatus_message_member_array[39] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
@@ -508,6 +508,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember TelemetryStat
     nullptr  // resize(index) function pointer
   },
   {
+    "heartbeat_type_flarm",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::TelemetryStatus, heartbeat_type_flarm),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
     "heartbeat_type_camera",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
     0,  // upper bound of string
@@ -728,7 +746,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember TelemetryStat
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers TelemetryStatus_message_members = {
   "px4_msgs::msg",  // message namespace
   "TelemetryStatus",  // message name
-  38,  // number of fields
+  39,  // number of fields
   sizeof(px4_msgs::msg::TelemetryStatus),
   false,  // has_any_key_member_
   TelemetryStatus_message_member_array,  // message members

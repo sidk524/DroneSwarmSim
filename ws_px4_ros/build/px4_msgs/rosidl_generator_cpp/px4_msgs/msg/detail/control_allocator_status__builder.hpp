@@ -24,16 +24,32 @@ namespace msg
 namespace builder
 {
 
+class Init_ControlAllocatorStatus_actuator_group_preflight_check_active
+{
+public:
+  explicit Init_ControlAllocatorStatus_actuator_group_preflight_check_active(::px4_msgs::msg::ControlAllocatorStatus & msg)
+  : msg_(msg)
+  {}
+  ::px4_msgs::msg::ControlAllocatorStatus actuator_group_preflight_check_active(::px4_msgs::msg::ControlAllocatorStatus::_actuator_group_preflight_check_active_type arg)
+  {
+    msg_.actuator_group_preflight_check_active = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::ControlAllocatorStatus msg_;
+};
+
 class Init_ControlAllocatorStatus_motor_stop_mask
 {
 public:
   explicit Init_ControlAllocatorStatus_motor_stop_mask(::px4_msgs::msg::ControlAllocatorStatus & msg)
   : msg_(msg)
   {}
-  ::px4_msgs::msg::ControlAllocatorStatus motor_stop_mask(::px4_msgs::msg::ControlAllocatorStatus::_motor_stop_mask_type arg)
+  Init_ControlAllocatorStatus_actuator_group_preflight_check_active motor_stop_mask(::px4_msgs::msg::ControlAllocatorStatus::_motor_stop_mask_type arg)
   {
     msg_.motor_stop_mask = std::move(arg);
-    return std::move(msg_);
+    return Init_ControlAllocatorStatus_actuator_group_preflight_check_active(msg_);
   }
 
 private:

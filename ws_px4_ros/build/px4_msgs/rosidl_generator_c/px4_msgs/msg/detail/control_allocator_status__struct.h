@@ -87,6 +87,8 @@ typedef struct px4_msgs__msg__ControlAllocatorStatus
   uint16_t handled_motor_failure_mask;
   /// Bitmaks of motors stopped by failure injection
   uint16_t motor_stop_mask;
+  /// True while an actuator group preflight check (VEHICLE_CMD_ACTUATOR_GROUP_TEST) is overriding the torque/thrust setpoint or collective-tilt
+  bool actuator_group_preflight_check_active;
 } px4_msgs__msg__ControlAllocatorStatus;
 
 // Struct for a sequence of px4_msgs__msg__ControlAllocatorStatus.

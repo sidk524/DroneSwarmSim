@@ -329,6 +329,51 @@ bool px4_msgs__msg__failsafe_flags__convert_from_py(PyObject * _pymsg, void * _r
     ros_message->battery_unhealthy = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // fd_critical_failure
+    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_critical_failure");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->fd_critical_failure = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // fd_esc_arming_failure
+    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_esc_arming_failure");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->fd_esc_arming_failure = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // fd_imbalanced_prop
+    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_imbalanced_prop");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->fd_imbalanced_prop = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // fd_motor_failure
+    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_motor_failure");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->fd_motor_failure = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // fd_alt_loss
+    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_alt_loss");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->fd_alt_loss = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // geofence_breached
     PyObject * field = PyObject_GetAttrString(_pymsg, "geofence_breached");
     if (!field) {
@@ -392,40 +437,31 @@ bool px4_msgs__msg__failsafe_flags__convert_from_py(PyObject * _pymsg, void * _r
     ros_message->navigator_failure = (Py_True == field);
     Py_DECREF(field);
   }
-  {  // fd_critical_failure
-    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_critical_failure");
+  {  // parachute_unhealthy
+    PyObject * field = PyObject_GetAttrString(_pymsg, "parachute_unhealthy");
     if (!field) {
       return false;
     }
     assert(PyBool_Check(field));
-    ros_message->fd_critical_failure = (Py_True == field);
+    ros_message->parachute_unhealthy = (Py_True == field);
     Py_DECREF(field);
   }
-  {  // fd_esc_arming_failure
-    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_esc_arming_failure");
+  {  // remote_id_unhealthy
+    PyObject * field = PyObject_GetAttrString(_pymsg, "remote_id_unhealthy");
     if (!field) {
       return false;
     }
     assert(PyBool_Check(field));
-    ros_message->fd_esc_arming_failure = (Py_True == field);
+    ros_message->remote_id_unhealthy = (Py_True == field);
     Py_DECREF(field);
   }
-  {  // fd_imbalanced_prop
-    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_imbalanced_prop");
+  {  // gnss_lost
+    PyObject * field = PyObject_GetAttrString(_pymsg, "gnss_lost");
     if (!field) {
       return false;
     }
     assert(PyBool_Check(field));
-    ros_message->fd_imbalanced_prop = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // fd_motor_failure
-    PyObject * field = PyObject_GetAttrString(_pymsg, "fd_motor_failure");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->fd_motor_failure = (Py_True == field);
+    ros_message->gnss_lost = (Py_True == field);
     Py_DECREF(field);
   }
 
@@ -791,6 +827,61 @@ PyObject * px4_msgs__msg__failsafe_flags__convert_to_py(void * raw_ros_message)
       }
     }
   }
+  {  // fd_critical_failure
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->fd_critical_failure ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "fd_critical_failure", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // fd_esc_arming_failure
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->fd_esc_arming_failure ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "fd_esc_arming_failure", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // fd_imbalanced_prop
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->fd_imbalanced_prop ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "fd_imbalanced_prop", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // fd_motor_failure
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->fd_motor_failure ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "fd_motor_failure", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // fd_alt_loss
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->fd_alt_loss ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "fd_alt_loss", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // geofence_breached
     PyObject * field = NULL;
     field = PyBool_FromLong(ros_message->geofence_breached ? 1 : 0);
@@ -868,44 +959,33 @@ PyObject * px4_msgs__msg__failsafe_flags__convert_to_py(void * raw_ros_message)
       }
     }
   }
-  {  // fd_critical_failure
+  {  // parachute_unhealthy
     PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->fd_critical_failure ? 1 : 0);
+    field = PyBool_FromLong(ros_message->parachute_unhealthy ? 1 : 0);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "fd_critical_failure", field);
+      int rc = PyObject_SetAttrString(_pymessage, "parachute_unhealthy", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;
       }
     }
   }
-  {  // fd_esc_arming_failure
+  {  // remote_id_unhealthy
     PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->fd_esc_arming_failure ? 1 : 0);
+    field = PyBool_FromLong(ros_message->remote_id_unhealthy ? 1 : 0);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "fd_esc_arming_failure", field);
+      int rc = PyObject_SetAttrString(_pymessage, "remote_id_unhealthy", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;
       }
     }
   }
-  {  // fd_imbalanced_prop
+  {  // gnss_lost
     PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->fd_imbalanced_prop ? 1 : 0);
+    field = PyBool_FromLong(ros_message->gnss_lost ? 1 : 0);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "fd_imbalanced_prop", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // fd_motor_failure
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->fd_motor_failure ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "fd_motor_failure", field);
+      int rc = PyObject_SetAttrString(_pymessage, "gnss_lost", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

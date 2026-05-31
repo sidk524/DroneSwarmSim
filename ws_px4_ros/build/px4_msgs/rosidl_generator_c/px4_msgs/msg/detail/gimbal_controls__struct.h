@@ -44,6 +44,7 @@ typedef struct px4_msgs__msg__GimbalControls
   uint64_t timestamp;
   /// the timestamp the data this control response is based on was sampled
   uint64_t timestamp_sample;
+  /// Normalized output. 1 means maximum positive position. -1 maximum negative position. 0 means no deflection. NaN maps to disarmed.
   float control[3];
 } px4_msgs__msg__GimbalControls;
 

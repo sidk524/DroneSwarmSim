@@ -38,7 +38,7 @@ void FixedWingRunwayControl_fini_function(void * message_memory)
   typed_message->~FixedWingRunwayControl();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember FixedWingRunwayControl_message_member_array[3] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember FixedWingRunwayControl_message_member_array[4] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
@@ -49,6 +49,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember FixedWingRunw
     0,  // array size
     false,  // is upper bound
     offsetof(px4_msgs::msg::FixedWingRunwayControl, timestamp),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "runway_takeoff_state",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::FixedWingRunwayControl, runway_takeoff_state),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -98,7 +116,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember FixedWingRunw
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers FixedWingRunwayControl_message_members = {
   "px4_msgs::msg",  // message namespace
   "FixedWingRunwayControl",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(px4_msgs::msg::FixedWingRunwayControl),
   false,  // has_any_key_member_
   FixedWingRunwayControl_message_member_array,  // message members

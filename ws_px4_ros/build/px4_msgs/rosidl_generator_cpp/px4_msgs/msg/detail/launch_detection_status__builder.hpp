@@ -24,16 +24,32 @@ namespace msg
 namespace builder
 {
 
+class Init_LaunchDetectionStatus_selected_control_surface_disarmed
+{
+public:
+  explicit Init_LaunchDetectionStatus_selected_control_surface_disarmed(::px4_msgs::msg::LaunchDetectionStatus & msg)
+  : msg_(msg)
+  {}
+  ::px4_msgs::msg::LaunchDetectionStatus selected_control_surface_disarmed(::px4_msgs::msg::LaunchDetectionStatus::_selected_control_surface_disarmed_type arg)
+  {
+    msg_.selected_control_surface_disarmed = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::LaunchDetectionStatus msg_;
+};
+
 class Init_LaunchDetectionStatus_launch_detection_state
 {
 public:
   explicit Init_LaunchDetectionStatus_launch_detection_state(::px4_msgs::msg::LaunchDetectionStatus & msg)
   : msg_(msg)
   {}
-  ::px4_msgs::msg::LaunchDetectionStatus launch_detection_state(::px4_msgs::msg::LaunchDetectionStatus::_launch_detection_state_type arg)
+  Init_LaunchDetectionStatus_selected_control_surface_disarmed launch_detection_state(::px4_msgs::msg::LaunchDetectionStatus::_launch_detection_state_type arg)
   {
     msg_.launch_detection_state = std::move(arg);
-    return std::move(msg_);
+    return Init_LaunchDetectionStatus_selected_control_surface_disarmed(msg_);
   }
 
 private:

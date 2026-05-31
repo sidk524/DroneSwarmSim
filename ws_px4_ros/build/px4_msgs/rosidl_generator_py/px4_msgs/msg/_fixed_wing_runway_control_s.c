@@ -59,6 +59,15 @@ bool px4_msgs__msg__fixed_wing_runway_control__convert_from_py(PyObject * _pymsg
     ros_message->timestamp = PyLong_AsUnsignedLongLong(field);
     Py_DECREF(field);
   }
+  {  // runway_takeoff_state
+    PyObject * field = PyObject_GetAttrString(_pymsg, "runway_takeoff_state");
+    if (!field) {
+      return false;
+    }
+    assert(PyLong_Check(field));
+    ros_message->runway_takeoff_state = (uint8_t)PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
   {  // wheel_steering_enabled
     PyObject * field = PyObject_GetAttrString(_pymsg, "wheel_steering_enabled");
     if (!field) {
@@ -104,6 +113,17 @@ PyObject * px4_msgs__msg__fixed_wing_runway_control__convert_to_py(void * raw_ro
     field = PyLong_FromUnsignedLongLong(ros_message->timestamp);
     {
       int rc = PyObject_SetAttrString(_pymessage, "timestamp", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // runway_takeoff_state
+    PyObject * field = NULL;
+    field = PyLong_FromUnsignedLong(ros_message->runway_takeoff_state);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "runway_takeoff_state", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

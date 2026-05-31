@@ -29,6 +29,10 @@ class Metaclass_OrbitStatus(type):
     _TYPE_SUPPORT = None
 
     __constants = {
+        'FRAME_GLOBAL': 0,
+        'FRAME_LOCAL_NED': 1,
+        'FRAME_GLOBAL_RELATIVE_ALT': 3,
+        'FRAME_GLOBAL_TERRAIN_ALT': 10,
         'ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER': 0,
         'ORBIT_YAW_BEHAVIOUR_HOLD_INITIAL_HEADING': 1,
         'ORBIT_YAW_BEHAVIOUR_UNCONTROLLED': 2,
@@ -63,6 +67,10 @@ class Metaclass_OrbitStatus(type):
         # the message class under "Data and other attributes defined here:"
         # as well as populate each message instance
         return {
+            'FRAME_GLOBAL': cls.__constants['FRAME_GLOBAL'],
+            'FRAME_LOCAL_NED': cls.__constants['FRAME_LOCAL_NED'],
+            'FRAME_GLOBAL_RELATIVE_ALT': cls.__constants['FRAME_GLOBAL_RELATIVE_ALT'],
+            'FRAME_GLOBAL_TERRAIN_ALT': cls.__constants['FRAME_GLOBAL_TERRAIN_ALT'],
             'ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER': cls.__constants['ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER'],
             'ORBIT_YAW_BEHAVIOUR_HOLD_INITIAL_HEADING': cls.__constants['ORBIT_YAW_BEHAVIOUR_HOLD_INITIAL_HEADING'],
             'ORBIT_YAW_BEHAVIOUR_UNCONTROLLED': cls.__constants['ORBIT_YAW_BEHAVIOUR_UNCONTROLLED'],
@@ -70,6 +78,26 @@ class Metaclass_OrbitStatus(type):
             'ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED': cls.__constants['ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED'],
             'ORBIT_YAW_BEHAVIOUR_UNCHANGED': cls.__constants['ORBIT_YAW_BEHAVIOUR_UNCHANGED'],
         }
+
+    @property
+    def FRAME_GLOBAL(self):
+        """Message constant 'FRAME_GLOBAL'."""
+        return Metaclass_OrbitStatus.__constants['FRAME_GLOBAL']
+
+    @property
+    def FRAME_LOCAL_NED(self):
+        """Message constant 'FRAME_LOCAL_NED'."""
+        return Metaclass_OrbitStatus.__constants['FRAME_LOCAL_NED']
+
+    @property
+    def FRAME_GLOBAL_RELATIVE_ALT(self):
+        """Message constant 'FRAME_GLOBAL_RELATIVE_ALT'."""
+        return Metaclass_OrbitStatus.__constants['FRAME_GLOBAL_RELATIVE_ALT']
+
+    @property
+    def FRAME_GLOBAL_TERRAIN_ALT(self):
+        """Message constant 'FRAME_GLOBAL_TERRAIN_ALT'."""
+        return Metaclass_OrbitStatus.__constants['FRAME_GLOBAL_TERRAIN_ALT']
 
     @property
     def ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER(self):
@@ -107,6 +135,10 @@ class OrbitStatus(metaclass=Metaclass_OrbitStatus):
     Message class 'OrbitStatus'.
 
     Constants:
+      FRAME_GLOBAL
+      FRAME_LOCAL_NED
+      FRAME_GLOBAL_RELATIVE_ALT
+      FRAME_GLOBAL_TERRAIN_ALT
       ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER
       ORBIT_YAW_BEHAVIOUR_HOLD_INITIAL_HEADING
       ORBIT_YAW_BEHAVIOUR_UNCONTROLLED

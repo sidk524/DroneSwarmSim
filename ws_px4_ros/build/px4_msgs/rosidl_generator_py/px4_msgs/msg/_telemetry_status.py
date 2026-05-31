@@ -142,6 +142,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         '_heartbeat_type_onboard_controller',
         '_heartbeat_type_gimbal',
         '_heartbeat_type_adsb',
+        '_heartbeat_type_flarm',
         '_heartbeat_type_camera',
         '_heartbeat_type_parachute',
         '_heartbeat_type_open_drone_id',
@@ -184,6 +185,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         'heartbeat_type_onboard_controller': 'boolean',
         'heartbeat_type_gimbal': 'boolean',
         'heartbeat_type_adsb': 'boolean',
+        'heartbeat_type_flarm': 'boolean',
         'heartbeat_type_camera': 'boolean',
         'heartbeat_type_parachute': 'boolean',
         'heartbeat_type_open_drone_id': 'boolean',
@@ -239,6 +241,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -276,6 +279,7 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         self.heartbeat_type_onboard_controller = kwargs.get('heartbeat_type_onboard_controller', bool())
         self.heartbeat_type_gimbal = kwargs.get('heartbeat_type_gimbal', bool())
         self.heartbeat_type_adsb = kwargs.get('heartbeat_type_adsb', bool())
+        self.heartbeat_type_flarm = kwargs.get('heartbeat_type_flarm', bool())
         self.heartbeat_type_camera = kwargs.get('heartbeat_type_camera', bool())
         self.heartbeat_type_parachute = kwargs.get('heartbeat_type_parachute', bool())
         self.heartbeat_type_open_drone_id = kwargs.get('heartbeat_type_open_drone_id', bool())
@@ -370,6 +374,8 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
         if self.heartbeat_type_gimbal != other.heartbeat_type_gimbal:
             return False
         if self.heartbeat_type_adsb != other.heartbeat_type_adsb:
+            return False
+        if self.heartbeat_type_flarm != other.heartbeat_type_flarm:
             return False
         if self.heartbeat_type_camera != other.heartbeat_type_camera:
             return False
@@ -773,6 +779,19 @@ class TelemetryStatus(metaclass=Metaclass_TelemetryStatus):
                 isinstance(value, bool), \
                 "The 'heartbeat_type_adsb' field must be of type 'bool'"
         self._heartbeat_type_adsb = value
+
+    @builtins.property
+    def heartbeat_type_flarm(self):
+        """Message field 'heartbeat_type_flarm'."""
+        return self._heartbeat_type_flarm
+
+    @heartbeat_type_flarm.setter
+    def heartbeat_type_flarm(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'heartbeat_type_flarm' field must be of type 'bool'"
+        self._heartbeat_type_flarm = value
 
     @builtins.property
     def heartbeat_type_camera(self):

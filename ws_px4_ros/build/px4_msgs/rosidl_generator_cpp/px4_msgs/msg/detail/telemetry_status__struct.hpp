@@ -68,6 +68,7 @@ struct TelemetryStatus_
       this->heartbeat_type_onboard_controller = false;
       this->heartbeat_type_gimbal = false;
       this->heartbeat_type_adsb = false;
+      this->heartbeat_type_flarm = false;
       this->heartbeat_type_camera = false;
       this->heartbeat_type_parachute = false;
       this->heartbeat_type_open_drone_id = false;
@@ -115,6 +116,7 @@ struct TelemetryStatus_
       this->heartbeat_type_onboard_controller = false;
       this->heartbeat_type_gimbal = false;
       this->heartbeat_type_adsb = false;
+      this->heartbeat_type_flarm = false;
       this->heartbeat_type_camera = false;
       this->heartbeat_type_parachute = false;
       this->heartbeat_type_open_drone_id = false;
@@ -209,6 +211,9 @@ struct TelemetryStatus_
   using _heartbeat_type_adsb_type =
     bool;
   _heartbeat_type_adsb_type heartbeat_type_adsb;
+  using _heartbeat_type_flarm_type =
+    bool;
+  _heartbeat_type_flarm_type heartbeat_type_flarm;
   using _heartbeat_type_camera_type =
     bool;
   _heartbeat_type_camera_type heartbeat_type_camera;
@@ -401,6 +406,12 @@ struct TelemetryStatus_
     const bool & _arg)
   {
     this->heartbeat_type_adsb = _arg;
+    return *this;
+  }
+  Type & set__heartbeat_type_flarm(
+    const bool & _arg)
+  {
+    this->heartbeat_type_flarm = _arg;
     return *this;
   }
   Type & set__heartbeat_type_camera(
@@ -606,6 +617,9 @@ struct TelemetryStatus_
       return false;
     }
     if (this->heartbeat_type_adsb != other.heartbeat_type_adsb) {
+      return false;
+    }
+    if (this->heartbeat_type_flarm != other.heartbeat_type_flarm) {
       return false;
     }
     if (this->heartbeat_type_camera != other.heartbeat_type_camera) {

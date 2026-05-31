@@ -38,7 +38,7 @@ void VehicleStatus_fini_function(void * message_memory)
   typed_message->~VehicleStatus();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus_message_member_array[39] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus_message_member_array[41] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
@@ -220,6 +220,42 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus
     nullptr  // resize(index) function pointer
   },
   {
+    "nav_state_display",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::VehicleStatus, nav_state_display),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "accepts_offboard_setpoints",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::VehicleStatus, accepts_offboard_setpoints),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
     "valid_nav_states_mask",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT32,  // type
     0,  // upper bound of string
@@ -247,24 +283,6 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus
     0,  // array size
     false,  // is upper bound
     offsetof(px4_msgs::msg::VehicleStatus, can_set_nav_states_mask),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "failure_detector_status",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT16,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is key
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(px4_msgs::msg::VehicleStatus, failure_detector_status),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -688,6 +706,24 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus
     nullptr  // resize(index) function pointer
   },
   {
+    "traffic_avoidance_system_present",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs::msg::VehicleStatus, traffic_avoidance_system_present),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
     "rc_calibration_in_progress",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
     0,  // upper bound of string
@@ -746,7 +782,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember VehicleStatus
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers VehicleStatus_message_members = {
   "px4_msgs::msg",  // message namespace
   "VehicleStatus",  // message name
-  39,  // number of fields
+  41,  // number of fields
   sizeof(px4_msgs::msg::VehicleStatus),
   false,  // has_any_key_member_
   VehicleStatus_message_member_array,  // message members

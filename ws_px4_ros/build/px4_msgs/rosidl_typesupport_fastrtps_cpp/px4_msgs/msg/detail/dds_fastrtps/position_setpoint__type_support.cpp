@@ -87,6 +87,9 @@ cdr_serialize(
   // Member: alt_acceptance_radius
   cdr << ros_message.alt_acceptance_radius;
 
+  // Member: course
+  cdr << ros_message.course;
+
   // Member: cruising_speed
   cdr << ros_message.cruising_speed;
 
@@ -163,6 +166,9 @@ cdr_deserialize(
 
   // Member: alt_acceptance_radius
   cdr >> ros_message.alt_acceptance_radius;
+
+  // Member: course
+  cdr >> ros_message.course;
 
   // Member: cruising_speed
   cdr >> ros_message.cruising_speed;
@@ -309,6 +315,13 @@ get_serialized_size(
   // Member: alt_acceptance_radius
   {
     size_t item_size = sizeof(ros_message.alt_acceptance_radius);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: course
+  {
+    size_t item_size = sizeof(ros_message.course);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -472,6 +485,13 @@ max_serialized_size_PositionSetpoint(
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
+  // Member: course
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
   // Member: cruising_speed
   {
     size_t array_size = 1;
@@ -565,6 +585,9 @@ cdr_serialize_key(
 
   // Member: alt_acceptance_radius
   cdr << ros_message.alt_acceptance_radius;
+
+  // Member: course
+  cdr << ros_message.course;
 
   // Member: cruising_speed
   cdr << ros_message.cruising_speed;
@@ -706,6 +729,13 @@ get_serialized_size_key(
   // Member: alt_acceptance_radius
   {
     size_t item_size = sizeof(ros_message.alt_acceptance_radius);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: course
+  {
+    size_t item_size = sizeof(ros_message.course);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -878,6 +908,14 @@ max_serialized_size_key_PositionSetpoint(
   }
 
   // Member: alt_acceptance_radius
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: course
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);

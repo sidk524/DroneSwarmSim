@@ -113,6 +113,8 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         '_cs_gnss_fault',
         '_cs_yaw_manual',
         '_cs_gnss_hgt_fault',
+        '_cs_in_transition',
+        '_cs_heading_observable',
         '_fault_status_changes',
         '_fs_bad_mag_x',
         '_fs_bad_mag_y',
@@ -125,17 +127,6 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         '_fs_bad_optflow_y',
         '_fs_bad_acc_vertical',
         '_fs_bad_acc_clipping',
-        '_innovation_fault_status_changes',
-        '_reject_hor_vel',
-        '_reject_ver_vel',
-        '_reject_hor_pos',
-        '_reject_ver_pos',
-        '_reject_yaw',
-        '_reject_airspeed',
-        '_reject_sideslip',
-        '_reject_hagl',
-        '_reject_optflow_x',
-        '_reject_optflow_y',
         '_check_fields',
     ]
 
@@ -191,6 +182,8 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         'cs_gnss_fault': 'boolean',
         'cs_yaw_manual': 'boolean',
         'cs_gnss_hgt_fault': 'boolean',
+        'cs_in_transition': 'boolean',
+        'cs_heading_observable': 'boolean',
         'fault_status_changes': 'uint32',
         'fs_bad_mag_x': 'boolean',
         'fs_bad_mag_y': 'boolean',
@@ -203,17 +196,6 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         'fs_bad_optflow_y': 'boolean',
         'fs_bad_acc_vertical': 'boolean',
         'fs_bad_acc_clipping': 'boolean',
-        'innovation_fault_status_changes': 'uint32',
-        'reject_hor_vel': 'boolean',
-        'reject_ver_vel': 'boolean',
-        'reject_hor_pos': 'boolean',
-        'reject_ver_pos': 'boolean',
-        'reject_yaw': 'boolean',
-        'reject_airspeed': 'boolean',
-        'reject_sideslip': 'boolean',
-        'reject_hagl': 'boolean',
-        'reject_optflow_x': 'boolean',
-        'reject_optflow_y': 'boolean',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -270,19 +252,10 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('uint32'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
-        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint32'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
@@ -355,6 +328,8 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         self.cs_gnss_fault = kwargs.get('cs_gnss_fault', bool())
         self.cs_yaw_manual = kwargs.get('cs_yaw_manual', bool())
         self.cs_gnss_hgt_fault = kwargs.get('cs_gnss_hgt_fault', bool())
+        self.cs_in_transition = kwargs.get('cs_in_transition', bool())
+        self.cs_heading_observable = kwargs.get('cs_heading_observable', bool())
         self.fault_status_changes = kwargs.get('fault_status_changes', int())
         self.fs_bad_mag_x = kwargs.get('fs_bad_mag_x', bool())
         self.fs_bad_mag_y = kwargs.get('fs_bad_mag_y', bool())
@@ -367,17 +342,6 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         self.fs_bad_optflow_y = kwargs.get('fs_bad_optflow_y', bool())
         self.fs_bad_acc_vertical = kwargs.get('fs_bad_acc_vertical', bool())
         self.fs_bad_acc_clipping = kwargs.get('fs_bad_acc_clipping', bool())
-        self.innovation_fault_status_changes = kwargs.get('innovation_fault_status_changes', int())
-        self.reject_hor_vel = kwargs.get('reject_hor_vel', bool())
-        self.reject_ver_vel = kwargs.get('reject_ver_vel', bool())
-        self.reject_hor_pos = kwargs.get('reject_hor_pos', bool())
-        self.reject_ver_pos = kwargs.get('reject_ver_pos', bool())
-        self.reject_yaw = kwargs.get('reject_yaw', bool())
-        self.reject_airspeed = kwargs.get('reject_airspeed', bool())
-        self.reject_sideslip = kwargs.get('reject_sideslip', bool())
-        self.reject_hagl = kwargs.get('reject_hagl', bool())
-        self.reject_optflow_x = kwargs.get('reject_optflow_x', bool())
-        self.reject_optflow_y = kwargs.get('reject_optflow_y', bool())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -511,6 +475,10 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
             return False
         if self.cs_gnss_hgt_fault != other.cs_gnss_hgt_fault:
             return False
+        if self.cs_in_transition != other.cs_in_transition:
+            return False
+        if self.cs_heading_observable != other.cs_heading_observable:
+            return False
         if self.fault_status_changes != other.fault_status_changes:
             return False
         if self.fs_bad_mag_x != other.fs_bad_mag_x:
@@ -534,28 +502,6 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         if self.fs_bad_acc_vertical != other.fs_bad_acc_vertical:
             return False
         if self.fs_bad_acc_clipping != other.fs_bad_acc_clipping:
-            return False
-        if self.innovation_fault_status_changes != other.innovation_fault_status_changes:
-            return False
-        if self.reject_hor_vel != other.reject_hor_vel:
-            return False
-        if self.reject_ver_vel != other.reject_ver_vel:
-            return False
-        if self.reject_hor_pos != other.reject_hor_pos:
-            return False
-        if self.reject_ver_pos != other.reject_ver_pos:
-            return False
-        if self.reject_yaw != other.reject_yaw:
-            return False
-        if self.reject_airspeed != other.reject_airspeed:
-            return False
-        if self.reject_sideslip != other.reject_sideslip:
-            return False
-        if self.reject_hagl != other.reject_hagl:
-            return False
-        if self.reject_optflow_x != other.reject_optflow_x:
-            return False
-        if self.reject_optflow_y != other.reject_optflow_y:
             return False
         return True
 
@@ -1234,6 +1180,32 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
         self._cs_gnss_hgt_fault = value
 
     @builtins.property
+    def cs_in_transition(self):
+        """Message field 'cs_in_transition'."""
+        return self._cs_in_transition
+
+    @cs_in_transition.setter
+    def cs_in_transition(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'cs_in_transition' field must be of type 'bool'"
+        self._cs_in_transition = value
+
+    @builtins.property
+    def cs_heading_observable(self):
+        """Message field 'cs_heading_observable'."""
+        return self._cs_heading_observable
+
+    @cs_heading_observable.setter
+    def cs_heading_observable(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'cs_heading_observable' field must be of type 'bool'"
+        self._cs_heading_observable = value
+
+    @builtins.property
     def fault_status_changes(self):
         """Message field 'fault_status_changes'."""
         return self._fault_status_changes
@@ -1390,148 +1362,3 @@ class EstimatorStatusFlags(metaclass=Metaclass_EstimatorStatusFlags):
                 isinstance(value, bool), \
                 "The 'fs_bad_acc_clipping' field must be of type 'bool'"
         self._fs_bad_acc_clipping = value
-
-    @builtins.property
-    def innovation_fault_status_changes(self):
-        """Message field 'innovation_fault_status_changes'."""
-        return self._innovation_fault_status_changes
-
-    @innovation_fault_status_changes.setter
-    def innovation_fault_status_changes(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, int), \
-                "The 'innovation_fault_status_changes' field must be of type 'int'"
-            assert value >= 0 and value < 4294967296, \
-                "The 'innovation_fault_status_changes' field must be an unsigned integer in [0, 4294967295]"
-        self._innovation_fault_status_changes = value
-
-    @builtins.property
-    def reject_hor_vel(self):
-        """Message field 'reject_hor_vel'."""
-        return self._reject_hor_vel
-
-    @reject_hor_vel.setter
-    def reject_hor_vel(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_hor_vel' field must be of type 'bool'"
-        self._reject_hor_vel = value
-
-    @builtins.property
-    def reject_ver_vel(self):
-        """Message field 'reject_ver_vel'."""
-        return self._reject_ver_vel
-
-    @reject_ver_vel.setter
-    def reject_ver_vel(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_ver_vel' field must be of type 'bool'"
-        self._reject_ver_vel = value
-
-    @builtins.property
-    def reject_hor_pos(self):
-        """Message field 'reject_hor_pos'."""
-        return self._reject_hor_pos
-
-    @reject_hor_pos.setter
-    def reject_hor_pos(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_hor_pos' field must be of type 'bool'"
-        self._reject_hor_pos = value
-
-    @builtins.property
-    def reject_ver_pos(self):
-        """Message field 'reject_ver_pos'."""
-        return self._reject_ver_pos
-
-    @reject_ver_pos.setter
-    def reject_ver_pos(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_ver_pos' field must be of type 'bool'"
-        self._reject_ver_pos = value
-
-    @builtins.property
-    def reject_yaw(self):
-        """Message field 'reject_yaw'."""
-        return self._reject_yaw
-
-    @reject_yaw.setter
-    def reject_yaw(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_yaw' field must be of type 'bool'"
-        self._reject_yaw = value
-
-    @builtins.property
-    def reject_airspeed(self):
-        """Message field 'reject_airspeed'."""
-        return self._reject_airspeed
-
-    @reject_airspeed.setter
-    def reject_airspeed(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_airspeed' field must be of type 'bool'"
-        self._reject_airspeed = value
-
-    @builtins.property
-    def reject_sideslip(self):
-        """Message field 'reject_sideslip'."""
-        return self._reject_sideslip
-
-    @reject_sideslip.setter
-    def reject_sideslip(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_sideslip' field must be of type 'bool'"
-        self._reject_sideslip = value
-
-    @builtins.property
-    def reject_hagl(self):
-        """Message field 'reject_hagl'."""
-        return self._reject_hagl
-
-    @reject_hagl.setter
-    def reject_hagl(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_hagl' field must be of type 'bool'"
-        self._reject_hagl = value
-
-    @builtins.property
-    def reject_optflow_x(self):
-        """Message field 'reject_optflow_x'."""
-        return self._reject_optflow_x
-
-    @reject_optflow_x.setter
-    def reject_optflow_x(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_optflow_x' field must be of type 'bool'"
-        self._reject_optflow_x = value
-
-    @builtins.property
-    def reject_optflow_y(self):
-        """Message field 'reject_optflow_y'."""
-        return self._reject_optflow_y
-
-    @reject_optflow_y.setter
-    def reject_optflow_y(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, bool), \
-                "The 'reject_optflow_y' field must be of type 'bool'"
-        self._reject_optflow_y = value

@@ -147,6 +147,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: course
+  {
+    out << "course: ";
+    rosidl_generator_traits::value_to_yaml(msg.course, out);
+    out << ", ";
+  }
+
   // member: cruising_speed
   {
     out << "cruising_speed: ";
@@ -340,6 +347,16 @@ inline void to_block_style_yaml(
     }
     out << "alt_acceptance_radius: ";
     rosidl_generator_traits::value_to_yaml(msg.alt_acceptance_radius, out);
+    out << "\n";
+  }
+
+  // member: course
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "course: ";
+    rosidl_generator_traits::value_to_yaml(msg.course, out);
     out << "\n";
   }
 

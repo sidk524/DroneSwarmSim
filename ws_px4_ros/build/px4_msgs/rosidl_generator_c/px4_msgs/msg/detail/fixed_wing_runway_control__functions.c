@@ -18,6 +18,7 @@ px4_msgs__msg__FixedWingRunwayControl__init(px4_msgs__msg__FixedWingRunwayContro
     return false;
   }
   // timestamp
+  // runway_takeoff_state
   // wheel_steering_enabled
   // wheel_steering_nudging_rate
   return true;
@@ -30,6 +31,7 @@ px4_msgs__msg__FixedWingRunwayControl__fini(px4_msgs__msg__FixedWingRunwayContro
     return;
   }
   // timestamp
+  // runway_takeoff_state
   // wheel_steering_enabled
   // wheel_steering_nudging_rate
 }
@@ -42,6 +44,10 @@ px4_msgs__msg__FixedWingRunwayControl__are_equal(const px4_msgs__msg__FixedWingR
   }
   // timestamp
   if (lhs->timestamp != rhs->timestamp) {
+    return false;
+  }
+  // runway_takeoff_state
+  if (lhs->runway_takeoff_state != rhs->runway_takeoff_state) {
     return false;
   }
   // wheel_steering_enabled
@@ -65,6 +71,8 @@ px4_msgs__msg__FixedWingRunwayControl__copy(
   }
   // timestamp
   output->timestamp = input->timestamp;
+  // runway_takeoff_state
+  output->runway_takeoff_state = input->runway_takeoff_state;
   // wheel_steering_enabled
   output->wheel_steering_enabled = input->wheel_steering_enabled;
   // wheel_steering_nudging_rate

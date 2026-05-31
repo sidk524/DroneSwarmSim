@@ -212,6 +212,14 @@ module px4_msgs {
       boolean cs_gnss_hgt_fault;
 
       @verbatim (language="comment", text=
+        "48 - true if the vehicle is in vtol transition")
+      boolean cs_in_transition;
+
+      @verbatim (language="comment", text=
+        "49 - true when heading is observable")
+      boolean cs_heading_observable;
+
+      @verbatim (language="comment", text=
         "fault status" "\n"
         "number of filter fault status (fs) changes")
       uint32 fault_status_changes;
@@ -259,51 +267,6 @@ module px4_msgs {
       @verbatim (language="comment", text=
         "11 - true if delta velocity data contains clipping (asymmetric railing)")
       boolean fs_bad_acc_clipping;
-
-      @verbatim (language="comment", text=
-        "innovation test failures" "\n"
-        "number of innovation fault status (reject) changes")
-      uint32 innovation_fault_status_changes;
-
-      @verbatim (language="comment", text=
-        "0 - true if horizontal velocity observations have been rejected")
-      boolean reject_hor_vel;
-
-      @verbatim (language="comment", text=
-        "1 - true if vertical velocity observations have been rejected")
-      boolean reject_ver_vel;
-
-      @verbatim (language="comment", text=
-        "2 - true if horizontal position observations have been rejected")
-      boolean reject_hor_pos;
-
-      @verbatim (language="comment", text=
-        "3 - true if vertical position observations have been rejected")
-      boolean reject_ver_pos;
-
-      @verbatim (language="comment", text=
-        "7 - true if the yaw observation has been rejected")
-      boolean reject_yaw;
-
-      @verbatim (language="comment", text=
-        "8 - true if the airspeed observation has been rejected")
-      boolean reject_airspeed;
-
-      @verbatim (language="comment", text=
-        "9 - true if the synthetic sideslip observation has been rejected")
-      boolean reject_sideslip;
-
-      @verbatim (language="comment", text=
-        "10 - true if the height above ground observation has been rejected")
-      boolean reject_hagl;
-
-      @verbatim (language="comment", text=
-        "11 - true if the X optical flow observation has been rejected")
-      boolean reject_optflow_x;
-
-      @verbatim (language="comment", text=
-        "12 - true if the Y optical flow observation has been rejected")
-      boolean reject_optflow_y;
     };
   };
 };

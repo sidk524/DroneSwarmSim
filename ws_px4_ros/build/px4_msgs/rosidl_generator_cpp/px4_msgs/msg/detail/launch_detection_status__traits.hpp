@@ -39,6 +39,13 @@ inline void to_flow_style_yaml(
   {
     out << "launch_detection_state: ";
     rosidl_generator_traits::value_to_yaml(msg.launch_detection_state, out);
+    out << ", ";
+  }
+
+  // member: selected_control_surface_disarmed
+  {
+    out << "selected_control_surface_disarmed: ";
+    rosidl_generator_traits::value_to_yaml(msg.selected_control_surface_disarmed, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -64,6 +71,16 @@ inline void to_block_style_yaml(
     }
     out << "launch_detection_state: ";
     rosidl_generator_traits::value_to_yaml(msg.launch_detection_state, out);
+    out << "\n";
+  }
+
+  // member: selected_control_surface_disarmed
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "selected_control_surface_disarmed: ";
+    rosidl_generator_traits::value_to_yaml(msg.selected_control_surface_disarmed, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

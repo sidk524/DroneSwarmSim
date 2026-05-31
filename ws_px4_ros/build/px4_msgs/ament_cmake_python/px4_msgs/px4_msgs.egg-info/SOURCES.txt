@@ -20,6 +20,7 @@ px4_msgs/msg/_airspeed_wind.py
 px4_msgs/msg/_arming_check_reply.py
 px4_msgs/msg/_arming_check_request.py
 px4_msgs/msg/_autotune_attitude_control_status.py
+px4_msgs/msg/_aux_global_position.py
 px4_msgs/msg/_battery_info.py
 px4_msgs/msg/_battery_status.py
 px4_msgs/msg/_button_event.py
@@ -44,6 +45,8 @@ px4_msgs/msg/_distance_sensor.py
 px4_msgs/msg/_distance_sensor_mode_change_request.py
 px4_msgs/msg/_dronecan_node_status.py
 px4_msgs/msg/_ekf2_timestamps.py
+px4_msgs/msg/_esc_eeprom_read.py
+px4_msgs/msg/_esc_eeprom_write.py
 px4_msgs/msg/_esc_report.py
 px4_msgs/msg/_esc_status.py
 px4_msgs/msg/_estimator_aid_source1d.py
@@ -52,6 +55,7 @@ px4_msgs/msg/_estimator_aid_source3d.py
 px4_msgs/msg/_estimator_bias.py
 px4_msgs/msg/_estimator_bias3d.py
 px4_msgs/msg/_estimator_event_flags.py
+px4_msgs/msg/_estimator_fusion_control.py
 px4_msgs/msg/_estimator_gps_status.py
 px4_msgs/msg/_estimator_innovations.py
 px4_msgs/msg/_estimator_selector_status.py
@@ -62,6 +66,8 @@ px4_msgs/msg/_estimator_status_flags.py
 px4_msgs/msg/_event.py
 px4_msgs/msg/_failsafe_flags.py
 px4_msgs/msg/_failure_detector_status.py
+px4_msgs/msg/_fiducial_marker_pos_report.py
+px4_msgs/msg/_fiducial_marker_yaw_report.py
 px4_msgs/msg/_figure_eight_status.py
 px4_msgs/msg/_fixed_wing_lateral_guidance_status.py
 px4_msgs/msg/_fixed_wing_lateral_setpoint.py
@@ -152,12 +158,16 @@ px4_msgs/msg/_position_setpoint_triplet.py
 px4_msgs/msg/_power_button_state.py
 px4_msgs/msg/_power_monitor.py
 px4_msgs/msg/_pps_capture.py
+px4_msgs/msg/_prec_land_status.py
 px4_msgs/msg/_pure_pursuit_status.py
 px4_msgs/msg/_pwm_input.py
 px4_msgs/msg/_px4io_status.py
 px4_msgs/msg/_qshell_req.py
 px4_msgs/msg/_qshell_retval.py
 px4_msgs/msg/_radio_status.py
+px4_msgs/msg/_ranging_beacon.py
+px4_msgs/msg/_raptor_input.py
+px4_msgs/msg/_raptor_status.py
 px4_msgs/msg/_rate_ctrl_status.py
 px4_msgs/msg/_rc_channels.py
 px4_msgs/msg/_rc_parameter_map.py
@@ -199,6 +209,7 @@ px4_msgs/msg/_sensors_status.py
 px4_msgs/msg/_sensors_status_imu.py
 px4_msgs/msg/_system_power.py
 px4_msgs/msg/_takeoff_status.py
+px4_msgs/msg/_target_gnss.py
 px4_msgs/msg/_task_stack_info.py
 px4_msgs/msg/_tecs_status.py
 px4_msgs/msg/_telemetry_status.py
@@ -239,7 +250,14 @@ px4_msgs/msg/_vehicle_status.py
 px4_msgs/msg/_vehicle_thrust_setpoint.py
 px4_msgs/msg/_vehicle_torque_setpoint.py
 px4_msgs/msg/_velocity_limits.py
+px4_msgs/msg/_vte_aid_source1d.py
+px4_msgs/msg/_vte_aid_source3d.py
+px4_msgs/msg/_vte_bias_init_status.py
+px4_msgs/msg/_vte_input.py
+px4_msgs/msg/_vte_orientation.py
+px4_msgs/msg/_vte_position.py
 px4_msgs/msg/_vtol_vehicle_status.py
+px4_msgs/msg/_vtx.py
 px4_msgs/msg/_wheel_encoders.py
 px4_msgs/msg/_wind.py
 px4_msgs/msg/_yaw_estimator_status.py

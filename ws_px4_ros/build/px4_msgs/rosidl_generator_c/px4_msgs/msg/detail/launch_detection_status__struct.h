@@ -55,6 +55,8 @@ typedef struct px4_msgs__msg__LaunchDetectionStatus
   /// time since system start (microseconds)
   uint64_t timestamp;
   uint8_t launch_detection_state;
+  /// flag indicating whether selected actuators should kept disarmed (have to be configured in control allocation)
+  bool selected_control_surface_disarmed;
 } px4_msgs__msg__LaunchDetectionStatus;
 
 // Struct for a sequence of px4_msgs__msg__LaunchDetectionStatus.

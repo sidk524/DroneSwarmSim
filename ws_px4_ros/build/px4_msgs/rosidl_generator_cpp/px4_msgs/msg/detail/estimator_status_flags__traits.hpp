@@ -385,6 +385,20 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: cs_in_transition
+  {
+    out << "cs_in_transition: ";
+    rosidl_generator_traits::value_to_yaml(msg.cs_in_transition, out);
+    out << ", ";
+  }
+
+  // member: cs_heading_observable
+  {
+    out << "cs_heading_observable: ";
+    rosidl_generator_traits::value_to_yaml(msg.cs_heading_observable, out);
+    out << ", ";
+  }
+
   // member: fault_status_changes
   {
     out << "fault_status_changes: ";
@@ -466,83 +480,6 @@ inline void to_flow_style_yaml(
   {
     out << "fs_bad_acc_clipping: ";
     rosidl_generator_traits::value_to_yaml(msg.fs_bad_acc_clipping, out);
-    out << ", ";
-  }
-
-  // member: innovation_fault_status_changes
-  {
-    out << "innovation_fault_status_changes: ";
-    rosidl_generator_traits::value_to_yaml(msg.innovation_fault_status_changes, out);
-    out << ", ";
-  }
-
-  // member: reject_hor_vel
-  {
-    out << "reject_hor_vel: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hor_vel, out);
-    out << ", ";
-  }
-
-  // member: reject_ver_vel
-  {
-    out << "reject_ver_vel: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_ver_vel, out);
-    out << ", ";
-  }
-
-  // member: reject_hor_pos
-  {
-    out << "reject_hor_pos: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hor_pos, out);
-    out << ", ";
-  }
-
-  // member: reject_ver_pos
-  {
-    out << "reject_ver_pos: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_ver_pos, out);
-    out << ", ";
-  }
-
-  // member: reject_yaw
-  {
-    out << "reject_yaw: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_yaw, out);
-    out << ", ";
-  }
-
-  // member: reject_airspeed
-  {
-    out << "reject_airspeed: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_airspeed, out);
-    out << ", ";
-  }
-
-  // member: reject_sideslip
-  {
-    out << "reject_sideslip: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_sideslip, out);
-    out << ", ";
-  }
-
-  // member: reject_hagl
-  {
-    out << "reject_hagl: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hagl, out);
-    out << ", ";
-  }
-
-  // member: reject_optflow_x
-  {
-    out << "reject_optflow_x: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_optflow_x, out);
-    out << ", ";
-  }
-
-  // member: reject_optflow_y
-  {
-    out << "reject_optflow_y: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_optflow_y, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -1061,6 +998,26 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: cs_in_transition
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "cs_in_transition: ";
+    rosidl_generator_traits::value_to_yaml(msg.cs_in_transition, out);
+    out << "\n";
+  }
+
+  // member: cs_heading_observable
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "cs_heading_observable: ";
+    rosidl_generator_traits::value_to_yaml(msg.cs_heading_observable, out);
+    out << "\n";
+  }
+
   // member: fault_status_changes
   {
     if (indentation > 0) {
@@ -1178,116 +1135,6 @@ inline void to_block_style_yaml(
     }
     out << "fs_bad_acc_clipping: ";
     rosidl_generator_traits::value_to_yaml(msg.fs_bad_acc_clipping, out);
-    out << "\n";
-  }
-
-  // member: innovation_fault_status_changes
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "innovation_fault_status_changes: ";
-    rosidl_generator_traits::value_to_yaml(msg.innovation_fault_status_changes, out);
-    out << "\n";
-  }
-
-  // member: reject_hor_vel
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_hor_vel: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hor_vel, out);
-    out << "\n";
-  }
-
-  // member: reject_ver_vel
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_ver_vel: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_ver_vel, out);
-    out << "\n";
-  }
-
-  // member: reject_hor_pos
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_hor_pos: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hor_pos, out);
-    out << "\n";
-  }
-
-  // member: reject_ver_pos
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_ver_pos: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_ver_pos, out);
-    out << "\n";
-  }
-
-  // member: reject_yaw
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_yaw: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_yaw, out);
-    out << "\n";
-  }
-
-  // member: reject_airspeed
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_airspeed: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_airspeed, out);
-    out << "\n";
-  }
-
-  // member: reject_sideslip
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_sideslip: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_sideslip, out);
-    out << "\n";
-  }
-
-  // member: reject_hagl
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_hagl: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_hagl, out);
-    out << "\n";
-  }
-
-  // member: reject_optflow_x
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_optflow_x: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_optflow_x, out);
-    out << "\n";
-  }
-
-  // member: reject_optflow_y
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "reject_optflow_y: ";
-    rosidl_generator_traits::value_to_yaml(msg.reject_optflow_y, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

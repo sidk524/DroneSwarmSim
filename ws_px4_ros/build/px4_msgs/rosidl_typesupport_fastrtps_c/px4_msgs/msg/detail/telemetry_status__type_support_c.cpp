@@ -178,6 +178,11 @@ bool cdr_serialize_px4_msgs__msg__TelemetryStatus(
     cdr << (ros_message->heartbeat_type_adsb ? true : false);
   }
 
+  // Field name: heartbeat_type_flarm
+  {
+    cdr << (ros_message->heartbeat_type_flarm ? true : false);
+  }
+
   // Field name: heartbeat_type_camera
   {
     cdr << (ros_message->heartbeat_type_camera ? true : false);
@@ -392,6 +397,13 @@ bool cdr_deserialize_px4_msgs__msg__TelemetryStatus(
     uint8_t tmp;
     cdr >> tmp;
     ros_message->heartbeat_type_adsb = tmp ? true : false;
+  }
+
+  // Field name: heartbeat_type_flarm
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->heartbeat_type_flarm = tmp ? true : false;
   }
 
   // Field name: heartbeat_type_camera
@@ -674,6 +686,13 @@ size_t get_serialized_size_px4_msgs__msg__TelemetryStatus(
   // Field name: heartbeat_type_adsb
   {
     size_t item_size = sizeof(ros_message->heartbeat_type_adsb);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: heartbeat_type_flarm
+  {
+    size_t item_size = sizeof(ros_message->heartbeat_type_flarm);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -980,6 +999,13 @@ size_t max_serialized_size_px4_msgs__msg__TelemetryStatus(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Field name: heartbeat_type_flarm
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Field name: heartbeat_type_camera
   {
     size_t array_size = 1;
@@ -1213,6 +1239,11 @@ bool cdr_serialize_key_px4_msgs__msg__TelemetryStatus(
   // Field name: heartbeat_type_adsb
   {
     cdr << (ros_message->heartbeat_type_adsb ? true : false);
+  }
+
+  // Field name: heartbeat_type_flarm
+  {
+    cdr << (ros_message->heartbeat_type_flarm ? true : false);
   }
 
   // Field name: heartbeat_type_camera
@@ -1471,6 +1502,13 @@ size_t get_serialized_size_key_px4_msgs__msg__TelemetryStatus(
   // Field name: heartbeat_type_adsb
   {
     size_t item_size = sizeof(ros_message->heartbeat_type_adsb);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: heartbeat_type_flarm
+  {
+    size_t item_size = sizeof(ros_message->heartbeat_type_flarm);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1769,6 +1807,13 @@ size_t max_serialized_size_key_px4_msgs__msg__TelemetryStatus(
   }
 
   // Field name: heartbeat_type_adsb
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: heartbeat_type_flarm
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);

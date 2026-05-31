@@ -216,16 +216,32 @@ private:
   ::px4_msgs::msg::TelemetryStatus msg_;
 };
 
+class Init_TelemetryStatus_heartbeat_type_flarm
+{
+public:
+  explicit Init_TelemetryStatus_heartbeat_type_flarm(::px4_msgs::msg::TelemetryStatus & msg)
+  : msg_(msg)
+  {}
+  Init_TelemetryStatus_heartbeat_type_camera heartbeat_type_flarm(::px4_msgs::msg::TelemetryStatus::_heartbeat_type_flarm_type arg)
+  {
+    msg_.heartbeat_type_flarm = std::move(arg);
+    return Init_TelemetryStatus_heartbeat_type_camera(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::TelemetryStatus msg_;
+};
+
 class Init_TelemetryStatus_heartbeat_type_adsb
 {
 public:
   explicit Init_TelemetryStatus_heartbeat_type_adsb(::px4_msgs::msg::TelemetryStatus & msg)
   : msg_(msg)
   {}
-  Init_TelemetryStatus_heartbeat_type_camera heartbeat_type_adsb(::px4_msgs::msg::TelemetryStatus::_heartbeat_type_adsb_type arg)
+  Init_TelemetryStatus_heartbeat_type_flarm heartbeat_type_adsb(::px4_msgs::msg::TelemetryStatus::_heartbeat_type_adsb_type arg)
   {
     msg_.heartbeat_type_adsb = std::move(arg);
-    return Init_TelemetryStatus_heartbeat_type_camera(msg_);
+    return Init_TelemetryStatus_heartbeat_type_flarm(msg_);
   }
 
 private:

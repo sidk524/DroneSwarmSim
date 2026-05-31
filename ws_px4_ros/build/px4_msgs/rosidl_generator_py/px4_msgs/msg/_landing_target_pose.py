@@ -68,15 +68,19 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         '_is_static',
         '_rel_pos_valid',
         '_rel_vel_valid',
+        '_rel_vel_ekf2_valid',
         '_x_rel',
         '_y_rel',
         '_z_rel',
         '_vx_rel',
         '_vy_rel',
+        '_vz_rel',
         '_cov_x_rel',
         '_cov_y_rel',
+        '_cov_z_rel',
         '_cov_vx_rel',
         '_cov_vy_rel',
+        '_cov_vz_rel',
         '_abs_pos_valid',
         '_x_abs',
         '_y_abs',
@@ -89,15 +93,19 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         'is_static': 'boolean',
         'rel_pos_valid': 'boolean',
         'rel_vel_valid': 'boolean',
+        'rel_vel_ekf2_valid': 'boolean',
         'x_rel': 'float',
         'y_rel': 'float',
         'z_rel': 'float',
         'vx_rel': 'float',
         'vy_rel': 'float',
+        'vz_rel': 'float',
         'cov_x_rel': 'float',
         'cov_y_rel': 'float',
+        'cov_z_rel': 'float',
         'cov_vx_rel': 'float',
         'cov_vy_rel': 'float',
+        'cov_vz_rel': 'float',
         'abs_pos_valid': 'boolean',
         'x_abs': 'float',
         'y_abs': 'float',
@@ -111,6 +119,10 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
@@ -139,15 +151,19 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         self.is_static = kwargs.get('is_static', bool())
         self.rel_pos_valid = kwargs.get('rel_pos_valid', bool())
         self.rel_vel_valid = kwargs.get('rel_vel_valid', bool())
+        self.rel_vel_ekf2_valid = kwargs.get('rel_vel_ekf2_valid', bool())
         self.x_rel = kwargs.get('x_rel', float())
         self.y_rel = kwargs.get('y_rel', float())
         self.z_rel = kwargs.get('z_rel', float())
         self.vx_rel = kwargs.get('vx_rel', float())
         self.vy_rel = kwargs.get('vy_rel', float())
+        self.vz_rel = kwargs.get('vz_rel', float())
         self.cov_x_rel = kwargs.get('cov_x_rel', float())
         self.cov_y_rel = kwargs.get('cov_y_rel', float())
+        self.cov_z_rel = kwargs.get('cov_z_rel', float())
         self.cov_vx_rel = kwargs.get('cov_vx_rel', float())
         self.cov_vy_rel = kwargs.get('cov_vy_rel', float())
+        self.cov_vz_rel = kwargs.get('cov_vz_rel', float())
         self.abs_pos_valid = kwargs.get('abs_pos_valid', bool())
         self.x_abs = kwargs.get('x_abs', float())
         self.y_abs = kwargs.get('y_abs', float())
@@ -191,6 +207,8 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
             return False
         if self.rel_vel_valid != other.rel_vel_valid:
             return False
+        if self.rel_vel_ekf2_valid != other.rel_vel_ekf2_valid:
+            return False
         if self.x_rel != other.x_rel:
             return False
         if self.y_rel != other.y_rel:
@@ -201,13 +219,19 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
             return False
         if self.vy_rel != other.vy_rel:
             return False
+        if self.vz_rel != other.vz_rel:
+            return False
         if self.cov_x_rel != other.cov_x_rel:
             return False
         if self.cov_y_rel != other.cov_y_rel:
             return False
+        if self.cov_z_rel != other.cov_z_rel:
+            return False
         if self.cov_vx_rel != other.cov_vx_rel:
             return False
         if self.cov_vy_rel != other.cov_vy_rel:
+            return False
+        if self.cov_vz_rel != other.cov_vz_rel:
             return False
         if self.abs_pos_valid != other.abs_pos_valid:
             return False
@@ -277,6 +301,19 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
                 isinstance(value, bool), \
                 "The 'rel_vel_valid' field must be of type 'bool'"
         self._rel_vel_valid = value
+
+    @builtins.property
+    def rel_vel_ekf2_valid(self):
+        """Message field 'rel_vel_ekf2_valid'."""
+        return self._rel_vel_ekf2_valid
+
+    @rel_vel_ekf2_valid.setter
+    def rel_vel_ekf2_valid(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'rel_vel_ekf2_valid' field must be of type 'bool'"
+        self._rel_vel_ekf2_valid = value
 
     @builtins.property
     def x_rel(self):
@@ -354,6 +391,21 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         self._vy_rel = value
 
     @builtins.property
+    def vz_rel(self):
+        """Message field 'vz_rel'."""
+        return self._vz_rel
+
+    @vz_rel.setter
+    def vz_rel(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'vz_rel' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'vz_rel' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._vz_rel = value
+
+    @builtins.property
     def cov_x_rel(self):
         """Message field 'cov_x_rel'."""
         return self._cov_x_rel
@@ -384,6 +436,21 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
         self._cov_y_rel = value
 
     @builtins.property
+    def cov_z_rel(self):
+        """Message field 'cov_z_rel'."""
+        return self._cov_z_rel
+
+    @cov_z_rel.setter
+    def cov_z_rel(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'cov_z_rel' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'cov_z_rel' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._cov_z_rel = value
+
+    @builtins.property
     def cov_vx_rel(self):
         """Message field 'cov_vx_rel'."""
         return self._cov_vx_rel
@@ -412,6 +479,21 @@ class LandingTargetPose(metaclass=Metaclass_LandingTargetPose):
             assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
                 "The 'cov_vy_rel' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
         self._cov_vy_rel = value
+
+    @builtins.property
+    def cov_vz_rel(self):
+        """Message field 'cov_vz_rel'."""
+        return self._cov_vz_rel
+
+    @cov_vz_rel.setter
+    def cov_vz_rel(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'cov_vz_rel' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'cov_vz_rel' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._cov_vz_rel = value
 
     @builtins.property
     def abs_pos_valid(self):

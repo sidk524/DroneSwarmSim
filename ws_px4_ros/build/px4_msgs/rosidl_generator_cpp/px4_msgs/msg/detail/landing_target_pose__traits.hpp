@@ -56,6 +56,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: rel_vel_ekf2_valid
+  {
+    out << "rel_vel_ekf2_valid: ";
+    rosidl_generator_traits::value_to_yaml(msg.rel_vel_ekf2_valid, out);
+    out << ", ";
+  }
+
   // member: x_rel
   {
     out << "x_rel: ";
@@ -91,6 +98,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: vz_rel
+  {
+    out << "vz_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.vz_rel, out);
+    out << ", ";
+  }
+
   // member: cov_x_rel
   {
     out << "cov_x_rel: ";
@@ -105,6 +119,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: cov_z_rel
+  {
+    out << "cov_z_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.cov_z_rel, out);
+    out << ", ";
+  }
+
   // member: cov_vx_rel
   {
     out << "cov_vx_rel: ";
@@ -116,6 +137,13 @@ inline void to_flow_style_yaml(
   {
     out << "cov_vy_rel: ";
     rosidl_generator_traits::value_to_yaml(msg.cov_vy_rel, out);
+    out << ", ";
+  }
+
+  // member: cov_vz_rel
+  {
+    out << "cov_vz_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.cov_vz_rel, out);
     out << ", ";
   }
 
@@ -192,6 +220,16 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: rel_vel_ekf2_valid
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "rel_vel_ekf2_valid: ";
+    rosidl_generator_traits::value_to_yaml(msg.rel_vel_ekf2_valid, out);
+    out << "\n";
+  }
+
   // member: x_rel
   {
     if (indentation > 0) {
@@ -242,6 +280,16 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: vz_rel
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "vz_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.vz_rel, out);
+    out << "\n";
+  }
+
   // member: cov_x_rel
   {
     if (indentation > 0) {
@@ -262,6 +310,16 @@ inline void to_block_style_yaml(
     out << "\n";
   }
 
+  // member: cov_z_rel
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "cov_z_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.cov_z_rel, out);
+    out << "\n";
+  }
+
   // member: cov_vx_rel
   {
     if (indentation > 0) {
@@ -279,6 +337,16 @@ inline void to_block_style_yaml(
     }
     out << "cov_vy_rel: ";
     rosidl_generator_traits::value_to_yaml(msg.cov_vy_rel, out);
+    out << "\n";
+  }
+
+  // member: cov_vz_rel
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "cov_vz_rel: ";
+    rosidl_generator_traits::value_to_yaml(msg.cov_vz_rel, out);
     out << "\n";
   }
 

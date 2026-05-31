@@ -91,7 +91,7 @@ cdr_serialize(
 
   // Member: esc
   {
-    for (size_t i = 0; i < 8; i++) {
+    for (size_t i = 0; i < 12; i++) {
       px4_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
         ros_message.esc[i],
         cdr);
@@ -127,7 +127,7 @@ cdr_deserialize(
 
   // Member: esc
   {
-    for (size_t i = 0; i < 8; i++) {
+    for (size_t i = 0; i < 12; i++) {
       px4_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
         cdr,
         ros_message.esc[i]);
@@ -195,7 +195,7 @@ get_serialized_size(
 
   // Member: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     for (size_t index = 0; index < array_size; ++index) {
       current_alignment +=
         px4_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
@@ -255,18 +255,20 @@ max_serialized_size_EscStatus(
   // Member: esc_online_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
   // Member: esc_armed_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
   // Member: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     last_member_size = 0;
     for (size_t index = 0; index < array_size; ++index) {
       bool inner_full_bounded;
@@ -323,7 +325,7 @@ cdr_serialize_key(
 
   // Member: esc
   {
-    for (size_t i = 0; i < 8; i++) {
+    for (size_t i = 0; i < 12; i++) {
       px4_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize_key(
         ros_message.esc[i],
         cdr);
@@ -390,7 +392,7 @@ get_serialized_size_key(
 
   // Member: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     for (size_t index = 0; index < array_size; ++index) {
       current_alignment +=
         px4_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size_key(
@@ -453,20 +455,22 @@ max_serialized_size_key_EscStatus(
   // Member: esc_online_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Member: esc_armed_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Member: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     last_member_size = 0;
     for (size_t index = 0; index < array_size; ++index) {
       bool inner_full_bounded;

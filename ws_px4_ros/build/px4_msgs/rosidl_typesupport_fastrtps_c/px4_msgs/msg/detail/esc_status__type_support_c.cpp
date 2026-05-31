@@ -114,7 +114,7 @@ bool cdr_serialize_px4_msgs__msg__EscStatus(
 
   // Field name: esc
   {
-    size_t size = 8;
+    size_t size = 12;
     auto array_ptr = ros_message->esc;
     for (size_t i = 0; i < size; ++i) {
       cdr_serialize_px4_msgs__msg__EscReport(
@@ -162,7 +162,7 @@ bool cdr_deserialize_px4_msgs__msg__EscStatus(
 
   // Field name: esc
   {
-    size_t size = 8;
+    size_t size = 12;
     auto array_ptr = ros_message->esc;
     for (size_t i = 0; i < size; ++i) {
       cdr_deserialize_px4_msgs__msg__EscReport(cdr, &array_ptr[i]);
@@ -231,7 +231,7 @@ size_t get_serialized_size_px4_msgs__msg__EscStatus(
 
   // Field name: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     auto array_ptr = ros_message->esc;
     for (size_t index = 0; index < array_size; ++index) {
       current_alignment += get_serialized_size_px4_msgs__msg__EscReport(
@@ -294,20 +294,22 @@ size_t max_serialized_size_px4_msgs__msg__EscStatus(
   // Field name: esc_online_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc_armed_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     last_member_size = 0;
     for (size_t index = 0; index < array_size; ++index) {
       bool inner_full_bounded;
@@ -376,7 +378,7 @@ bool cdr_serialize_key_px4_msgs__msg__EscStatus(
 
   // Field name: esc
   {
-    size_t size = 8;
+    size_t size = 12;
     auto array_ptr = ros_message->esc;
     for (size_t i = 0; i < size; ++i) {
       cdr_serialize_key_px4_msgs__msg__EscReport(
@@ -446,7 +448,7 @@ size_t get_serialized_size_key_px4_msgs__msg__EscStatus(
 
   // Field name: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     auto array_ptr = ros_message->esc;
     for (size_t index = 0; index < array_size; ++index) {
       current_alignment += get_serialized_size_key_px4_msgs__msg__EscReport(
@@ -507,20 +509,22 @@ size_t max_serialized_size_key_px4_msgs__msg__EscStatus(
   // Field name: esc_online_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc_armed_flags
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc
   {
-    size_t array_size = 8;
+    size_t array_size = 12;
     last_member_size = 0;
     for (size_t index = 0; index < array_size; ++index) {
       bool inner_full_bounded;

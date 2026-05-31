@@ -78,14 +78,9 @@ bool cdr_serialize_px4_msgs__msg__EscReport(
     cdr << ros_message->esc_temperature;
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
-    cdr << ros_message->esc_address;
-  }
-
-  // Field name: esc_cmdcount
-  {
-    cdr << ros_message->esc_cmdcount;
+    cdr << ros_message->motor_temperature;
   }
 
   // Field name: esc_state
@@ -146,14 +141,9 @@ bool cdr_deserialize_px4_msgs__msg__EscReport(
     cdr >> ros_message->esc_temperature;
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
-    cdr >> ros_message->esc_address;
-  }
-
-  // Field name: esc_cmdcount
-  {
-    cdr >> ros_message->esc_cmdcount;
+    cdr >> ros_message->motor_temperature;
   }
 
   // Field name: esc_state
@@ -236,16 +226,9 @@ size_t get_serialized_size_px4_msgs__msg__EscReport(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
-    size_t item_size = sizeof(ros_message->esc_address);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: esc_cmdcount
-  {
-    size_t item_size = sizeof(ros_message->esc_cmdcount);
+    size_t item_size = sizeof(ros_message->motor_temperature);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -348,18 +331,12 @@ size_t max_serialized_size_px4_msgs__msg__EscReport(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: esc_cmdcount
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc_state
@@ -442,14 +419,9 @@ bool cdr_serialize_key_px4_msgs__msg__EscReport(
     cdr << ros_message->esc_temperature;
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
-    cdr << ros_message->esc_address;
-  }
-
-  // Field name: esc_cmdcount
-  {
-    cdr << ros_message->esc_cmdcount;
+    cdr << ros_message->motor_temperature;
   }
 
   // Field name: esc_state
@@ -532,16 +504,9 @@ size_t get_serialized_size_key_px4_msgs__msg__EscReport(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
-    size_t item_size = sizeof(ros_message->esc_address);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Field name: esc_cmdcount
-  {
-    size_t item_size = sizeof(ros_message->esc_cmdcount);
+    size_t item_size = sizeof(ros_message->motor_temperature);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -642,18 +607,12 @@ size_t max_serialized_size_key_px4_msgs__msg__EscReport(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
-  // Field name: esc_address
+  // Field name: motor_temperature
   {
     size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Field name: esc_cmdcount
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint16_t);
+    current_alignment += array_size * sizeof(uint16_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint16_t));
   }
 
   // Field name: esc_state

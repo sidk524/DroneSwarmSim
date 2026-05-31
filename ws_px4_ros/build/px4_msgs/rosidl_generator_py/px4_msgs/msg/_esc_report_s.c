@@ -104,22 +104,13 @@ bool px4_msgs__msg__esc_report__convert_from_py(PyObject * _pymsg, void * _ros_m
     ros_message->esc_temperature = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
-  {  // esc_address
-    PyObject * field = PyObject_GetAttrString(_pymsg, "esc_address");
+  {  // motor_temperature
+    PyObject * field = PyObject_GetAttrString(_pymsg, "motor_temperature");
     if (!field) {
       return false;
     }
     assert(PyLong_Check(field));
-    ros_message->esc_address = (uint8_t)PyLong_AsUnsignedLong(field);
-    Py_DECREF(field);
-  }
-  {  // esc_cmdcount
-    PyObject * field = PyObject_GetAttrString(_pymsg, "esc_cmdcount");
-    if (!field) {
-      return false;
-    }
-    assert(PyLong_Check(field));
-    ros_message->esc_cmdcount = (uint8_t)PyLong_AsUnsignedLong(field);
+    ros_message->motor_temperature = (int16_t)PyLong_AsLong(field);
     Py_DECREF(field);
   }
   {  // esc_state
@@ -246,22 +237,11 @@ PyObject * px4_msgs__msg__esc_report__convert_to_py(void * raw_ros_message)
       }
     }
   }
-  {  // esc_address
+  {  // motor_temperature
     PyObject * field = NULL;
-    field = PyLong_FromUnsignedLong(ros_message->esc_address);
+    field = PyLong_FromLong(ros_message->motor_temperature);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "esc_address", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // esc_cmdcount
-    PyObject * field = NULL;
-    field = PyLong_FromUnsignedLong(ros_message->esc_cmdcount);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "esc_cmdcount", field);
+      int rc = PyObject_SetAttrString(_pymessage, "motor_temperature", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

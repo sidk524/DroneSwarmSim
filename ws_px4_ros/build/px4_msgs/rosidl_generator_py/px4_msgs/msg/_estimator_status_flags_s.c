@@ -509,6 +509,24 @@ bool px4_msgs__msg__estimator_status_flags__convert_from_py(PyObject * _pymsg, v
     ros_message->cs_gnss_hgt_fault = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // cs_in_transition
+    PyObject * field = PyObject_GetAttrString(_pymsg, "cs_in_transition");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->cs_in_transition = (Py_True == field);
+    Py_DECREF(field);
+  }
+  {  // cs_heading_observable
+    PyObject * field = PyObject_GetAttrString(_pymsg, "cs_heading_observable");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->cs_heading_observable = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // fault_status_changes
     PyObject * field = PyObject_GetAttrString(_pymsg, "fault_status_changes");
     if (!field) {
@@ -615,105 +633,6 @@ bool px4_msgs__msg__estimator_status_flags__convert_from_py(PyObject * _pymsg, v
     }
     assert(PyBool_Check(field));
     ros_message->fs_bad_acc_clipping = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // innovation_fault_status_changes
-    PyObject * field = PyObject_GetAttrString(_pymsg, "innovation_fault_status_changes");
-    if (!field) {
-      return false;
-    }
-    assert(PyLong_Check(field));
-    ros_message->innovation_fault_status_changes = PyLong_AsUnsignedLong(field);
-    Py_DECREF(field);
-  }
-  {  // reject_hor_vel
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_hor_vel");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_hor_vel = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_ver_vel
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_ver_vel");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_ver_vel = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_hor_pos
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_hor_pos");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_hor_pos = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_ver_pos
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_ver_pos");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_ver_pos = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_yaw
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_yaw");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_yaw = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_airspeed
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_airspeed");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_airspeed = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_sideslip
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_sideslip");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_sideslip = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_hagl
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_hagl");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_hagl = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_optflow_x
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_optflow_x");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_optflow_x = (Py_True == field);
-    Py_DECREF(field);
-  }
-  {  // reject_optflow_y
-    PyObject * field = PyObject_GetAttrString(_pymsg, "reject_optflow_y");
-    if (!field) {
-      return false;
-    }
-    assert(PyBool_Check(field));
-    ros_message->reject_optflow_y = (Py_True == field);
     Py_DECREF(field);
   }
 
@@ -1299,6 +1218,28 @@ PyObject * px4_msgs__msg__estimator_status_flags__convert_to_py(void * raw_ros_m
       }
     }
   }
+  {  // cs_in_transition
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->cs_in_transition ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "cs_in_transition", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // cs_heading_observable
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->cs_heading_observable ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "cs_heading_observable", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // fault_status_changes
     PyObject * field = NULL;
     field = PyLong_FromUnsignedLong(ros_message->fault_status_changes);
@@ -1425,127 +1366,6 @@ PyObject * px4_msgs__msg__estimator_status_flags__convert_to_py(void * raw_ros_m
     field = PyBool_FromLong(ros_message->fs_bad_acc_clipping ? 1 : 0);
     {
       int rc = PyObject_SetAttrString(_pymessage, "fs_bad_acc_clipping", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // innovation_fault_status_changes
-    PyObject * field = NULL;
-    field = PyLong_FromUnsignedLong(ros_message->innovation_fault_status_changes);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "innovation_fault_status_changes", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_hor_vel
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_hor_vel ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_hor_vel", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_ver_vel
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_ver_vel ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_ver_vel", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_hor_pos
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_hor_pos ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_hor_pos", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_ver_pos
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_ver_pos ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_ver_pos", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_yaw
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_yaw ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_yaw", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_airspeed
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_airspeed ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_airspeed", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_sideslip
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_sideslip ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_sideslip", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_hagl
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_hagl ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_hagl", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_optflow_x
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_optflow_x ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_optflow_x", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // reject_optflow_y
-    PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->reject_optflow_y ? 1 : 0);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "reject_optflow_y", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

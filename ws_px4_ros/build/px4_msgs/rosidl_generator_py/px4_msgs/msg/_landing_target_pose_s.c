@@ -86,6 +86,15 @@ bool px4_msgs__msg__landing_target_pose__convert_from_py(PyObject * _pymsg, void
     ros_message->rel_vel_valid = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // rel_vel_ekf2_valid
+    PyObject * field = PyObject_GetAttrString(_pymsg, "rel_vel_ekf2_valid");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->rel_vel_ekf2_valid = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // x_rel
     PyObject * field = PyObject_GetAttrString(_pymsg, "x_rel");
     if (!field) {
@@ -131,6 +140,15 @@ bool px4_msgs__msg__landing_target_pose__convert_from_py(PyObject * _pymsg, void
     ros_message->vy_rel = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
+  {  // vz_rel
+    PyObject * field = PyObject_GetAttrString(_pymsg, "vz_rel");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->vz_rel = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
   {  // cov_x_rel
     PyObject * field = PyObject_GetAttrString(_pymsg, "cov_x_rel");
     if (!field) {
@@ -149,6 +167,15 @@ bool px4_msgs__msg__landing_target_pose__convert_from_py(PyObject * _pymsg, void
     ros_message->cov_y_rel = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
+  {  // cov_z_rel
+    PyObject * field = PyObject_GetAttrString(_pymsg, "cov_z_rel");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->cov_z_rel = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
   {  // cov_vx_rel
     PyObject * field = PyObject_GetAttrString(_pymsg, "cov_vx_rel");
     if (!field) {
@@ -165,6 +192,15 @@ bool px4_msgs__msg__landing_target_pose__convert_from_py(PyObject * _pymsg, void
     }
     assert(PyFloat_Check(field));
     ros_message->cov_vy_rel = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // cov_vz_rel
+    PyObject * field = PyObject_GetAttrString(_pymsg, "cov_vz_rel");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->cov_vz_rel = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
   {  // abs_pos_valid
@@ -269,6 +305,17 @@ PyObject * px4_msgs__msg__landing_target_pose__convert_to_py(void * raw_ros_mess
       }
     }
   }
+  {  // rel_vel_ekf2_valid
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->rel_vel_ekf2_valid ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "rel_vel_ekf2_valid", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // x_rel
     PyObject * field = NULL;
     field = PyFloat_FromDouble(ros_message->x_rel);
@@ -324,6 +371,17 @@ PyObject * px4_msgs__msg__landing_target_pose__convert_to_py(void * raw_ros_mess
       }
     }
   }
+  {  // vz_rel
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->vz_rel);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "vz_rel", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // cov_x_rel
     PyObject * field = NULL;
     field = PyFloat_FromDouble(ros_message->cov_x_rel);
@@ -346,6 +404,17 @@ PyObject * px4_msgs__msg__landing_target_pose__convert_to_py(void * raw_ros_mess
       }
     }
   }
+  {  // cov_z_rel
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->cov_z_rel);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "cov_z_rel", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // cov_vx_rel
     PyObject * field = NULL;
     field = PyFloat_FromDouble(ros_message->cov_vx_rel);
@@ -362,6 +431,17 @@ PyObject * px4_msgs__msg__landing_target_pose__convert_to_py(void * raw_ros_mess
     field = PyFloat_FromDouble(ros_message->cov_vy_rel);
     {
       int rc = PyObject_SetAttrString(_pymessage, "cov_vy_rel", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // cov_vz_rel
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->cov_vz_rel);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "cov_vz_rel", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

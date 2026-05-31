@@ -31,7 +31,7 @@ void px4_msgs__msg__SensorGps__rosidl_typesupport_introspection_c__SensorGps_fin
   px4_msgs__msg__SensorGps__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__SensorGps__rosidl_typesupport_introspection_c__SensorGps_message_member_array[37] = {
+static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__SensorGps__rosidl_typesupport_introspection_c__SensorGps_message_member_array[40] = {
   {
     "timestamp",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_UINT64,  // type
@@ -697,13 +697,67 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__SensorGp
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "antenna_offset_x",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__SensorGps, antenna_offset_x),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "antenna_offset_y",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__SensorGps, antenna_offset_y),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "antenna_offset_z",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__SensorGps, antenna_offset_z),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers px4_msgs__msg__SensorGps__rosidl_typesupport_introspection_c__SensorGps_message_members = {
   "px4_msgs__msg",  // message namespace
   "SensorGps",  // message name
-  37,  // number of fields
+  40,  // number of fields
   sizeof(px4_msgs__msg__SensorGps),
   false,  // has_any_key_member_
   px4_msgs__msg__SensorGps__rosidl_typesupport_introspection_c__SensorGps_message_member_array,  // message members

@@ -167,6 +167,15 @@ bool px4_msgs__msg__register_ext_component_request__convert_from_py(PyObject * _
     ros_message->not_user_selectable = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // request_offboard_setpoints
+    PyObject * field = PyObject_GetAttrString(_pymsg, "request_offboard_setpoints");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->request_offboard_setpoints = (Py_True == field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -311,6 +320,17 @@ PyObject * px4_msgs__msg__register_ext_component_request__convert_to_py(void * r
     field = PyBool_FromLong(ros_message->not_user_selectable ? 1 : 0);
     {
       int rc = PyObject_SetAttrString(_pymessage, "not_user_selectable", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // request_offboard_setpoints
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->request_offboard_setpoints ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "request_offboard_setpoints", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

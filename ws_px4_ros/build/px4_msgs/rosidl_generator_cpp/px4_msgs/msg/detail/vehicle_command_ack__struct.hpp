@@ -148,7 +148,9 @@ struct VehicleCommandAck_
 
   // constant declarations
   static constexpr uint32_t MESSAGE_VERSION =
-    0u;
+    1u;
+  static constexpr uint8_t ORB_QUEUE_LENGTH =
+    8u;
   static constexpr uint8_t VEHICLE_CMD_RESULT_ACCEPTED =
     0u;
   static constexpr uint8_t VEHICLE_CMD_RESULT_TEMPORARILY_REJECTED =
@@ -163,6 +165,12 @@ struct VehicleCommandAck_
     5u;
   static constexpr uint8_t VEHICLE_CMD_RESULT_CANCELLED =
     6u;
+  static constexpr uint8_t VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY =
+    7u;
+  static constexpr uint8_t VEHICLE_CMD_RESULT_COMMAND_INT_ONLY =
+    8u;
+  static constexpr uint8_t VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME =
+    9u;
   static constexpr uint16_t ARM_AUTH_DENIED_REASON_GENERIC =
     0u;
   static constexpr uint16_t ARM_AUTH_DENIED_REASON_NONE =
@@ -175,8 +183,6 @@ struct VehicleCommandAck_
     4u;
   static constexpr uint16_t ARM_AUTH_DENIED_REASON_BAD_WEATHER =
     5u;
-  static constexpr uint8_t ORB_QUEUE_LENGTH =
-    4u;
 
   // pointer types
   using RawPtr =
@@ -263,6 +269,11 @@ constexpr uint32_t VehicleCommandAck_<ContainerAllocator>::MESSAGE_VERSION;
 #if __cplusplus < 201703L
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::ORB_QUEUE_LENGTH;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
 constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::VEHICLE_CMD_RESULT_ACCEPTED;
 #endif  // __cplusplus < 201703L
 #if __cplusplus < 201703L
@@ -298,6 +309,21 @@ constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::VEHICLE_CMD_RESULT_CAN
 #if __cplusplus < 201703L
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::VEHICLE_CMD_RESULT_COMMAND_LONG_ONLY;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::VEHICLE_CMD_RESULT_COMMAND_INT_ONLY;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::VEHICLE_CMD_RESULT_UNSUPPORTED_MAV_FRAME;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
 constexpr uint16_t VehicleCommandAck_<ContainerAllocator>::ARM_AUTH_DENIED_REASON_GENERIC;
 #endif  // __cplusplus < 201703L
 #if __cplusplus < 201703L
@@ -324,11 +350,6 @@ constexpr uint16_t VehicleCommandAck_<ContainerAllocator>::ARM_AUTH_DENIED_REASO
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint16_t VehicleCommandAck_<ContainerAllocator>::ARM_AUTH_DENIED_REASON_BAD_WEATHER;
-#endif  // __cplusplus < 201703L
-#if __cplusplus < 201703L
-// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
-template<typename ContainerAllocator>
-constexpr uint8_t VehicleCommandAck_<ContainerAllocator>::ORB_QUEUE_LENGTH;
 #endif  // __cplusplus < 201703L
 
 }  // namespace msg

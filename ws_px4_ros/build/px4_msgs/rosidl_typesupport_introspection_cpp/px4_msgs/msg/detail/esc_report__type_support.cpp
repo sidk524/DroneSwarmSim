@@ -38,7 +38,7 @@ void EscReport_fini_function(void * message_memory)
   typed_message->~EscReport();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember EscReport_message_member_array[12] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember EscReport_message_member_array[11] = {
   {
     "timestamp",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT64,  // type
@@ -148,33 +148,15 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EscReport_mes
     nullptr  // resize(index) function pointer
   },
   {
-    "esc_address",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
+    "motor_temperature",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT16,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is key
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(px4_msgs::msg::EscReport, esc_address),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "esc_cmdcount",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT8,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is key
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(px4_msgs::msg::EscReport, esc_cmdcount),  // bytes offset in struct
+    offsetof(px4_msgs::msg::EscReport, motor_temperature),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -260,7 +242,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EscReport_mes
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers EscReport_message_members = {
   "px4_msgs::msg",  // message namespace
   "EscReport",  // message name
-  12,  // number of fields
+  11,  // number of fields
   sizeof(px4_msgs::msg::EscReport),
   false,  // has_any_key_member_
   EscReport_message_member_array,  // message members

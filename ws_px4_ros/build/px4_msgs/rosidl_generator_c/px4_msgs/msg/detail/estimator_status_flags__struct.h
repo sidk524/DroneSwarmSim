@@ -125,6 +125,10 @@ typedef struct px4_msgs__msg__EstimatorStatusFlags
   bool cs_yaw_manual;
   /// 47 - true if GNSS true if GNSS measurements (alt) have been declared faulty
   bool cs_gnss_hgt_fault;
+  /// 48 - true if the vehicle is in vtol transition
+  bool cs_in_transition;
+  /// 49 - true when heading is observable
+  bool cs_heading_observable;
   /// fault status
   /// number of filter fault status (fs) changes
   uint32_t fault_status_changes;
@@ -150,29 +154,6 @@ typedef struct px4_msgs__msg__EstimatorStatusFlags
   bool fs_bad_acc_vertical;
   /// 11 - true if delta velocity data contains clipping (asymmetric railing)
   bool fs_bad_acc_clipping;
-  /// innovation test failures
-  /// number of innovation fault status (reject) changes
-  uint32_t innovation_fault_status_changes;
-  /// 0 - true if horizontal velocity observations have been rejected
-  bool reject_hor_vel;
-  /// 1 - true if vertical velocity observations have been rejected
-  bool reject_ver_vel;
-  /// 2 - true if horizontal position observations have been rejected
-  bool reject_hor_pos;
-  /// 3 - true if vertical position observations have been rejected
-  bool reject_ver_pos;
-  /// 7 - true if the yaw observation has been rejected
-  bool reject_yaw;
-  /// 8 - true if the airspeed observation has been rejected
-  bool reject_airspeed;
-  /// 9 - true if the synthetic sideslip observation has been rejected
-  bool reject_sideslip;
-  /// 10 - true if the height above ground observation has been rejected
-  bool reject_hagl;
-  /// 11 - true if the X optical flow observation has been rejected
-  bool reject_optflow_x;
-  /// 12 - true if the Y optical flow observation has been rejected
-  bool reject_optflow_y;
 } px4_msgs__msg__EstimatorStatusFlags;
 
 // Struct for a sequence of px4_msgs__msg__EstimatorStatusFlags.

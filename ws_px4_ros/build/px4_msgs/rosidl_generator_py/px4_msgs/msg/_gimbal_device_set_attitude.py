@@ -37,6 +37,8 @@ class Metaclass_GimbalDeviceSetAttitude(type):
         'GIMBAL_DEVICE_FLAGS_ROLL_LOCK': 4,
         'GIMBAL_DEVICE_FLAGS_PITCH_LOCK': 8,
         'GIMBAL_DEVICE_FLAGS_YAW_LOCK': 16,
+        'GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME': 32,
+        'GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME': 64,
     }
 
     @classmethod
@@ -70,6 +72,8 @@ class Metaclass_GimbalDeviceSetAttitude(type):
             'GIMBAL_DEVICE_FLAGS_ROLL_LOCK': cls.__constants['GIMBAL_DEVICE_FLAGS_ROLL_LOCK'],
             'GIMBAL_DEVICE_FLAGS_PITCH_LOCK': cls.__constants['GIMBAL_DEVICE_FLAGS_PITCH_LOCK'],
             'GIMBAL_DEVICE_FLAGS_YAW_LOCK': cls.__constants['GIMBAL_DEVICE_FLAGS_YAW_LOCK'],
+            'GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME': cls.__constants['GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME'],
+            'GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME': cls.__constants['GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME'],
         }
 
     @property
@@ -97,6 +101,16 @@ class Metaclass_GimbalDeviceSetAttitude(type):
         """Message constant 'GIMBAL_DEVICE_FLAGS_YAW_LOCK'."""
         return Metaclass_GimbalDeviceSetAttitude.__constants['GIMBAL_DEVICE_FLAGS_YAW_LOCK']
 
+    @property
+    def GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME(self):
+        """Message constant 'GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME'."""
+        return Metaclass_GimbalDeviceSetAttitude.__constants['GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME']
+
+    @property
+    def GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME(self):
+        """Message constant 'GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME'."""
+        return Metaclass_GimbalDeviceSetAttitude.__constants['GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME']
+
 
 class GimbalDeviceSetAttitude(metaclass=Metaclass_GimbalDeviceSetAttitude):
     """
@@ -108,6 +122,8 @@ class GimbalDeviceSetAttitude(metaclass=Metaclass_GimbalDeviceSetAttitude):
       GIMBAL_DEVICE_FLAGS_ROLL_LOCK
       GIMBAL_DEVICE_FLAGS_PITCH_LOCK
       GIMBAL_DEVICE_FLAGS_YAW_LOCK
+      GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME
+      GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME
     """
 
     __slots__ = [

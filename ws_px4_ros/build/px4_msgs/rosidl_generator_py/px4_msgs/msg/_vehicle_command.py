@@ -102,8 +102,10 @@ class Metaclass_VehicleCommand(type):
         'VEHICLE_CMD_DO_SET_STANDARD_MODE': 262,
         'VEHICLE_CMD_GIMBAL_DEVICE_INFORMATION': 283,
         'VEHICLE_CMD_MISSION_START': 300,
+        'VEHICLE_CMD_ACTUATOR_GROUP_TEST': 309,
         'VEHICLE_CMD_ACTUATOR_TEST': 310,
         'VEHICLE_CMD_CONFIGURE_ACTUATOR': 311,
+        'VEHICLE_CMD_ESC_REQUEST_EEPROM': 312,
         'VEHICLE_CMD_COMPONENT_ARM_DISARM': 400,
         'VEHICLE_CMD_RUN_PREARM_CHECKS': 401,
         'VEHICLE_CMD_INJECT_FAILURE': 420,
@@ -132,9 +134,20 @@ class Metaclass_VehicleCommand(type):
         'VEHICLE_CMD_DO_WINCH': 42600,
         'VEHICLE_CMD_EXTERNAL_POSITION_ESTIMATE': 43003,
         'VEHICLE_CMD_EXTERNAL_WIND_ESTIMATE': 43004,
+        'VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE': 43006,
+        'FUSION_SOURCE_GPS': 0,
+        'FUSION_SOURCE_OF': 1,
+        'FUSION_SOURCE_EV': 2,
+        'FUSION_SOURCE_AGP': 3,
+        'FUSION_SOURCE_BARO': 4,
+        'FUSION_SOURCE_RNG': 5,
+        'FUSION_SOURCE_MAG': 6,
+        'FUSION_SOURCE_ASPD': 7,
+        'FUSION_SOURCE_RNGBCN': 8,
         'VEHICLE_CMD_PX4_INTERNAL_START': 65537,
         'VEHICLE_CMD_SET_GPS_GLOBAL_ORIGIN': 100000,
         'VEHICLE_CMD_SET_NAV_STATE': 100001,
+        'VEHICLE_CMD_GUIDED_CHANGE_HEADING': 43002,
         'VEHICLE_MOUNT_MODE_RETRACT': 0,
         'VEHICLE_MOUNT_MODE_NEUTRAL': 1,
         'VEHICLE_MOUNT_MODE_MAVLINK_TARGETING': 2,
@@ -147,6 +160,12 @@ class Metaclass_VehicleCommand(type):
         'VEHICLE_ROI_LOCATION': 3,
         'VEHICLE_ROI_TARGET': 4,
         'VEHICLE_ROI_ENUM_END': 5,
+        'ACTUATOR_CONFIGURATION_NONE': 0,
+        'ACTUATOR_CONFIGURATION_BEEP': 1,
+        'ACTUATOR_CONFIGURATION_3D_MODE_ON': 2,
+        'ACTUATOR_CONFIGURATION_3D_MODE_OFF': 3,
+        'ACTUATOR_CONFIGURATION_SPIN_DIRECTION1': 4,
+        'ACTUATOR_CONFIGURATION_SPIN_DIRECTION2': 5,
         'PARACHUTE_ACTION_DISABLE': 0,
         'PARACHUTE_ACTION_ENABLE': 1,
         'PARACHUTE_ACTION_RELEASE': 2,
@@ -183,12 +202,24 @@ class Metaclass_VehicleCommand(type):
         'ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TANGENT_TO_CIRCLE': 3,
         'ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED': 4,
         'ORBIT_YAW_BEHAVIOUR_UNCHANGED': 5,
+        'RC_TYPE_SPEKTRUM': 0,
+        'RC_TYPE_CRSF': 1,
+        'RC_SUB_TYPE_SPEKTRUM_DSM2': 0,
+        'RC_SUB_TYPE_SPEKTRUM_DSMX': 1,
+        'RC_SUB_TYPE_SPEKTRUM_DSMX8': 2,
         'ARMING_ACTION_DISARM': 0,
         'ARMING_ACTION_ARM': 1,
         'GRIPPER_ACTION_RELEASE': 0,
         'GRIPPER_ACTION_GRAB': 1,
         'SAFETY_OFF': 0,
         'SAFETY_ON': 1,
+        'ACTUATOR_TEST_GROUP_ROLL_TORQUE': 0,
+        'ACTUATOR_TEST_GROUP_PITCH_TORQUE': 1,
+        'ACTUATOR_TEST_GROUP_YAW_TORQUE': 2,
+        'ACTUATOR_TEST_GROUP_COLLECTIVE_TILT': 3,
+        'ACTUATOR_TEST_GROUP_X_THRUST': 4,
+        'ACTUATOR_TEST_GROUP_Y_THRUST': 5,
+        'ACTUATOR_TEST_GROUP_Z_THRUST': 6,
         'ORB_QUEUE_LENGTH': 8,
         'COMPONENT_MODE_EXECUTOR_START': 1000,
     }
@@ -292,8 +323,10 @@ class Metaclass_VehicleCommand(type):
             'VEHICLE_CMD_DO_SET_STANDARD_MODE': cls.__constants['VEHICLE_CMD_DO_SET_STANDARD_MODE'],
             'VEHICLE_CMD_GIMBAL_DEVICE_INFORMATION': cls.__constants['VEHICLE_CMD_GIMBAL_DEVICE_INFORMATION'],
             'VEHICLE_CMD_MISSION_START': cls.__constants['VEHICLE_CMD_MISSION_START'],
+            'VEHICLE_CMD_ACTUATOR_GROUP_TEST': cls.__constants['VEHICLE_CMD_ACTUATOR_GROUP_TEST'],
             'VEHICLE_CMD_ACTUATOR_TEST': cls.__constants['VEHICLE_CMD_ACTUATOR_TEST'],
             'VEHICLE_CMD_CONFIGURE_ACTUATOR': cls.__constants['VEHICLE_CMD_CONFIGURE_ACTUATOR'],
+            'VEHICLE_CMD_ESC_REQUEST_EEPROM': cls.__constants['VEHICLE_CMD_ESC_REQUEST_EEPROM'],
             'VEHICLE_CMD_COMPONENT_ARM_DISARM': cls.__constants['VEHICLE_CMD_COMPONENT_ARM_DISARM'],
             'VEHICLE_CMD_RUN_PREARM_CHECKS': cls.__constants['VEHICLE_CMD_RUN_PREARM_CHECKS'],
             'VEHICLE_CMD_INJECT_FAILURE': cls.__constants['VEHICLE_CMD_INJECT_FAILURE'],
@@ -322,9 +355,20 @@ class Metaclass_VehicleCommand(type):
             'VEHICLE_CMD_DO_WINCH': cls.__constants['VEHICLE_CMD_DO_WINCH'],
             'VEHICLE_CMD_EXTERNAL_POSITION_ESTIMATE': cls.__constants['VEHICLE_CMD_EXTERNAL_POSITION_ESTIMATE'],
             'VEHICLE_CMD_EXTERNAL_WIND_ESTIMATE': cls.__constants['VEHICLE_CMD_EXTERNAL_WIND_ESTIMATE'],
+            'VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE': cls.__constants['VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE'],
+            'FUSION_SOURCE_GPS': cls.__constants['FUSION_SOURCE_GPS'],
+            'FUSION_SOURCE_OF': cls.__constants['FUSION_SOURCE_OF'],
+            'FUSION_SOURCE_EV': cls.__constants['FUSION_SOURCE_EV'],
+            'FUSION_SOURCE_AGP': cls.__constants['FUSION_SOURCE_AGP'],
+            'FUSION_SOURCE_BARO': cls.__constants['FUSION_SOURCE_BARO'],
+            'FUSION_SOURCE_RNG': cls.__constants['FUSION_SOURCE_RNG'],
+            'FUSION_SOURCE_MAG': cls.__constants['FUSION_SOURCE_MAG'],
+            'FUSION_SOURCE_ASPD': cls.__constants['FUSION_SOURCE_ASPD'],
+            'FUSION_SOURCE_RNGBCN': cls.__constants['FUSION_SOURCE_RNGBCN'],
             'VEHICLE_CMD_PX4_INTERNAL_START': cls.__constants['VEHICLE_CMD_PX4_INTERNAL_START'],
             'VEHICLE_CMD_SET_GPS_GLOBAL_ORIGIN': cls.__constants['VEHICLE_CMD_SET_GPS_GLOBAL_ORIGIN'],
             'VEHICLE_CMD_SET_NAV_STATE': cls.__constants['VEHICLE_CMD_SET_NAV_STATE'],
+            'VEHICLE_CMD_GUIDED_CHANGE_HEADING': cls.__constants['VEHICLE_CMD_GUIDED_CHANGE_HEADING'],
             'VEHICLE_MOUNT_MODE_RETRACT': cls.__constants['VEHICLE_MOUNT_MODE_RETRACT'],
             'VEHICLE_MOUNT_MODE_NEUTRAL': cls.__constants['VEHICLE_MOUNT_MODE_NEUTRAL'],
             'VEHICLE_MOUNT_MODE_MAVLINK_TARGETING': cls.__constants['VEHICLE_MOUNT_MODE_MAVLINK_TARGETING'],
@@ -337,6 +381,12 @@ class Metaclass_VehicleCommand(type):
             'VEHICLE_ROI_LOCATION': cls.__constants['VEHICLE_ROI_LOCATION'],
             'VEHICLE_ROI_TARGET': cls.__constants['VEHICLE_ROI_TARGET'],
             'VEHICLE_ROI_ENUM_END': cls.__constants['VEHICLE_ROI_ENUM_END'],
+            'ACTUATOR_CONFIGURATION_NONE': cls.__constants['ACTUATOR_CONFIGURATION_NONE'],
+            'ACTUATOR_CONFIGURATION_BEEP': cls.__constants['ACTUATOR_CONFIGURATION_BEEP'],
+            'ACTUATOR_CONFIGURATION_3D_MODE_ON': cls.__constants['ACTUATOR_CONFIGURATION_3D_MODE_ON'],
+            'ACTUATOR_CONFIGURATION_3D_MODE_OFF': cls.__constants['ACTUATOR_CONFIGURATION_3D_MODE_OFF'],
+            'ACTUATOR_CONFIGURATION_SPIN_DIRECTION1': cls.__constants['ACTUATOR_CONFIGURATION_SPIN_DIRECTION1'],
+            'ACTUATOR_CONFIGURATION_SPIN_DIRECTION2': cls.__constants['ACTUATOR_CONFIGURATION_SPIN_DIRECTION2'],
             'PARACHUTE_ACTION_DISABLE': cls.__constants['PARACHUTE_ACTION_DISABLE'],
             'PARACHUTE_ACTION_ENABLE': cls.__constants['PARACHUTE_ACTION_ENABLE'],
             'PARACHUTE_ACTION_RELEASE': cls.__constants['PARACHUTE_ACTION_RELEASE'],
@@ -373,12 +423,24 @@ class Metaclass_VehicleCommand(type):
             'ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TANGENT_TO_CIRCLE': cls.__constants['ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TANGENT_TO_CIRCLE'],
             'ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED': cls.__constants['ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED'],
             'ORBIT_YAW_BEHAVIOUR_UNCHANGED': cls.__constants['ORBIT_YAW_BEHAVIOUR_UNCHANGED'],
+            'RC_TYPE_SPEKTRUM': cls.__constants['RC_TYPE_SPEKTRUM'],
+            'RC_TYPE_CRSF': cls.__constants['RC_TYPE_CRSF'],
+            'RC_SUB_TYPE_SPEKTRUM_DSM2': cls.__constants['RC_SUB_TYPE_SPEKTRUM_DSM2'],
+            'RC_SUB_TYPE_SPEKTRUM_DSMX': cls.__constants['RC_SUB_TYPE_SPEKTRUM_DSMX'],
+            'RC_SUB_TYPE_SPEKTRUM_DSMX8': cls.__constants['RC_SUB_TYPE_SPEKTRUM_DSMX8'],
             'ARMING_ACTION_DISARM': cls.__constants['ARMING_ACTION_DISARM'],
             'ARMING_ACTION_ARM': cls.__constants['ARMING_ACTION_ARM'],
             'GRIPPER_ACTION_RELEASE': cls.__constants['GRIPPER_ACTION_RELEASE'],
             'GRIPPER_ACTION_GRAB': cls.__constants['GRIPPER_ACTION_GRAB'],
             'SAFETY_OFF': cls.__constants['SAFETY_OFF'],
             'SAFETY_ON': cls.__constants['SAFETY_ON'],
+            'ACTUATOR_TEST_GROUP_ROLL_TORQUE': cls.__constants['ACTUATOR_TEST_GROUP_ROLL_TORQUE'],
+            'ACTUATOR_TEST_GROUP_PITCH_TORQUE': cls.__constants['ACTUATOR_TEST_GROUP_PITCH_TORQUE'],
+            'ACTUATOR_TEST_GROUP_YAW_TORQUE': cls.__constants['ACTUATOR_TEST_GROUP_YAW_TORQUE'],
+            'ACTUATOR_TEST_GROUP_COLLECTIVE_TILT': cls.__constants['ACTUATOR_TEST_GROUP_COLLECTIVE_TILT'],
+            'ACTUATOR_TEST_GROUP_X_THRUST': cls.__constants['ACTUATOR_TEST_GROUP_X_THRUST'],
+            'ACTUATOR_TEST_GROUP_Y_THRUST': cls.__constants['ACTUATOR_TEST_GROUP_Y_THRUST'],
+            'ACTUATOR_TEST_GROUP_Z_THRUST': cls.__constants['ACTUATOR_TEST_GROUP_Z_THRUST'],
             'ORB_QUEUE_LENGTH': cls.__constants['ORB_QUEUE_LENGTH'],
             'COMPONENT_MODE_EXECUTOR_START': cls.__constants['COMPONENT_MODE_EXECUTOR_START'],
         }
@@ -749,6 +811,11 @@ class Metaclass_VehicleCommand(type):
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_MISSION_START']
 
     @property
+    def VEHICLE_CMD_ACTUATOR_GROUP_TEST(self):
+        """Message constant 'VEHICLE_CMD_ACTUATOR_GROUP_TEST'."""
+        return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_ACTUATOR_GROUP_TEST']
+
+    @property
     def VEHICLE_CMD_ACTUATOR_TEST(self):
         """Message constant 'VEHICLE_CMD_ACTUATOR_TEST'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_ACTUATOR_TEST']
@@ -757,6 +824,11 @@ class Metaclass_VehicleCommand(type):
     def VEHICLE_CMD_CONFIGURE_ACTUATOR(self):
         """Message constant 'VEHICLE_CMD_CONFIGURE_ACTUATOR'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_CONFIGURE_ACTUATOR']
+
+    @property
+    def VEHICLE_CMD_ESC_REQUEST_EEPROM(self):
+        """Message constant 'VEHICLE_CMD_ESC_REQUEST_EEPROM'."""
+        return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_ESC_REQUEST_EEPROM']
 
     @property
     def VEHICLE_CMD_COMPONENT_ARM_DISARM(self):
@@ -899,6 +971,56 @@ class Metaclass_VehicleCommand(type):
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_EXTERNAL_WIND_ESTIMATE']
 
     @property
+    def VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE(self):
+        """Message constant 'VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE'."""
+        return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE']
+
+    @property
+    def FUSION_SOURCE_GPS(self):
+        """Message constant 'FUSION_SOURCE_GPS'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_GPS']
+
+    @property
+    def FUSION_SOURCE_OF(self):
+        """Message constant 'FUSION_SOURCE_OF'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_OF']
+
+    @property
+    def FUSION_SOURCE_EV(self):
+        """Message constant 'FUSION_SOURCE_EV'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_EV']
+
+    @property
+    def FUSION_SOURCE_AGP(self):
+        """Message constant 'FUSION_SOURCE_AGP'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_AGP']
+
+    @property
+    def FUSION_SOURCE_BARO(self):
+        """Message constant 'FUSION_SOURCE_BARO'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_BARO']
+
+    @property
+    def FUSION_SOURCE_RNG(self):
+        """Message constant 'FUSION_SOURCE_RNG'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_RNG']
+
+    @property
+    def FUSION_SOURCE_MAG(self):
+        """Message constant 'FUSION_SOURCE_MAG'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_MAG']
+
+    @property
+    def FUSION_SOURCE_ASPD(self):
+        """Message constant 'FUSION_SOURCE_ASPD'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_ASPD']
+
+    @property
+    def FUSION_SOURCE_RNGBCN(self):
+        """Message constant 'FUSION_SOURCE_RNGBCN'."""
+        return Metaclass_VehicleCommand.__constants['FUSION_SOURCE_RNGBCN']
+
+    @property
     def VEHICLE_CMD_PX4_INTERNAL_START(self):
         """Message constant 'VEHICLE_CMD_PX4_INTERNAL_START'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_PX4_INTERNAL_START']
@@ -912,6 +1034,11 @@ class Metaclass_VehicleCommand(type):
     def VEHICLE_CMD_SET_NAV_STATE(self):
         """Message constant 'VEHICLE_CMD_SET_NAV_STATE'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_SET_NAV_STATE']
+
+    @property
+    def VEHICLE_CMD_GUIDED_CHANGE_HEADING(self):
+        """Message constant 'VEHICLE_CMD_GUIDED_CHANGE_HEADING'."""
+        return Metaclass_VehicleCommand.__constants['VEHICLE_CMD_GUIDED_CHANGE_HEADING']
 
     @property
     def VEHICLE_MOUNT_MODE_RETRACT(self):
@@ -972,6 +1099,36 @@ class Metaclass_VehicleCommand(type):
     def VEHICLE_ROI_ENUM_END(self):
         """Message constant 'VEHICLE_ROI_ENUM_END'."""
         return Metaclass_VehicleCommand.__constants['VEHICLE_ROI_ENUM_END']
+
+    @property
+    def ACTUATOR_CONFIGURATION_NONE(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_NONE'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_NONE']
+
+    @property
+    def ACTUATOR_CONFIGURATION_BEEP(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_BEEP'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_BEEP']
+
+    @property
+    def ACTUATOR_CONFIGURATION_3D_MODE_ON(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_3D_MODE_ON'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_3D_MODE_ON']
+
+    @property
+    def ACTUATOR_CONFIGURATION_3D_MODE_OFF(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_3D_MODE_OFF'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_3D_MODE_OFF']
+
+    @property
+    def ACTUATOR_CONFIGURATION_SPIN_DIRECTION1(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_SPIN_DIRECTION1'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_SPIN_DIRECTION1']
+
+    @property
+    def ACTUATOR_CONFIGURATION_SPIN_DIRECTION2(self):
+        """Message constant 'ACTUATOR_CONFIGURATION_SPIN_DIRECTION2'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_CONFIGURATION_SPIN_DIRECTION2']
 
     @property
     def PARACHUTE_ACTION_DISABLE(self):
@@ -1154,6 +1311,31 @@ class Metaclass_VehicleCommand(type):
         return Metaclass_VehicleCommand.__constants['ORBIT_YAW_BEHAVIOUR_UNCHANGED']
 
     @property
+    def RC_TYPE_SPEKTRUM(self):
+        """Message constant 'RC_TYPE_SPEKTRUM'."""
+        return Metaclass_VehicleCommand.__constants['RC_TYPE_SPEKTRUM']
+
+    @property
+    def RC_TYPE_CRSF(self):
+        """Message constant 'RC_TYPE_CRSF'."""
+        return Metaclass_VehicleCommand.__constants['RC_TYPE_CRSF']
+
+    @property
+    def RC_SUB_TYPE_SPEKTRUM_DSM2(self):
+        """Message constant 'RC_SUB_TYPE_SPEKTRUM_DSM2'."""
+        return Metaclass_VehicleCommand.__constants['RC_SUB_TYPE_SPEKTRUM_DSM2']
+
+    @property
+    def RC_SUB_TYPE_SPEKTRUM_DSMX(self):
+        """Message constant 'RC_SUB_TYPE_SPEKTRUM_DSMX'."""
+        return Metaclass_VehicleCommand.__constants['RC_SUB_TYPE_SPEKTRUM_DSMX']
+
+    @property
+    def RC_SUB_TYPE_SPEKTRUM_DSMX8(self):
+        """Message constant 'RC_SUB_TYPE_SPEKTRUM_DSMX8'."""
+        return Metaclass_VehicleCommand.__constants['RC_SUB_TYPE_SPEKTRUM_DSMX8']
+
+    @property
     def ARMING_ACTION_DISARM(self):
         """Message constant 'ARMING_ACTION_DISARM'."""
         return Metaclass_VehicleCommand.__constants['ARMING_ACTION_DISARM']
@@ -1182,6 +1364,41 @@ class Metaclass_VehicleCommand(type):
     def SAFETY_ON(self):
         """Message constant 'SAFETY_ON'."""
         return Metaclass_VehicleCommand.__constants['SAFETY_ON']
+
+    @property
+    def ACTUATOR_TEST_GROUP_ROLL_TORQUE(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_ROLL_TORQUE'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_ROLL_TORQUE']
+
+    @property
+    def ACTUATOR_TEST_GROUP_PITCH_TORQUE(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_PITCH_TORQUE'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_PITCH_TORQUE']
+
+    @property
+    def ACTUATOR_TEST_GROUP_YAW_TORQUE(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_YAW_TORQUE'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_YAW_TORQUE']
+
+    @property
+    def ACTUATOR_TEST_GROUP_COLLECTIVE_TILT(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_COLLECTIVE_TILT'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_COLLECTIVE_TILT']
+
+    @property
+    def ACTUATOR_TEST_GROUP_X_THRUST(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_X_THRUST'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_X_THRUST']
+
+    @property
+    def ACTUATOR_TEST_GROUP_Y_THRUST(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_Y_THRUST'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_Y_THRUST']
+
+    @property
+    def ACTUATOR_TEST_GROUP_Z_THRUST(self):
+        """Message constant 'ACTUATOR_TEST_GROUP_Z_THRUST'."""
+        return Metaclass_VehicleCommand.__constants['ACTUATOR_TEST_GROUP_Z_THRUST']
 
     @property
     def ORB_QUEUE_LENGTH(self):
@@ -1272,8 +1489,10 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       VEHICLE_CMD_DO_SET_STANDARD_MODE
       VEHICLE_CMD_GIMBAL_DEVICE_INFORMATION
       VEHICLE_CMD_MISSION_START
+      VEHICLE_CMD_ACTUATOR_GROUP_TEST
       VEHICLE_CMD_ACTUATOR_TEST
       VEHICLE_CMD_CONFIGURE_ACTUATOR
+      VEHICLE_CMD_ESC_REQUEST_EEPROM
       VEHICLE_CMD_COMPONENT_ARM_DISARM
       VEHICLE_CMD_RUN_PREARM_CHECKS
       VEHICLE_CMD_INJECT_FAILURE
@@ -1302,9 +1521,20 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       VEHICLE_CMD_DO_WINCH
       VEHICLE_CMD_EXTERNAL_POSITION_ESTIMATE
       VEHICLE_CMD_EXTERNAL_WIND_ESTIMATE
+      VEHICLE_CMD_ESTIMATOR_SENSOR_ENABLE
+      FUSION_SOURCE_GPS
+      FUSION_SOURCE_OF
+      FUSION_SOURCE_EV
+      FUSION_SOURCE_AGP
+      FUSION_SOURCE_BARO
+      FUSION_SOURCE_RNG
+      FUSION_SOURCE_MAG
+      FUSION_SOURCE_ASPD
+      FUSION_SOURCE_RNGBCN
       VEHICLE_CMD_PX4_INTERNAL_START
       VEHICLE_CMD_SET_GPS_GLOBAL_ORIGIN
       VEHICLE_CMD_SET_NAV_STATE
+      VEHICLE_CMD_GUIDED_CHANGE_HEADING
       VEHICLE_MOUNT_MODE_RETRACT
       VEHICLE_MOUNT_MODE_NEUTRAL
       VEHICLE_MOUNT_MODE_MAVLINK_TARGETING
@@ -1317,6 +1547,12 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       VEHICLE_ROI_LOCATION
       VEHICLE_ROI_TARGET
       VEHICLE_ROI_ENUM_END
+      ACTUATOR_CONFIGURATION_NONE
+      ACTUATOR_CONFIGURATION_BEEP
+      ACTUATOR_CONFIGURATION_3D_MODE_ON
+      ACTUATOR_CONFIGURATION_3D_MODE_OFF
+      ACTUATOR_CONFIGURATION_SPIN_DIRECTION1
+      ACTUATOR_CONFIGURATION_SPIN_DIRECTION2
       PARACHUTE_ACTION_DISABLE
       PARACHUTE_ACTION_ENABLE
       PARACHUTE_ACTION_RELEASE
@@ -1353,12 +1589,24 @@ class VehicleCommand(metaclass=Metaclass_VehicleCommand):
       ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TANGENT_TO_CIRCLE
       ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED
       ORBIT_YAW_BEHAVIOUR_UNCHANGED
+      RC_TYPE_SPEKTRUM
+      RC_TYPE_CRSF
+      RC_SUB_TYPE_SPEKTRUM_DSM2
+      RC_SUB_TYPE_SPEKTRUM_DSMX
+      RC_SUB_TYPE_SPEKTRUM_DSMX8
       ARMING_ACTION_DISARM
       ARMING_ACTION_ARM
       GRIPPER_ACTION_RELEASE
       GRIPPER_ACTION_GRAB
       SAFETY_OFF
       SAFETY_ON
+      ACTUATOR_TEST_GROUP_ROLL_TORQUE
+      ACTUATOR_TEST_GROUP_PITCH_TORQUE
+      ACTUATOR_TEST_GROUP_YAW_TORQUE
+      ACTUATOR_TEST_GROUP_COLLECTIVE_TILT
+      ACTUATOR_TEST_GROUP_X_THRUST
+      ACTUATOR_TEST_GROUP_Y_THRUST
+      ACTUATOR_TEST_GROUP_Z_THRUST
       ORB_QUEUE_LENGTH
       COMPONENT_MODE_EXECUTOR_START
     """

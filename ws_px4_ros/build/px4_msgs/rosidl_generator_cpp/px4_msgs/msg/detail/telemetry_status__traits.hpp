@@ -210,6 +210,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: heartbeat_type_flarm
+  {
+    out << "heartbeat_type_flarm: ";
+    rosidl_generator_traits::value_to_yaml(msg.heartbeat_type_flarm, out);
+    out << ", ";
+  }
+
   // member: heartbeat_type_camera
   {
     out << "heartbeat_type_camera: ";
@@ -556,6 +563,16 @@ inline void to_block_style_yaml(
     }
     out << "heartbeat_type_adsb: ";
     rosidl_generator_traits::value_to_yaml(msg.heartbeat_type_adsb, out);
+    out << "\n";
+  }
+
+  // member: heartbeat_type_flarm
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "heartbeat_type_flarm: ";
+    rosidl_generator_traits::value_to_yaml(msg.heartbeat_type_flarm, out);
     out << "\n";
   }
 

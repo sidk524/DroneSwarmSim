@@ -189,6 +189,12 @@ cdr_serialize(
   // Member: cs_gnss_hgt_fault
   cdr << (ros_message.cs_gnss_hgt_fault ? true : false);
 
+  // Member: cs_in_transition
+  cdr << (ros_message.cs_in_transition ? true : false);
+
+  // Member: cs_heading_observable
+  cdr << (ros_message.cs_heading_observable ? true : false);
+
   // Member: fault_status_changes
   cdr << ros_message.fault_status_changes;
 
@@ -224,39 +230,6 @@ cdr_serialize(
 
   // Member: fs_bad_acc_clipping
   cdr << (ros_message.fs_bad_acc_clipping ? true : false);
-
-  // Member: innovation_fault_status_changes
-  cdr << ros_message.innovation_fault_status_changes;
-
-  // Member: reject_hor_vel
-  cdr << (ros_message.reject_hor_vel ? true : false);
-
-  // Member: reject_ver_vel
-  cdr << (ros_message.reject_ver_vel ? true : false);
-
-  // Member: reject_hor_pos
-  cdr << (ros_message.reject_hor_pos ? true : false);
-
-  // Member: reject_ver_pos
-  cdr << (ros_message.reject_ver_pos ? true : false);
-
-  // Member: reject_yaw
-  cdr << (ros_message.reject_yaw ? true : false);
-
-  // Member: reject_airspeed
-  cdr << (ros_message.reject_airspeed ? true : false);
-
-  // Member: reject_sideslip
-  cdr << (ros_message.reject_sideslip ? true : false);
-
-  // Member: reject_hagl
-  cdr << (ros_message.reject_hagl ? true : false);
-
-  // Member: reject_optflow_x
-  cdr << (ros_message.reject_optflow_x ? true : false);
-
-  // Member: reject_optflow_y
-  cdr << (ros_message.reject_optflow_y ? true : false);
 
   return true;
 }
@@ -612,6 +585,20 @@ cdr_deserialize(
     ros_message.cs_gnss_hgt_fault = tmp ? true : false;
   }
 
+  // Member: cs_in_transition
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.cs_in_transition = tmp ? true : false;
+  }
+
+  // Member: cs_heading_observable
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.cs_heading_observable = tmp ? true : false;
+  }
+
   // Member: fault_status_changes
   cdr >> ros_message.fault_status_changes;
 
@@ -690,79 +677,6 @@ cdr_deserialize(
     uint8_t tmp;
     cdr >> tmp;
     ros_message.fs_bad_acc_clipping = tmp ? true : false;
-  }
-
-  // Member: innovation_fault_status_changes
-  cdr >> ros_message.innovation_fault_status_changes;
-
-  // Member: reject_hor_vel
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_hor_vel = tmp ? true : false;
-  }
-
-  // Member: reject_ver_vel
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_ver_vel = tmp ? true : false;
-  }
-
-  // Member: reject_hor_pos
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_hor_pos = tmp ? true : false;
-  }
-
-  // Member: reject_ver_pos
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_ver_pos = tmp ? true : false;
-  }
-
-  // Member: reject_yaw
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_yaw = tmp ? true : false;
-  }
-
-  // Member: reject_airspeed
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_airspeed = tmp ? true : false;
-  }
-
-  // Member: reject_sideslip
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_sideslip = tmp ? true : false;
-  }
-
-  // Member: reject_hagl
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_hagl = tmp ? true : false;
-  }
-
-  // Member: reject_optflow_x
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_optflow_x = tmp ? true : false;
-  }
-
-  // Member: reject_optflow_y
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.reject_optflow_y = tmp ? true : false;
   }
 
   return true;
@@ -1139,6 +1053,20 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: cs_in_transition
+  {
+    size_t item_size = sizeof(ros_message.cs_in_transition);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: cs_heading_observable
+  {
+    size_t item_size = sizeof(ros_message.cs_heading_observable);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: fault_status_changes
   {
     size_t item_size = sizeof(ros_message.fault_status_changes);
@@ -1219,83 +1147,6 @@ get_serialized_size(
   // Member: fs_bad_acc_clipping
   {
     size_t item_size = sizeof(ros_message.fs_bad_acc_clipping);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: innovation_fault_status_changes
-  {
-    size_t item_size = sizeof(ros_message.innovation_fault_status_changes);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hor_vel
-  {
-    size_t item_size = sizeof(ros_message.reject_hor_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_ver_vel
-  {
-    size_t item_size = sizeof(ros_message.reject_ver_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hor_pos
-  {
-    size_t item_size = sizeof(ros_message.reject_hor_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_ver_pos
-  {
-    size_t item_size = sizeof(ros_message.reject_ver_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_yaw
-  {
-    size_t item_size = sizeof(ros_message.reject_yaw);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_airspeed
-  {
-    size_t item_size = sizeof(ros_message.reject_airspeed);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_sideslip
-  {
-    size_t item_size = sizeof(ros_message.reject_sideslip);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hagl
-  {
-    size_t item_size = sizeof(ros_message.reject_hagl);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_optflow_x
-  {
-    size_t item_size = sizeof(ros_message.reject_optflow_x);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_optflow_y
-  {
-    size_t item_size = sizeof(ros_message.reject_optflow_y);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1632,6 +1483,18 @@ max_serialized_size_EstimatorStatusFlags(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
+  // Member: cs_in_transition
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+  // Member: cs_heading_observable
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
   // Member: fault_status_changes
   {
     size_t array_size = 1;
@@ -1705,73 +1568,6 @@ max_serialized_size_EstimatorStatusFlags(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
-  // Member: innovation_fault_status_changes
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint32_t);
-    current_alignment += array_size * sizeof(uint32_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-  // Member: reject_hor_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_ver_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_hor_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_ver_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_yaw
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_airspeed
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_sideslip
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_hagl
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_optflow_x
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-  // Member: reject_optflow_y
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -1781,7 +1577,7 @@ max_serialized_size_EstimatorStatusFlags(
     using DataType = px4_msgs::msg::EstimatorStatusFlags;
     is_plain =
       (
-      offsetof(DataType, reject_optflow_y) +
+      offsetof(DataType, fs_bad_acc_clipping) +
       last_member_size
       ) == ret_val;
   }
@@ -1948,6 +1744,12 @@ cdr_serialize_key(
   // Member: cs_gnss_hgt_fault
   cdr << (ros_message.cs_gnss_hgt_fault ? true : false);
 
+  // Member: cs_in_transition
+  cdr << (ros_message.cs_in_transition ? true : false);
+
+  // Member: cs_heading_observable
+  cdr << (ros_message.cs_heading_observable ? true : false);
+
   // Member: fault_status_changes
   cdr << ros_message.fault_status_changes;
 
@@ -1983,39 +1785,6 @@ cdr_serialize_key(
 
   // Member: fs_bad_acc_clipping
   cdr << (ros_message.fs_bad_acc_clipping ? true : false);
-
-  // Member: innovation_fault_status_changes
-  cdr << ros_message.innovation_fault_status_changes;
-
-  // Member: reject_hor_vel
-  cdr << (ros_message.reject_hor_vel ? true : false);
-
-  // Member: reject_ver_vel
-  cdr << (ros_message.reject_ver_vel ? true : false);
-
-  // Member: reject_hor_pos
-  cdr << (ros_message.reject_hor_pos ? true : false);
-
-  // Member: reject_ver_pos
-  cdr << (ros_message.reject_ver_pos ? true : false);
-
-  // Member: reject_yaw
-  cdr << (ros_message.reject_yaw ? true : false);
-
-  // Member: reject_airspeed
-  cdr << (ros_message.reject_airspeed ? true : false);
-
-  // Member: reject_sideslip
-  cdr << (ros_message.reject_sideslip ? true : false);
-
-  // Member: reject_hagl
-  cdr << (ros_message.reject_hagl ? true : false);
-
-  // Member: reject_optflow_x
-  cdr << (ros_message.reject_optflow_x ? true : false);
-
-  // Member: reject_optflow_y
-  cdr << (ros_message.reject_optflow_y ? true : false);
 
   return true;
 }
@@ -2390,6 +2159,20 @@ get_serialized_size_key(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: cs_in_transition
+  {
+    size_t item_size = sizeof(ros_message.cs_in_transition);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: cs_heading_observable
+  {
+    size_t item_size = sizeof(ros_message.cs_heading_observable);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: fault_status_changes
   {
     size_t item_size = sizeof(ros_message.fault_status_changes);
@@ -2470,83 +2253,6 @@ get_serialized_size_key(
   // Member: fs_bad_acc_clipping
   {
     size_t item_size = sizeof(ros_message.fs_bad_acc_clipping);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: innovation_fault_status_changes
-  {
-    size_t item_size = sizeof(ros_message.innovation_fault_status_changes);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hor_vel
-  {
-    size_t item_size = sizeof(ros_message.reject_hor_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_ver_vel
-  {
-    size_t item_size = sizeof(ros_message.reject_ver_vel);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hor_pos
-  {
-    size_t item_size = sizeof(ros_message.reject_hor_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_ver_pos
-  {
-    size_t item_size = sizeof(ros_message.reject_ver_pos);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_yaw
-  {
-    size_t item_size = sizeof(ros_message.reject_yaw);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_airspeed
-  {
-    size_t item_size = sizeof(ros_message.reject_airspeed);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_sideslip
-  {
-    size_t item_size = sizeof(ros_message.reject_sideslip);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_hagl
-  {
-    size_t item_size = sizeof(ros_message.reject_hagl);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_optflow_x
-  {
-    size_t item_size = sizeof(ros_message.reject_optflow_x);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
-
-  // Member: reject_optflow_y
-  {
-    size_t item_size = sizeof(ros_message.reject_optflow_y);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -2933,6 +2639,20 @@ max_serialized_size_key_EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Member: cs_in_transition
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Member: cs_heading_observable
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   // Member: fault_status_changes
   {
     size_t array_size = 1;
@@ -3018,84 +2738,6 @@ max_serialized_size_key_EstimatorStatusFlags(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
-  // Member: innovation_fault_status_changes
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint32_t);
-    current_alignment += array_size * sizeof(uint32_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
-  }
-
-  // Member: reject_hor_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_ver_vel
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_hor_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_ver_pos
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_yaw
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_airspeed
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_sideslip
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_hagl
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_optflow_x
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
-  // Member: reject_optflow_y
-  {
-    size_t array_size = 1;
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
-  }
-
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -3104,7 +2746,7 @@ max_serialized_size_key_EstimatorStatusFlags(
     using DataType = px4_msgs::msg::EstimatorStatusFlags;
     is_plain =
       (
-      offsetof(DataType, reject_optflow_y) +
+      offsetof(DataType, fs_bad_acc_clipping) +
       last_member_size
       ) == ret_val;
   }

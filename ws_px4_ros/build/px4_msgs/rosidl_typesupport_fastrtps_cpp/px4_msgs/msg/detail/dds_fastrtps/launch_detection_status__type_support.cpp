@@ -42,6 +42,9 @@ cdr_serialize(
   // Member: launch_detection_state
   cdr << ros_message.launch_detection_state;
 
+  // Member: selected_control_surface_disarmed
+  cdr << (ros_message.selected_control_surface_disarmed ? true : false);
+
   return true;
 }
 
@@ -56,6 +59,13 @@ cdr_deserialize(
 
   // Member: launch_detection_state
   cdr >> ros_message.launch_detection_state;
+
+  // Member: selected_control_surface_disarmed
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.selected_control_surface_disarmed = tmp ? true : false;
+  }
 
   return true;
 }  // NOLINT(readability/fn_size)
@@ -84,6 +94,13 @@ get_serialized_size(
   // Member: launch_detection_state
   {
     size_t item_size = sizeof(ros_message.launch_detection_state);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: selected_control_surface_disarmed
+  {
+    size_t item_size = sizeof(ros_message.selected_control_surface_disarmed);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -124,6 +141,12 @@ max_serialized_size_LaunchDetectionStatus(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
+  // Member: selected_control_surface_disarmed
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -133,7 +156,7 @@ max_serialized_size_LaunchDetectionStatus(
     using DataType = px4_msgs::msg::LaunchDetectionStatus;
     is_plain =
       (
-      offsetof(DataType, launch_detection_state) +
+      offsetof(DataType, selected_control_surface_disarmed) +
       last_member_size
       ) == ret_val;
   }
@@ -152,6 +175,9 @@ cdr_serialize_key(
 
   // Member: launch_detection_state
   cdr << ros_message.launch_detection_state;
+
+  // Member: selected_control_surface_disarmed
+  cdr << (ros_message.selected_control_surface_disarmed ? true : false);
 
   return true;
 }
@@ -179,6 +205,13 @@ get_serialized_size_key(
   // Member: launch_detection_state
   {
     size_t item_size = sizeof(ros_message.launch_detection_state);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: selected_control_surface_disarmed
+  {
+    size_t item_size = sizeof(ros_message.selected_control_surface_disarmed);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -220,6 +253,13 @@ max_serialized_size_key_LaunchDetectionStatus(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+  // Member: selected_control_surface_disarmed
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -228,7 +268,7 @@ max_serialized_size_key_LaunchDetectionStatus(
     using DataType = px4_msgs::msg::LaunchDetectionStatus;
     is_plain =
       (
-      offsetof(DataType, launch_detection_state) +
+      offsetof(DataType, selected_control_surface_disarmed) +
       last_member_size
       ) == ret_val;
   }

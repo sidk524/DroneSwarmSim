@@ -35,6 +35,13 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
+  // member: runway_takeoff_state
+  {
+    out << "runway_takeoff_state: ";
+    rosidl_generator_traits::value_to_yaml(msg.runway_takeoff_state, out);
+    out << ", ";
+  }
+
   // member: wheel_steering_enabled
   {
     out << "wheel_steering_enabled: ";
@@ -61,6 +68,16 @@ inline void to_block_style_yaml(
     }
     out << "timestamp: ";
     rosidl_generator_traits::value_to_yaml(msg.timestamp, out);
+    out << "\n";
+  }
+
+  // member: runway_takeoff_state
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "runway_takeoff_state: ";
+    rosidl_generator_traits::value_to_yaml(msg.runway_takeoff_state, out);
     out << "\n";
   }
 

@@ -353,6 +353,9 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         '_selected_rtcm_instance',
         '_rtcm_crc_failed',
         '_rtcm_msg_used',
+        '_antenna_offset_x',
+        '_antenna_offset_y',
+        '_antenna_offset_z',
         '_check_fields',
     ]
 
@@ -394,6 +397,9 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         'selected_rtcm_instance': 'uint8',
         'rtcm_crc_failed': 'boolean',
         'rtcm_msg_used': 'uint8',
+        'antenna_offset_x': 'float',
+        'antenna_offset_y': 'float',
+        'antenna_offset_z': 'float',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -436,6 +442,9 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -484,6 +493,9 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         self.selected_rtcm_instance = kwargs.get('selected_rtcm_instance', int())
         self.rtcm_crc_failed = kwargs.get('rtcm_crc_failed', bool())
         self.rtcm_msg_used = kwargs.get('rtcm_msg_used', int())
+        self.antenna_offset_x = kwargs.get('antenna_offset_x', float())
+        self.antenna_offset_y = kwargs.get('antenna_offset_y', float())
+        self.antenna_offset_z = kwargs.get('antenna_offset_z', float())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -588,6 +600,12 @@ class SensorGps(metaclass=Metaclass_SensorGps):
         if self.rtcm_crc_failed != other.rtcm_crc_failed:
             return False
         if self.rtcm_msg_used != other.rtcm_msg_used:
+            return False
+        if self.antenna_offset_x != other.antenna_offset_x:
+            return False
+        if self.antenna_offset_y != other.antenna_offset_y:
+            return False
+        if self.antenna_offset_z != other.antenna_offset_z:
             return False
         return True
 
@@ -1146,3 +1164,48 @@ class SensorGps(metaclass=Metaclass_SensorGps):
             assert value >= 0 and value < 256, \
                 "The 'rtcm_msg_used' field must be an unsigned integer in [0, 255]"
         self._rtcm_msg_used = value
+
+    @builtins.property
+    def antenna_offset_x(self):
+        """Message field 'antenna_offset_x'."""
+        return self._antenna_offset_x
+
+    @antenna_offset_x.setter
+    def antenna_offset_x(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'antenna_offset_x' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'antenna_offset_x' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._antenna_offset_x = value
+
+    @builtins.property
+    def antenna_offset_y(self):
+        """Message field 'antenna_offset_y'."""
+        return self._antenna_offset_y
+
+    @antenna_offset_y.setter
+    def antenna_offset_y(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'antenna_offset_y' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'antenna_offset_y' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._antenna_offset_y = value
+
+    @builtins.property
+    def antenna_offset_z(self):
+        """Message field 'antenna_offset_z'."""
+        return self._antenna_offset_z
+
+    @antenna_offset_z.setter
+    def antenna_offset_z(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, float), \
+                "The 'antenna_offset_z' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'antenna_offset_z' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._antenna_offset_z = value

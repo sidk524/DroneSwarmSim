@@ -69,8 +69,20 @@ cdr_serialize(
   // Member: feed_forward_value
   cdr << ros_message.feed_forward_value;
 
+  // Member: supply_voltage
+  cdr << ros_message.supply_voltage;
+
+  // Member: heater_current
+  cdr << ros_message.heater_current;
+
+  // Member: nominal_multiplier
+  cdr << ros_message.nominal_multiplier;
+
   // Member: mode
   cdr << ros_message.mode;
+
+  // Member: temperature_source
+  cdr << ros_message.temperature_source;
 
   return true;
 }
@@ -122,8 +134,20 @@ cdr_deserialize(
   // Member: feed_forward_value
   cdr >> ros_message.feed_forward_value;
 
+  // Member: supply_voltage
+  cdr >> ros_message.supply_voltage;
+
+  // Member: heater_current
+  cdr >> ros_message.heater_current;
+
+  // Member: nominal_multiplier
+  cdr >> ros_message.nominal_multiplier;
+
   // Member: mode
   cdr >> ros_message.mode;
+
+  // Member: temperature_source
+  cdr >> ros_message.temperature_source;
 
   return true;
 }  // NOLINT(readability/fn_size)
@@ -219,9 +243,37 @@ get_serialized_size(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: supply_voltage
+  {
+    size_t item_size = sizeof(ros_message.supply_voltage);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: heater_current
+  {
+    size_t item_size = sizeof(ros_message.heater_current);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: nominal_multiplier
+  {
+    size_t item_size = sizeof(ros_message.nominal_multiplier);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: mode
   {
     size_t item_size = sizeof(ros_message.mode);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: temperature_source
+  {
+    size_t item_size = sizeof(ros_message.temperature_source);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -324,7 +376,34 @@ max_serialized_size_HeaterStatus(
     current_alignment += array_size * sizeof(uint32_t) +
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
+  // Member: supply_voltage
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+  // Member: heater_current
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+  // Member: nominal_multiplier
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
   // Member: mode
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+  // Member: temperature_source
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -339,7 +418,7 @@ max_serialized_size_HeaterStatus(
     using DataType = px4_msgs::msg::HeaterStatus;
     is_plain =
       (
-      offsetof(DataType, mode) +
+      offsetof(DataType, temperature_source) +
       last_member_size
       ) == ret_val;
   }
@@ -386,8 +465,20 @@ cdr_serialize_key(
   // Member: feed_forward_value
   cdr << ros_message.feed_forward_value;
 
+  // Member: supply_voltage
+  cdr << ros_message.supply_voltage;
+
+  // Member: heater_current
+  cdr << ros_message.heater_current;
+
+  // Member: nominal_multiplier
+  cdr << ros_message.nominal_multiplier;
+
   // Member: mode
   cdr << ros_message.mode;
+
+  // Member: temperature_source
+  cdr << ros_message.temperature_source;
 
   return true;
 }
@@ -482,9 +573,37 @@ get_serialized_size_key(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Member: supply_voltage
+  {
+    size_t item_size = sizeof(ros_message.supply_voltage);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: heater_current
+  {
+    size_t item_size = sizeof(ros_message.heater_current);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: nominal_multiplier
+  {
+    size_t item_size = sizeof(ros_message.nominal_multiplier);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Member: mode
   {
     size_t item_size = sizeof(ros_message.mode);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Member: temperature_source
+  {
+    size_t item_size = sizeof(ros_message.temperature_source);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -597,7 +716,38 @@ max_serialized_size_key_HeaterStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Member: supply_voltage
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: heater_current
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: nominal_multiplier
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Member: mode
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Member: temperature_source
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -612,7 +762,7 @@ max_serialized_size_key_HeaterStatus(
     using DataType = px4_msgs::msg::HeaterStatus;
     is_plain =
       (
-      offsetof(DataType, mode) +
+      offsetof(DataType, temperature_source) +
       last_member_size
       ) == ret_val;
   }

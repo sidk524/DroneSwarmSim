@@ -22,7 +22,7 @@ extern "C"
 /// Constant 'MESSAGE_VERSION'.
 enum
 {
-  px4_msgs__msg__RegisterExtComponentRequest__MESSAGE_VERSION = 1ul
+  px4_msgs__msg__RegisterExtComponentRequest__MESSAGE_VERSION = 2ul
 };
 
 /// Constant 'LATEST_PX4_ROS2_API_VERSION'.
@@ -68,6 +68,8 @@ typedef struct px4_msgs__msg__RegisterExtComponentRequest
   bool activate_mode_immediately;
   /// mode cannot be selected by the user
   bool not_user_selectable;
+  /// set to true if the registered mode wants to receive offboard trajectory setpoints via MAVLink
+  bool request_offboard_setpoints;
 } px4_msgs__msg__RegisterExtComponentRequest;
 
 // Struct for a sequence of px4_msgs__msg__RegisterExtComponentRequest.

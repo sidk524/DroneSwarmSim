@@ -100,7 +100,7 @@ bool px4_msgs__msg__esc_status__convert_from_py(PyObject * _pymsg, void * _ros_m
       return false;
     }
     assert(PyLong_Check(field));
-    ros_message->esc_online_flags = (uint8_t)PyLong_AsUnsignedLong(field);
+    ros_message->esc_online_flags = (uint16_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
   {  // esc_armed_flags
@@ -109,7 +109,7 @@ bool px4_msgs__msg__esc_status__convert_from_py(PyObject * _pymsg, void * _ros_m
       return false;
     }
     assert(PyLong_Check(field));
-    ros_message->esc_armed_flags = (uint8_t)PyLong_AsUnsignedLong(field);
+    ros_message->esc_armed_flags = (uint16_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
   {  // esc
@@ -122,7 +122,7 @@ bool px4_msgs__msg__esc_status__convert_from_py(PyObject * _pymsg, void * _ros_m
       Py_DECREF(field);
       return false;
     }
-    Py_ssize_t size = 8;
+    Py_ssize_t size = 12;
     px4_msgs__msg__EscReport * dest = ros_message->esc;
     for (Py_ssize_t i = 0; i < size; ++i) {
       if (!px4_msgs__msg__esc_report__convert_from_py(PySequence_Fast_GET_ITEM(seq_field, i), &dest[i])) {
@@ -224,7 +224,7 @@ PyObject * px4_msgs__msg__esc_status__convert_to_py(void * raw_ros_message)
   }
   {  // esc
     PyObject * field = NULL;
-    size_t size = 8;
+    size_t size = 12;
     field = PyList_New(size);
     if (!field) {
       return NULL;

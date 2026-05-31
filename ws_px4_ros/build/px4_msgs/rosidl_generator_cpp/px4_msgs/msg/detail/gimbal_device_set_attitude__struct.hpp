@@ -157,6 +157,10 @@ struct GimbalDeviceSetAttitude_
     8u;
   static constexpr uint32_t GIMBAL_DEVICE_FLAGS_YAW_LOCK =
     16u;
+  static constexpr uint32_t GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME =
+    32u;
+  static constexpr uint32_t GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME =
+    64u;
 
   // pointer types
   using RawPtr =
@@ -259,6 +263,16 @@ constexpr uint32_t GimbalDeviceSetAttitude_<ContainerAllocator>::GIMBAL_DEVICE_F
 // static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint32_t GimbalDeviceSetAttitude_<ContainerAllocator>::GIMBAL_DEVICE_FLAGS_YAW_LOCK;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint32_t GimbalDeviceSetAttitude_<ContainerAllocator>::GIMBAL_DEVICE_FLAGS_YAW_IN_VEHICLE_FRAME;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint32_t GimbalDeviceSetAttitude_<ContainerAllocator>::GIMBAL_DEVICE_FLAGS_YAW_IN_EARTH_FRAME;
 #endif  // __cplusplus < 201703L
 
 }  // namespace msg

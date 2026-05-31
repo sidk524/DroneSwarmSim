@@ -24,192 +24,16 @@ namespace msg
 namespace builder
 {
 
-class Init_EstimatorStatusFlags_reject_optflow_y
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_optflow_y(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  ::px4_msgs::msg::EstimatorStatusFlags reject_optflow_y(::px4_msgs::msg::EstimatorStatusFlags::_reject_optflow_y_type arg)
-  {
-    msg_.reject_optflow_y = std::move(arg);
-    return std::move(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_optflow_x
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_optflow_x(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_optflow_y reject_optflow_x(::px4_msgs::msg::EstimatorStatusFlags::_reject_optflow_x_type arg)
-  {
-    msg_.reject_optflow_x = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_optflow_y(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_hagl
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_hagl(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_optflow_x reject_hagl(::px4_msgs::msg::EstimatorStatusFlags::_reject_hagl_type arg)
-  {
-    msg_.reject_hagl = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_optflow_x(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_sideslip
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_sideslip(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_hagl reject_sideslip(::px4_msgs::msg::EstimatorStatusFlags::_reject_sideslip_type arg)
-  {
-    msg_.reject_sideslip = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_hagl(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_airspeed
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_airspeed(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_sideslip reject_airspeed(::px4_msgs::msg::EstimatorStatusFlags::_reject_airspeed_type arg)
-  {
-    msg_.reject_airspeed = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_sideslip(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_yaw
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_yaw(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_airspeed reject_yaw(::px4_msgs::msg::EstimatorStatusFlags::_reject_yaw_type arg)
-  {
-    msg_.reject_yaw = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_airspeed(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_ver_pos
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_ver_pos(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_yaw reject_ver_pos(::px4_msgs::msg::EstimatorStatusFlags::_reject_ver_pos_type arg)
-  {
-    msg_.reject_ver_pos = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_yaw(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_hor_pos
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_hor_pos(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_ver_pos reject_hor_pos(::px4_msgs::msg::EstimatorStatusFlags::_reject_hor_pos_type arg)
-  {
-    msg_.reject_hor_pos = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_ver_pos(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_ver_vel
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_ver_vel(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_hor_pos reject_ver_vel(::px4_msgs::msg::EstimatorStatusFlags::_reject_ver_vel_type arg)
-  {
-    msg_.reject_ver_vel = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_hor_pos(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_reject_hor_vel
-{
-public:
-  explicit Init_EstimatorStatusFlags_reject_hor_vel(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_ver_vel reject_hor_vel(::px4_msgs::msg::EstimatorStatusFlags::_reject_hor_vel_type arg)
-  {
-    msg_.reject_hor_vel = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_ver_vel(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
-class Init_EstimatorStatusFlags_innovation_fault_status_changes
-{
-public:
-  explicit Init_EstimatorStatusFlags_innovation_fault_status_changes(::px4_msgs::msg::EstimatorStatusFlags & msg)
-  : msg_(msg)
-  {}
-  Init_EstimatorStatusFlags_reject_hor_vel innovation_fault_status_changes(::px4_msgs::msg::EstimatorStatusFlags::_innovation_fault_status_changes_type arg)
-  {
-    msg_.innovation_fault_status_changes = std::move(arg);
-    return Init_EstimatorStatusFlags_reject_hor_vel(msg_);
-  }
-
-private:
-  ::px4_msgs::msg::EstimatorStatusFlags msg_;
-};
-
 class Init_EstimatorStatusFlags_fs_bad_acc_clipping
 {
 public:
   explicit Init_EstimatorStatusFlags_fs_bad_acc_clipping(::px4_msgs::msg::EstimatorStatusFlags & msg)
   : msg_(msg)
   {}
-  Init_EstimatorStatusFlags_innovation_fault_status_changes fs_bad_acc_clipping(::px4_msgs::msg::EstimatorStatusFlags::_fs_bad_acc_clipping_type arg)
+  ::px4_msgs::msg::EstimatorStatusFlags fs_bad_acc_clipping(::px4_msgs::msg::EstimatorStatusFlags::_fs_bad_acc_clipping_type arg)
   {
     msg_.fs_bad_acc_clipping = std::move(arg);
-    return Init_EstimatorStatusFlags_innovation_fault_status_changes(msg_);
+    return std::move(msg_);
   }
 
 private:
@@ -392,16 +216,48 @@ private:
   ::px4_msgs::msg::EstimatorStatusFlags msg_;
 };
 
+class Init_EstimatorStatusFlags_cs_heading_observable
+{
+public:
+  explicit Init_EstimatorStatusFlags_cs_heading_observable(::px4_msgs::msg::EstimatorStatusFlags & msg)
+  : msg_(msg)
+  {}
+  Init_EstimatorStatusFlags_fault_status_changes cs_heading_observable(::px4_msgs::msg::EstimatorStatusFlags::_cs_heading_observable_type arg)
+  {
+    msg_.cs_heading_observable = std::move(arg);
+    return Init_EstimatorStatusFlags_fault_status_changes(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::EstimatorStatusFlags msg_;
+};
+
+class Init_EstimatorStatusFlags_cs_in_transition
+{
+public:
+  explicit Init_EstimatorStatusFlags_cs_in_transition(::px4_msgs::msg::EstimatorStatusFlags & msg)
+  : msg_(msg)
+  {}
+  Init_EstimatorStatusFlags_cs_heading_observable cs_in_transition(::px4_msgs::msg::EstimatorStatusFlags::_cs_in_transition_type arg)
+  {
+    msg_.cs_in_transition = std::move(arg);
+    return Init_EstimatorStatusFlags_cs_heading_observable(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::EstimatorStatusFlags msg_;
+};
+
 class Init_EstimatorStatusFlags_cs_gnss_hgt_fault
 {
 public:
   explicit Init_EstimatorStatusFlags_cs_gnss_hgt_fault(::px4_msgs::msg::EstimatorStatusFlags & msg)
   : msg_(msg)
   {}
-  Init_EstimatorStatusFlags_fault_status_changes cs_gnss_hgt_fault(::px4_msgs::msg::EstimatorStatusFlags::_cs_gnss_hgt_fault_type arg)
+  Init_EstimatorStatusFlags_cs_in_transition cs_gnss_hgt_fault(::px4_msgs::msg::EstimatorStatusFlags::_cs_gnss_hgt_fault_type arg)
   {
     msg_.cs_gnss_hgt_fault = std::move(arg);
-    return Init_EstimatorStatusFlags_fault_status_changes(msg_);
+    return Init_EstimatorStatusFlags_cs_in_transition(msg_);
   }
 
 private:

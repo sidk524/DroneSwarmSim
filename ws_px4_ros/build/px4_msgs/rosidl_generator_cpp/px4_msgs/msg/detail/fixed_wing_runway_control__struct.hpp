@@ -43,6 +43,7 @@ struct FixedWingRunwayControl_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->timestamp = 0ull;
+      this->runway_takeoff_state = 0;
       this->wheel_steering_enabled = false;
       this->wheel_steering_nudging_rate = 0.0f;
     }
@@ -55,6 +56,7 @@ struct FixedWingRunwayControl_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->timestamp = 0ull;
+      this->runway_takeoff_state = 0;
       this->wheel_steering_enabled = false;
       this->wheel_steering_nudging_rate = 0.0f;
     }
@@ -64,6 +66,9 @@ struct FixedWingRunwayControl_
   using _timestamp_type =
     uint64_t;
   _timestamp_type timestamp;
+  using _runway_takeoff_state_type =
+    uint8_t;
+  _runway_takeoff_state_type runway_takeoff_state;
   using _wheel_steering_enabled_type =
     bool;
   _wheel_steering_enabled_type wheel_steering_enabled;
@@ -76,6 +81,12 @@ struct FixedWingRunwayControl_
     const uint64_t & _arg)
   {
     this->timestamp = _arg;
+    return *this;
+  }
+  Type & set__runway_takeoff_state(
+    const uint8_t & _arg)
+  {
+    this->runway_takeoff_state = _arg;
     return *this;
   }
   Type & set__wheel_steering_enabled(
@@ -92,6 +103,14 @@ struct FixedWingRunwayControl_
   }
 
   // constant declarations
+  static constexpr uint8_t STATE_THROTTLE_RAMP =
+    0u;
+  static constexpr uint8_t STATE_CLAMPED_TO_RUNWAY =
+    1u;
+  static constexpr uint8_t STATE_CLIMBOUT =
+    2u;
+  static constexpr uint8_t STATE_FLYING =
+    3u;
 
   // pointer types
   using RawPtr =
@@ -136,6 +155,9 @@ struct FixedWingRunwayControl_
     if (this->timestamp != other.timestamp) {
       return false;
     }
+    if (this->runway_takeoff_state != other.runway_takeoff_state) {
+      return false;
+    }
     if (this->wheel_steering_enabled != other.wheel_steering_enabled) {
       return false;
     }
@@ -155,6 +177,26 @@ using FixedWingRunwayControl =
   px4_msgs::msg::FixedWingRunwayControl_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t FixedWingRunwayControl_<ContainerAllocator>::STATE_THROTTLE_RAMP;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t FixedWingRunwayControl_<ContainerAllocator>::STATE_CLAMPED_TO_RUNWAY;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t FixedWingRunwayControl_<ContainerAllocator>::STATE_CLIMBOUT;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
+template<typename ContainerAllocator>
+constexpr uint8_t FixedWingRunwayControl_<ContainerAllocator>::STATE_FLYING;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

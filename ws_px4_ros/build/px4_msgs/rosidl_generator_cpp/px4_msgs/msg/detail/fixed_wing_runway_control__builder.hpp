@@ -56,16 +56,32 @@ private:
   ::px4_msgs::msg::FixedWingRunwayControl msg_;
 };
 
+class Init_FixedWingRunwayControl_runway_takeoff_state
+{
+public:
+  explicit Init_FixedWingRunwayControl_runway_takeoff_state(::px4_msgs::msg::FixedWingRunwayControl & msg)
+  : msg_(msg)
+  {}
+  Init_FixedWingRunwayControl_wheel_steering_enabled runway_takeoff_state(::px4_msgs::msg::FixedWingRunwayControl::_runway_takeoff_state_type arg)
+  {
+    msg_.runway_takeoff_state = std::move(arg);
+    return Init_FixedWingRunwayControl_wheel_steering_enabled(msg_);
+  }
+
+private:
+  ::px4_msgs::msg::FixedWingRunwayControl msg_;
+};
+
 class Init_FixedWingRunwayControl_timestamp
 {
 public:
   Init_FixedWingRunwayControl_timestamp()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_FixedWingRunwayControl_wheel_steering_enabled timestamp(::px4_msgs::msg::FixedWingRunwayControl::_timestamp_type arg)
+  Init_FixedWingRunwayControl_runway_takeoff_state timestamp(::px4_msgs::msg::FixedWingRunwayControl::_timestamp_type arg)
   {
     msg_.timestamp = std::move(arg);
-    return Init_FixedWingRunwayControl_wheel_steering_enabled(msg_);
+    return Init_FixedWingRunwayControl_runway_takeoff_state(msg_);
   }
 
 private:

@@ -131,6 +131,8 @@ typedef struct px4_msgs__msg__PositionSetpoint
   float acceptance_radius;
   /// vertical acceptance radius, only used for fixed wing guidance, NAN = let guidance choose (meters)
   float alt_acceptance_radius;
+  /// desired course (bearing) over ground, NaN = unused
+  float course;
   /// the generally desired cruising speed (not a hard constraint)
   float cruising_speed;
   /// commands the vehicle to glide if the capability is available (fixed wing only)

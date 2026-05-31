@@ -30,17 +30,7 @@ class Metaclass_EscReport(type):
 
     __constants = {
         'ACTUATOR_FUNCTION_MOTOR1': 101,
-        'ACTUATOR_FUNCTION_MOTOR2': 102,
-        'ACTUATOR_FUNCTION_MOTOR3': 103,
-        'ACTUATOR_FUNCTION_MOTOR4': 104,
-        'ACTUATOR_FUNCTION_MOTOR5': 105,
-        'ACTUATOR_FUNCTION_MOTOR6': 106,
-        'ACTUATOR_FUNCTION_MOTOR7': 107,
-        'ACTUATOR_FUNCTION_MOTOR8': 108,
-        'ACTUATOR_FUNCTION_MOTOR9': 109,
-        'ACTUATOR_FUNCTION_MOTOR10': 110,
-        'ACTUATOR_FUNCTION_MOTOR11': 111,
-        'ACTUATOR_FUNCTION_MOTOR12': 112,
+        'ACTUATOR_FUNCTION_MOTOR_MAX': 112,
         'FAILURE_OVER_CURRENT': 0,
         'FAILURE_OVER_VOLTAGE': 1,
         'FAILURE_MOTOR_OVER_TEMPERATURE': 2,
@@ -81,17 +71,7 @@ class Metaclass_EscReport(type):
         # as well as populate each message instance
         return {
             'ACTUATOR_FUNCTION_MOTOR1': cls.__constants['ACTUATOR_FUNCTION_MOTOR1'],
-            'ACTUATOR_FUNCTION_MOTOR2': cls.__constants['ACTUATOR_FUNCTION_MOTOR2'],
-            'ACTUATOR_FUNCTION_MOTOR3': cls.__constants['ACTUATOR_FUNCTION_MOTOR3'],
-            'ACTUATOR_FUNCTION_MOTOR4': cls.__constants['ACTUATOR_FUNCTION_MOTOR4'],
-            'ACTUATOR_FUNCTION_MOTOR5': cls.__constants['ACTUATOR_FUNCTION_MOTOR5'],
-            'ACTUATOR_FUNCTION_MOTOR6': cls.__constants['ACTUATOR_FUNCTION_MOTOR6'],
-            'ACTUATOR_FUNCTION_MOTOR7': cls.__constants['ACTUATOR_FUNCTION_MOTOR7'],
-            'ACTUATOR_FUNCTION_MOTOR8': cls.__constants['ACTUATOR_FUNCTION_MOTOR8'],
-            'ACTUATOR_FUNCTION_MOTOR9': cls.__constants['ACTUATOR_FUNCTION_MOTOR9'],
-            'ACTUATOR_FUNCTION_MOTOR10': cls.__constants['ACTUATOR_FUNCTION_MOTOR10'],
-            'ACTUATOR_FUNCTION_MOTOR11': cls.__constants['ACTUATOR_FUNCTION_MOTOR11'],
-            'ACTUATOR_FUNCTION_MOTOR12': cls.__constants['ACTUATOR_FUNCTION_MOTOR12'],
+            'ACTUATOR_FUNCTION_MOTOR_MAX': cls.__constants['ACTUATOR_FUNCTION_MOTOR_MAX'],
             'FAILURE_OVER_CURRENT': cls.__constants['FAILURE_OVER_CURRENT'],
             'FAILURE_OVER_VOLTAGE': cls.__constants['FAILURE_OVER_VOLTAGE'],
             'FAILURE_MOTOR_OVER_TEMPERATURE': cls.__constants['FAILURE_MOTOR_OVER_TEMPERATURE'],
@@ -111,59 +91,9 @@ class Metaclass_EscReport(type):
         return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR1']
 
     @property
-    def ACTUATOR_FUNCTION_MOTOR2(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR2'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR2']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR3(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR3'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR3']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR4(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR4'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR4']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR5(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR5'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR5']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR6(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR6'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR6']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR7(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR7'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR7']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR8(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR8'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR8']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR9(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR9'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR9']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR10(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR10'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR10']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR11(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR11'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR11']
-
-    @property
-    def ACTUATOR_FUNCTION_MOTOR12(self):
-        """Message constant 'ACTUATOR_FUNCTION_MOTOR12'."""
-        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR12']
+    def ACTUATOR_FUNCTION_MOTOR_MAX(self):
+        """Message constant 'ACTUATOR_FUNCTION_MOTOR_MAX'."""
+        return Metaclass_EscReport.__constants['ACTUATOR_FUNCTION_MOTOR_MAX']
 
     @property
     def FAILURE_OVER_CURRENT(self):
@@ -227,17 +157,7 @@ class EscReport(metaclass=Metaclass_EscReport):
 
     Constants:
       ACTUATOR_FUNCTION_MOTOR1
-      ACTUATOR_FUNCTION_MOTOR2
-      ACTUATOR_FUNCTION_MOTOR3
-      ACTUATOR_FUNCTION_MOTOR4
-      ACTUATOR_FUNCTION_MOTOR5
-      ACTUATOR_FUNCTION_MOTOR6
-      ACTUATOR_FUNCTION_MOTOR7
-      ACTUATOR_FUNCTION_MOTOR8
-      ACTUATOR_FUNCTION_MOTOR9
-      ACTUATOR_FUNCTION_MOTOR10
-      ACTUATOR_FUNCTION_MOTOR11
-      ACTUATOR_FUNCTION_MOTOR12
+      ACTUATOR_FUNCTION_MOTOR_MAX
       FAILURE_OVER_CURRENT
       FAILURE_OVER_VOLTAGE
       FAILURE_MOTOR_OVER_TEMPERATURE
@@ -258,8 +178,7 @@ class EscReport(metaclass=Metaclass_EscReport):
         '_esc_voltage',
         '_esc_current',
         '_esc_temperature',
-        '_esc_address',
-        '_esc_cmdcount',
+        '_motor_temperature',
         '_esc_state',
         '_actuator_function',
         '_failures',
@@ -274,8 +193,7 @@ class EscReport(metaclass=Metaclass_EscReport):
         'esc_voltage': 'float',
         'esc_current': 'float',
         'esc_temperature': 'float',
-        'esc_address': 'uint8',
-        'esc_cmdcount': 'uint8',
+        'motor_temperature': 'int16',
         'esc_state': 'uint8',
         'actuator_function': 'uint8',
         'failures': 'uint16',
@@ -291,8 +209,7 @@ class EscReport(metaclass=Metaclass_EscReport):
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
         rosidl_parser.definition.BasicType('float'),  # noqa: E501
-        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
-        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('int16'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint16'),  # noqa: E501
@@ -314,8 +231,7 @@ class EscReport(metaclass=Metaclass_EscReport):
         self.esc_voltage = kwargs.get('esc_voltage', float())
         self.esc_current = kwargs.get('esc_current', float())
         self.esc_temperature = kwargs.get('esc_temperature', float())
-        self.esc_address = kwargs.get('esc_address', int())
-        self.esc_cmdcount = kwargs.get('esc_cmdcount', int())
+        self.motor_temperature = kwargs.get('motor_temperature', int())
         self.esc_state = kwargs.get('esc_state', int())
         self.actuator_function = kwargs.get('actuator_function', int())
         self.failures = kwargs.get('failures', int())
@@ -363,9 +279,7 @@ class EscReport(metaclass=Metaclass_EscReport):
             return False
         if self.esc_temperature != other.esc_temperature:
             return False
-        if self.esc_address != other.esc_address:
-            return False
-        if self.esc_cmdcount != other.esc_cmdcount:
+        if self.motor_temperature != other.motor_temperature:
             return False
         if self.esc_state != other.esc_state:
             return False
@@ -473,34 +387,19 @@ class EscReport(metaclass=Metaclass_EscReport):
         self._esc_temperature = value
 
     @builtins.property
-    def esc_address(self):
-        """Message field 'esc_address'."""
-        return self._esc_address
+    def motor_temperature(self):
+        """Message field 'motor_temperature'."""
+        return self._motor_temperature
 
-    @esc_address.setter
-    def esc_address(self, value):
+    @motor_temperature.setter
+    def motor_temperature(self, value):
         if self._check_fields:
             assert \
                 isinstance(value, int), \
-                "The 'esc_address' field must be of type 'int'"
-            assert value >= 0 and value < 256, \
-                "The 'esc_address' field must be an unsigned integer in [0, 255]"
-        self._esc_address = value
-
-    @builtins.property
-    def esc_cmdcount(self):
-        """Message field 'esc_cmdcount'."""
-        return self._esc_cmdcount
-
-    @esc_cmdcount.setter
-    def esc_cmdcount(self, value):
-        if self._check_fields:
-            assert \
-                isinstance(value, int), \
-                "The 'esc_cmdcount' field must be of type 'int'"
-            assert value >= 0 and value < 256, \
-                "The 'esc_cmdcount' field must be an unsigned integer in [0, 255]"
-        self._esc_cmdcount = value
+                "The 'motor_temperature' field must be of type 'int'"
+            assert value >= -32768 and value < 32768, \
+                "The 'motor_temperature' field must be an integer in [-32768, 32767]"
+        self._motor_temperature = value
 
     @builtins.property
     def esc_state(self):

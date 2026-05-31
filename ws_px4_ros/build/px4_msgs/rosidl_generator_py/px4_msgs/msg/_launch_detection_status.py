@@ -92,12 +92,14 @@ class LaunchDetectionStatus(metaclass=Metaclass_LaunchDetectionStatus):
     __slots__ = [
         '_timestamp',
         '_launch_detection_state',
+        '_selected_control_surface_disarmed',
         '_check_fields',
     ]
 
     _fields_and_field_types = {
         'timestamp': 'uint64',
         'launch_detection_state': 'uint8',
+        'selected_control_surface_disarmed': 'boolean',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -105,6 +107,7 @@ class LaunchDetectionStatus(metaclass=Metaclass_LaunchDetectionStatus):
     SLOT_TYPES = (
         rosidl_parser.definition.BasicType('uint64'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -118,6 +121,7 @@ class LaunchDetectionStatus(metaclass=Metaclass_LaunchDetectionStatus):
                 ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.timestamp = kwargs.get('timestamp', int())
         self.launch_detection_state = kwargs.get('launch_detection_state', int())
+        self.selected_control_surface_disarmed = kwargs.get('selected_control_surface_disarmed', bool())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -152,6 +156,8 @@ class LaunchDetectionStatus(metaclass=Metaclass_LaunchDetectionStatus):
         if self.timestamp != other.timestamp:
             return False
         if self.launch_detection_state != other.launch_detection_state:
+            return False
+        if self.selected_control_surface_disarmed != other.selected_control_surface_disarmed:
             return False
         return True
 
@@ -189,3 +195,16 @@ class LaunchDetectionStatus(metaclass=Metaclass_LaunchDetectionStatus):
             assert value >= 0 and value < 256, \
                 "The 'launch_detection_state' field must be an unsigned integer in [0, 255]"
         self._launch_detection_state = value
+
+    @builtins.property
+    def selected_control_surface_disarmed(self):
+        """Message field 'selected_control_surface_disarmed'."""
+        return self._selected_control_surface_disarmed
+
+    @selected_control_surface_disarmed.setter
+    def selected_control_surface_disarmed(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'selected_control_surface_disarmed' field must be of type 'bool'"
+        self._selected_control_surface_disarmed = value

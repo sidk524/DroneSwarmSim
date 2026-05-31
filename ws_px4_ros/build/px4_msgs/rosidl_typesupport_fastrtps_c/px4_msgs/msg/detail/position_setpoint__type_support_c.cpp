@@ -133,6 +133,11 @@ bool cdr_serialize_px4_msgs__msg__PositionSetpoint(
     cdr << ros_message->alt_acceptance_radius;
   }
 
+  // Field name: course
+  {
+    cdr << ros_message->course;
+  }
+
   // Field name: cruising_speed
   {
     cdr << ros_message->cruising_speed;
@@ -243,6 +248,11 @@ bool cdr_deserialize_px4_msgs__msg__PositionSetpoint(
   // Field name: alt_acceptance_radius
   {
     cdr >> ros_message->alt_acceptance_radius;
+  }
+
+  // Field name: course
+  {
+    cdr >> ros_message->course;
   }
 
   // Field name: cruising_speed
@@ -395,6 +405,13 @@ size_t get_serialized_size_px4_msgs__msg__PositionSetpoint(
   // Field name: alt_acceptance_radius
   {
     size_t item_size = sizeof(ros_message->alt_acceptance_radius);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: course
+  {
+    size_t item_size = sizeof(ros_message->course);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -574,6 +591,14 @@ size_t max_serialized_size_px4_msgs__msg__PositionSetpoint(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: course
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: cruising_speed
   {
     size_t array_size = 1;
@@ -701,6 +726,11 @@ bool cdr_serialize_key_px4_msgs__msg__PositionSetpoint(
   // Field name: alt_acceptance_radius
   {
     cdr << ros_message->alt_acceptance_radius;
+  }
+
+  // Field name: course
+  {
+    cdr << ros_message->course;
   }
 
   // Field name: cruising_speed
@@ -851,6 +881,13 @@ size_t get_serialized_size_key_px4_msgs__msg__PositionSetpoint(
   // Field name: alt_acceptance_radius
   {
     size_t item_size = sizeof(ros_message->alt_acceptance_radius);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: course
+  {
+    size_t item_size = sizeof(ros_message->course);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -1021,6 +1058,14 @@ size_t max_serialized_size_key_px4_msgs__msg__PositionSetpoint(
   }
 
   // Field name: alt_acceptance_radius
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: course
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint32_t);

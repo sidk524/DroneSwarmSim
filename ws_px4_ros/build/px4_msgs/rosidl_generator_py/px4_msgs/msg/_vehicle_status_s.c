@@ -140,6 +140,24 @@ bool px4_msgs__msg__vehicle_status__convert_from_py(PyObject * _pymsg, void * _r
     ros_message->executor_in_charge = (uint8_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
+  {  // nav_state_display
+    PyObject * field = PyObject_GetAttrString(_pymsg, "nav_state_display");
+    if (!field) {
+      return false;
+    }
+    assert(PyLong_Check(field));
+    ros_message->nav_state_display = (uint8_t)PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
+  {  // accepts_offboard_setpoints
+    PyObject * field = PyObject_GetAttrString(_pymsg, "accepts_offboard_setpoints");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->accepts_offboard_setpoints = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // valid_nav_states_mask
     PyObject * field = PyObject_GetAttrString(_pymsg, "valid_nav_states_mask");
     if (!field) {
@@ -156,15 +174,6 @@ bool px4_msgs__msg__vehicle_status__convert_from_py(PyObject * _pymsg, void * _r
     }
     assert(PyLong_Check(field));
     ros_message->can_set_nav_states_mask = PyLong_AsUnsignedLong(field);
-    Py_DECREF(field);
-  }
-  {  // failure_detector_status
-    PyObject * field = PyObject_GetAttrString(_pymsg, "failure_detector_status");
-    if (!field) {
-      return false;
-    }
-    assert(PyLong_Check(field));
-    ros_message->failure_detector_status = (uint16_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
   {  // hil_state
@@ -374,6 +383,15 @@ bool px4_msgs__msg__vehicle_status__convert_from_py(PyObject * _pymsg, void * _r
     ros_message->parachute_system_healthy = (Py_True == field);
     Py_DECREF(field);
   }
+  {  // traffic_avoidance_system_present
+    PyObject * field = PyObject_GetAttrString(_pymsg, "traffic_avoidance_system_present");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->traffic_avoidance_system_present = (Py_True == field);
+    Py_DECREF(field);
+  }
   {  // rc_calibration_in_progress
     PyObject * field = PyObject_GetAttrString(_pymsg, "rc_calibration_in_progress");
     if (!field) {
@@ -533,6 +551,28 @@ PyObject * px4_msgs__msg__vehicle_status__convert_to_py(void * raw_ros_message)
       }
     }
   }
+  {  // nav_state_display
+    PyObject * field = NULL;
+    field = PyLong_FromUnsignedLong(ros_message->nav_state_display);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "nav_state_display", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // accepts_offboard_setpoints
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->accepts_offboard_setpoints ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "accepts_offboard_setpoints", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // valid_nav_states_mask
     PyObject * field = NULL;
     field = PyLong_FromUnsignedLong(ros_message->valid_nav_states_mask);
@@ -549,17 +589,6 @@ PyObject * px4_msgs__msg__vehicle_status__convert_to_py(void * raw_ros_message)
     field = PyLong_FromUnsignedLong(ros_message->can_set_nav_states_mask);
     {
       int rc = PyObject_SetAttrString(_pymessage, "can_set_nav_states_mask", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // failure_detector_status
-    PyObject * field = NULL;
-    field = PyLong_FromUnsignedLong(ros_message->failure_detector_status);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "failure_detector_status", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;
@@ -813,6 +842,17 @@ PyObject * px4_msgs__msg__vehicle_status__convert_to_py(void * raw_ros_message)
     field = PyBool_FromLong(ros_message->parachute_system_healthy ? 1 : 0);
     {
       int rc = PyObject_SetAttrString(_pymessage, "parachute_system_healthy", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // traffic_avoidance_system_present
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->traffic_avoidance_system_present ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "traffic_avoidance_system_present", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

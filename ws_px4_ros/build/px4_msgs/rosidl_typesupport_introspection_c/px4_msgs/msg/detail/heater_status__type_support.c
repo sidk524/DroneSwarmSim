@@ -31,7 +31,7 @@ void px4_msgs__msg__HeaterStatus__rosidl_typesupport_introspection_c__HeaterStat
   px4_msgs__msg__HeaterStatus__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__HeaterStatus__rosidl_typesupport_introspection_c__HeaterStatus_message_member_array[12] = {
+static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__HeaterStatus__rosidl_typesupport_introspection_c__HeaterStatus_message_member_array[16] = {
   {
     "timestamp",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_UINT64,  // type
@@ -231,6 +231,60 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__HeaterSt
     NULL  // resize(index) function pointer
   },
   {
+    "supply_voltage",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__HeaterStatus, supply_voltage),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "heater_current",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__HeaterStatus, heater_current),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "nominal_multiplier",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__HeaterStatus, nominal_multiplier),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
     "mode",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
     0,  // upper bound of string
@@ -247,13 +301,31 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__HeaterSt
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "temperature_source",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is key
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(px4_msgs__msg__HeaterStatus, temperature_source),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers px4_msgs__msg__HeaterStatus__rosidl_typesupport_introspection_c__HeaterStatus_message_members = {
   "px4_msgs__msg",  // message namespace
   "HeaterStatus",  // message name
-  12,  // number of fields
+  16,  // number of fields
   sizeof(px4_msgs__msg__HeaterStatus),
   false,  // has_any_key_member_
   px4_msgs__msg__HeaterStatus__rosidl_typesupport_introspection_c__HeaterStatus_message_member_array,  // message members

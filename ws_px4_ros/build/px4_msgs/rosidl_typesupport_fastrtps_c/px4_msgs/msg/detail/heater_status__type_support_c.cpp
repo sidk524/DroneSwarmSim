@@ -103,9 +103,29 @@ bool cdr_serialize_px4_msgs__msg__HeaterStatus(
     cdr << ros_message->feed_forward_value;
   }
 
+  // Field name: supply_voltage
+  {
+    cdr << ros_message->supply_voltage;
+  }
+
+  // Field name: heater_current
+  {
+    cdr << ros_message->heater_current;
+  }
+
+  // Field name: nominal_multiplier
+  {
+    cdr << ros_message->nominal_multiplier;
+  }
+
   // Field name: mode
   {
     cdr << ros_message->mode;
+  }
+
+  // Field name: temperature_source
+  {
+    cdr << ros_message->temperature_source;
   }
 
   return true;
@@ -175,9 +195,29 @@ bool cdr_deserialize_px4_msgs__msg__HeaterStatus(
     cdr >> ros_message->feed_forward_value;
   }
 
+  // Field name: supply_voltage
+  {
+    cdr >> ros_message->supply_voltage;
+  }
+
+  // Field name: heater_current
+  {
+    cdr >> ros_message->heater_current;
+  }
+
+  // Field name: nominal_multiplier
+  {
+    cdr >> ros_message->nominal_multiplier;
+  }
+
   // Field name: mode
   {
     cdr >> ros_message->mode;
+  }
+
+  // Field name: temperature_source
+  {
+    cdr >> ros_message->temperature_source;
   }
 
   return true;
@@ -275,9 +315,37 @@ size_t get_serialized_size_px4_msgs__msg__HeaterStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: supply_voltage
+  {
+    size_t item_size = sizeof(ros_message->supply_voltage);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: heater_current
+  {
+    size_t item_size = sizeof(ros_message->heater_current);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: nominal_multiplier
+  {
+    size_t item_size = sizeof(ros_message->nominal_multiplier);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: mode
   {
     size_t item_size = sizeof(ros_message->mode);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: temperature_source
+  {
+    size_t item_size = sizeof(ros_message->temperature_source);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -390,7 +458,38 @@ size_t max_serialized_size_px4_msgs__msg__HeaterStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: supply_voltage
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: heater_current
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: nominal_multiplier
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: mode
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: temperature_source
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -406,7 +505,7 @@ size_t max_serialized_size_px4_msgs__msg__HeaterStatus(
     using DataType = px4_msgs__msg__HeaterStatus;
     is_plain =
       (
-      offsetof(DataType, mode) +
+      offsetof(DataType, temperature_source) +
       last_member_size
       ) == ret_val;
   }
@@ -473,9 +572,29 @@ bool cdr_serialize_key_px4_msgs__msg__HeaterStatus(
     cdr << ros_message->feed_forward_value;
   }
 
+  // Field name: supply_voltage
+  {
+    cdr << ros_message->supply_voltage;
+  }
+
+  // Field name: heater_current
+  {
+    cdr << ros_message->heater_current;
+  }
+
+  // Field name: nominal_multiplier
+  {
+    cdr << ros_message->nominal_multiplier;
+  }
+
   // Field name: mode
   {
     cdr << ros_message->mode;
+  }
+
+  // Field name: temperature_source
+  {
+    cdr << ros_message->temperature_source;
   }
 
   return true;
@@ -573,9 +692,37 @@ size_t get_serialized_size_key_px4_msgs__msg__HeaterStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
 
+  // Field name: supply_voltage
+  {
+    size_t item_size = sizeof(ros_message->supply_voltage);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: heater_current
+  {
+    size_t item_size = sizeof(ros_message->heater_current);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: nominal_multiplier
+  {
+    size_t item_size = sizeof(ros_message->nominal_multiplier);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
   // Field name: mode
   {
     size_t item_size = sizeof(ros_message->mode);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+
+  // Field name: temperature_source
+  {
+    size_t item_size = sizeof(ros_message->temperature_source);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -686,7 +833,38 @@ size_t max_serialized_size_key_px4_msgs__msg__HeaterStatus(
       eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
+  // Field name: supply_voltage
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: heater_current
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Field name: nominal_multiplier
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
   // Field name: mode
+  {
+    size_t array_size = 1;
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Field name: temperature_source
   {
     size_t array_size = 1;
     last_member_size = array_size * sizeof(uint8_t);
@@ -701,7 +879,7 @@ size_t max_serialized_size_key_px4_msgs__msg__HeaterStatus(
     using DataType = px4_msgs__msg__HeaterStatus;
     is_plain =
       (
-      offsetof(DataType, mode) +
+      offsetof(DataType, temperature_source) +
       last_member_size
       ) == ret_val;
   }

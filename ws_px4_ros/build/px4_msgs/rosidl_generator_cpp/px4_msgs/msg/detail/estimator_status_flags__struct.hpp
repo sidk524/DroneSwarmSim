@@ -93,6 +93,8 @@ struct EstimatorStatusFlags_
       this->cs_gnss_fault = false;
       this->cs_yaw_manual = false;
       this->cs_gnss_hgt_fault = false;
+      this->cs_in_transition = false;
+      this->cs_heading_observable = false;
       this->fault_status_changes = 0ul;
       this->fs_bad_mag_x = false;
       this->fs_bad_mag_y = false;
@@ -105,17 +107,6 @@ struct EstimatorStatusFlags_
       this->fs_bad_optflow_y = false;
       this->fs_bad_acc_vertical = false;
       this->fs_bad_acc_clipping = false;
-      this->innovation_fault_status_changes = 0ul;
-      this->reject_hor_vel = false;
-      this->reject_ver_vel = false;
-      this->reject_hor_pos = false;
-      this->reject_ver_pos = false;
-      this->reject_yaw = false;
-      this->reject_airspeed = false;
-      this->reject_sideslip = false;
-      this->reject_hagl = false;
-      this->reject_optflow_x = false;
-      this->reject_optflow_y = false;
     }
   }
 
@@ -176,6 +167,8 @@ struct EstimatorStatusFlags_
       this->cs_gnss_fault = false;
       this->cs_yaw_manual = false;
       this->cs_gnss_hgt_fault = false;
+      this->cs_in_transition = false;
+      this->cs_heading_observable = false;
       this->fault_status_changes = 0ul;
       this->fs_bad_mag_x = false;
       this->fs_bad_mag_y = false;
@@ -188,17 +181,6 @@ struct EstimatorStatusFlags_
       this->fs_bad_optflow_y = false;
       this->fs_bad_acc_vertical = false;
       this->fs_bad_acc_clipping = false;
-      this->innovation_fault_status_changes = 0ul;
-      this->reject_hor_vel = false;
-      this->reject_ver_vel = false;
-      this->reject_hor_pos = false;
-      this->reject_ver_pos = false;
-      this->reject_yaw = false;
-      this->reject_airspeed = false;
-      this->reject_sideslip = false;
-      this->reject_hagl = false;
-      this->reject_optflow_x = false;
-      this->reject_optflow_y = false;
     }
   }
 
@@ -356,6 +338,12 @@ struct EstimatorStatusFlags_
   using _cs_gnss_hgt_fault_type =
     bool;
   _cs_gnss_hgt_fault_type cs_gnss_hgt_fault;
+  using _cs_in_transition_type =
+    bool;
+  _cs_in_transition_type cs_in_transition;
+  using _cs_heading_observable_type =
+    bool;
+  _cs_heading_observable_type cs_heading_observable;
   using _fault_status_changes_type =
     uint32_t;
   _fault_status_changes_type fault_status_changes;
@@ -392,39 +380,6 @@ struct EstimatorStatusFlags_
   using _fs_bad_acc_clipping_type =
     bool;
   _fs_bad_acc_clipping_type fs_bad_acc_clipping;
-  using _innovation_fault_status_changes_type =
-    uint32_t;
-  _innovation_fault_status_changes_type innovation_fault_status_changes;
-  using _reject_hor_vel_type =
-    bool;
-  _reject_hor_vel_type reject_hor_vel;
-  using _reject_ver_vel_type =
-    bool;
-  _reject_ver_vel_type reject_ver_vel;
-  using _reject_hor_pos_type =
-    bool;
-  _reject_hor_pos_type reject_hor_pos;
-  using _reject_ver_pos_type =
-    bool;
-  _reject_ver_pos_type reject_ver_pos;
-  using _reject_yaw_type =
-    bool;
-  _reject_yaw_type reject_yaw;
-  using _reject_airspeed_type =
-    bool;
-  _reject_airspeed_type reject_airspeed;
-  using _reject_sideslip_type =
-    bool;
-  _reject_sideslip_type reject_sideslip;
-  using _reject_hagl_type =
-    bool;
-  _reject_hagl_type reject_hagl;
-  using _reject_optflow_x_type =
-    bool;
-  _reject_optflow_x_type reject_optflow_x;
-  using _reject_optflow_y_type =
-    bool;
-  _reject_optflow_y_type reject_optflow_y;
 
   // setters for named parameter idiom
   Type & set__timestamp(
@@ -733,6 +688,18 @@ struct EstimatorStatusFlags_
     this->cs_gnss_hgt_fault = _arg;
     return *this;
   }
+  Type & set__cs_in_transition(
+    const bool & _arg)
+  {
+    this->cs_in_transition = _arg;
+    return *this;
+  }
+  Type & set__cs_heading_observable(
+    const bool & _arg)
+  {
+    this->cs_heading_observable = _arg;
+    return *this;
+  }
   Type & set__fault_status_changes(
     const uint32_t & _arg)
   {
@@ -803,72 +770,6 @@ struct EstimatorStatusFlags_
     const bool & _arg)
   {
     this->fs_bad_acc_clipping = _arg;
-    return *this;
-  }
-  Type & set__innovation_fault_status_changes(
-    const uint32_t & _arg)
-  {
-    this->innovation_fault_status_changes = _arg;
-    return *this;
-  }
-  Type & set__reject_hor_vel(
-    const bool & _arg)
-  {
-    this->reject_hor_vel = _arg;
-    return *this;
-  }
-  Type & set__reject_ver_vel(
-    const bool & _arg)
-  {
-    this->reject_ver_vel = _arg;
-    return *this;
-  }
-  Type & set__reject_hor_pos(
-    const bool & _arg)
-  {
-    this->reject_hor_pos = _arg;
-    return *this;
-  }
-  Type & set__reject_ver_pos(
-    const bool & _arg)
-  {
-    this->reject_ver_pos = _arg;
-    return *this;
-  }
-  Type & set__reject_yaw(
-    const bool & _arg)
-  {
-    this->reject_yaw = _arg;
-    return *this;
-  }
-  Type & set__reject_airspeed(
-    const bool & _arg)
-  {
-    this->reject_airspeed = _arg;
-    return *this;
-  }
-  Type & set__reject_sideslip(
-    const bool & _arg)
-  {
-    this->reject_sideslip = _arg;
-    return *this;
-  }
-  Type & set__reject_hagl(
-    const bool & _arg)
-  {
-    this->reject_hagl = _arg;
-    return *this;
-  }
-  Type & set__reject_optflow_x(
-    const bool & _arg)
-  {
-    this->reject_optflow_x = _arg;
-    return *this;
-  }
-  Type & set__reject_optflow_y(
-    const bool & _arg)
-  {
-    this->reject_optflow_y = _arg;
     return *this;
   }
 
@@ -1067,6 +968,12 @@ struct EstimatorStatusFlags_
     if (this->cs_gnss_hgt_fault != other.cs_gnss_hgt_fault) {
       return false;
     }
+    if (this->cs_in_transition != other.cs_in_transition) {
+      return false;
+    }
+    if (this->cs_heading_observable != other.cs_heading_observable) {
+      return false;
+    }
     if (this->fault_status_changes != other.fault_status_changes) {
       return false;
     }
@@ -1101,39 +1008,6 @@ struct EstimatorStatusFlags_
       return false;
     }
     if (this->fs_bad_acc_clipping != other.fs_bad_acc_clipping) {
-      return false;
-    }
-    if (this->innovation_fault_status_changes != other.innovation_fault_status_changes) {
-      return false;
-    }
-    if (this->reject_hor_vel != other.reject_hor_vel) {
-      return false;
-    }
-    if (this->reject_ver_vel != other.reject_ver_vel) {
-      return false;
-    }
-    if (this->reject_hor_pos != other.reject_hor_pos) {
-      return false;
-    }
-    if (this->reject_ver_pos != other.reject_ver_pos) {
-      return false;
-    }
-    if (this->reject_yaw != other.reject_yaw) {
-      return false;
-    }
-    if (this->reject_airspeed != other.reject_airspeed) {
-      return false;
-    }
-    if (this->reject_sideslip != other.reject_sideslip) {
-      return false;
-    }
-    if (this->reject_hagl != other.reject_hagl) {
-      return false;
-    }
-    if (this->reject_optflow_x != other.reject_optflow_x) {
-      return false;
-    }
-    if (this->reject_optflow_y != other.reject_optflow_y) {
       return false;
     }
     return true;

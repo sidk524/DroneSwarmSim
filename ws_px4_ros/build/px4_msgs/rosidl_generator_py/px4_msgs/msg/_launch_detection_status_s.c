@@ -68,6 +68,15 @@ bool px4_msgs__msg__launch_detection_status__convert_from_py(PyObject * _pymsg, 
     ros_message->launch_detection_state = (uint8_t)PyLong_AsUnsignedLong(field);
     Py_DECREF(field);
   }
+  {  // selected_control_surface_disarmed
+    PyObject * field = PyObject_GetAttrString(_pymsg, "selected_control_surface_disarmed");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->selected_control_surface_disarmed = (Py_True == field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -106,6 +115,17 @@ PyObject * px4_msgs__msg__launch_detection_status__convert_to_py(void * raw_ros_
     field = PyLong_FromUnsignedLong(ros_message->launch_detection_state);
     {
       int rc = PyObject_SetAttrString(_pymessage, "launch_detection_state", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // selected_control_surface_disarmed
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->selected_control_surface_disarmed ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "selected_control_surface_disarmed", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

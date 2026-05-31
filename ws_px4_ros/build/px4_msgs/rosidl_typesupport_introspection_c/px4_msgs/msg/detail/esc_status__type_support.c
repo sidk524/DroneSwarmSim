@@ -41,7 +41,7 @@ size_t px4_msgs__msg__EscStatus__rosidl_typesupport_introspection_c__size_functi
   const void * untyped_member)
 {
   (void)untyped_member;
-  return 8;
+  return 12;
 }
 
 const void * px4_msgs__msg__EscStatus__rosidl_typesupport_introspection_c__get_const_function__EscStatus__esc(
@@ -157,7 +157,7 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__EscStatu
   },
   {
     "esc_online_flags",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is key
@@ -175,7 +175,7 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__EscStatu
   },
   {
     "esc_armed_flags",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is key
@@ -198,7 +198,7 @@ static rosidl_typesupport_introspection_c__MessageMember px4_msgs__msg__EscStatu
     NULL,  // members of sub message (initialized later)
     false,  // is key
     true,  // is array
-    8,  // array size
+    12,  // array size
     false,  // is upper bound
     offsetof(px4_msgs__msg__EscStatus, esc),  // bytes offset in struct
     NULL,  // default value

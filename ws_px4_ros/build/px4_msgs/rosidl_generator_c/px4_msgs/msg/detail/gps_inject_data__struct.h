@@ -40,9 +40,9 @@ typedef struct px4_msgs__msg__GpsInjectData
   uint32_t device_id;
   /// length of data
   uint16_t len;
-  /// LSB: 1=fragmented
+  /// LSB: 1=fragmented across multiple uORB publications
   uint8_t flags;
-  /// data to write to GPS device (RTCM message)
+  /// data chunk to write to GPS device (RTCM message)
   uint8_t data[300];
 } px4_msgs__msg__GpsInjectData;
 

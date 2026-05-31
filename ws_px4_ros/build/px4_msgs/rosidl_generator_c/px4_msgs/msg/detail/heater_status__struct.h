@@ -31,6 +31,18 @@ enum
   px4_msgs__msg__HeaterStatus__MODE_PX4IO = 2
 };
 
+/// Constant 'TEMPERATURE_SOURCE_IMU'.
+enum
+{
+  px4_msgs__msg__HeaterStatus__TEMPERATURE_SOURCE_IMU = 0
+};
+
+/// Constant 'TEMPERATURE_SOURCE_HYGRO'.
+enum
+{
+  px4_msgs__msg__HeaterStatus__TEMPERATURE_SOURCE_HYGRO = 1
+};
+
 /// Struct defined in msg/HeaterStatus in the package px4_msgs.
 typedef struct px4_msgs__msg__HeaterStatus
 {
@@ -46,7 +58,13 @@ typedef struct px4_msgs__msg__HeaterStatus
   float proportional_value;
   float integrator_value;
   float feed_forward_value;
+  /// Supply voltage (V)
+  float supply_voltage;
+  /// Heater current (A)
+  float heater_current;
+  float nominal_multiplier;
   uint8_t mode;
+  uint8_t temperature_source;
 } px4_msgs__msg__HeaterStatus;
 
 // Struct for a sequence of px4_msgs__msg__HeaterStatus.

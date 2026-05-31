@@ -30,7 +30,7 @@ class Metaclass_RegisterExtComponentRequest(type):
     _TYPE_SUPPORT = None
 
     __constants = {
-        'MESSAGE_VERSION': 1,
+        'MESSAGE_VERSION': 2,
         'LATEST_PX4_ROS2_API_VERSION': 1,
         'ORB_QUEUE_LENGTH': 2,
     }
@@ -104,6 +104,7 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
         '_replace_internal_mode',
         '_activate_mode_immediately',
         '_not_user_selectable',
+        '_request_offboard_setpoints',
         '_check_fields',
     ]
 
@@ -119,6 +120,7 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
         'replace_internal_mode': 'uint8',
         'activate_mode_immediately': 'boolean',
         'not_user_selectable': 'boolean',
+        'request_offboard_setpoints': 'boolean',
     }
 
     # This attribute is used to store an rosidl_parser.definition variable
@@ -133,6 +135,7 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
     )
@@ -160,6 +163,7 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
         self.replace_internal_mode = kwargs.get('replace_internal_mode', int())
         self.activate_mode_immediately = kwargs.get('activate_mode_immediately', bool())
         self.not_user_selectable = kwargs.get('not_user_selectable', bool())
+        self.request_offboard_setpoints = kwargs.get('request_offboard_setpoints', bool())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -212,6 +216,8 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
         if self.activate_mode_immediately != other.activate_mode_immediately:
             return False
         if self.not_user_selectable != other.not_user_selectable:
+            return False
+        if self.request_offboard_setpoints != other.request_offboard_setpoints:
             return False
         return True
 
@@ -388,3 +394,16 @@ class RegisterExtComponentRequest(metaclass=Metaclass_RegisterExtComponentReques
                 isinstance(value, bool), \
                 "The 'not_user_selectable' field must be of type 'bool'"
         self._not_user_selectable = value
+
+    @builtins.property
+    def request_offboard_setpoints(self):
+        """Message field 'request_offboard_setpoints'."""
+        return self._request_offboard_setpoints
+
+    @request_offboard_setpoints.setter
+    def request_offboard_setpoints(self, value):
+        if self._check_fields:
+            assert \
+                isinstance(value, bool), \
+                "The 'request_offboard_setpoints' field must be of type 'bool'"
+        self._request_offboard_setpoints = value
