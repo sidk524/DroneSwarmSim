@@ -1,1 +1,0 @@
-/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/rosidl_generator_c/px4_msgs/msg/detail/parameter_reset_request__struct.h

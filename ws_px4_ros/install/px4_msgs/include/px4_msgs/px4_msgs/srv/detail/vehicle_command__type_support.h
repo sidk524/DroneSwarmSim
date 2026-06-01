@@ -1,1 +1,0 @@
-/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/build/px4_msgs/rosidl_generator_c/px4_msgs/srv/detail/vehicle_command__type_support.h
