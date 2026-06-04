@@ -4,20 +4,51 @@ project(precision_landing)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+add_executable(precision_landing_mode_executor src/precision_landing_mode_executor.cpp)
+add_executable(initial_fly_up src/initial_fly_up_mode.cpp)
+
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(px4_msgs REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(px4_ros2_cpp REQUIRED)
+
+ament_target_dependencies(precision_landing_mode_executor ament_cmake)
+ament_target_dependencies(precision_landing_mode_executor geometry_msgs)
+ament_target_dependencies(precision_landing_mode_executor px4_msgs)
+ament_target_dependencies(precision_landing_mode_executor rclcpp)
+ament_target_dependencies(precision_landing_mode_executor sensor_msgs)
+ament_target_dependencies(precision_landing_mode_executor std_msgs)
+ament_target_dependencies(precision_landing_mode_executor px4_ros2_cpp)
+
+ament_target_dependencies(initial_fly_up ament_cmake)
+ament_target_dependencies(initial_fly_up geometry_msgs)
+ament_target_dependencies(initial_fly_up px4_msgs)
+ament_target_dependencies(initial_fly_up rclcpp)
+ament_target_dependencies(initial_fly_up sensor_msgs)
+ament_target_dependencies(initial_fly_up std_msgs)
+ament_target_dependencies(initial_fly_up px4_ros2_cpp)
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-add_executable(precision_landing_node src/precision_landing_node.cpp)
-target_include_directories(precision_landing_node PUBLIC
+target_include_directories(precision_landing_mode_executor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
-target_compile_features(precision_landing_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-install(TARGETS precision_landing_node
+  target_include_directories(initial_fly_up PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(initial_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+install(TARGETS precision_landing_mode_executor
+  initial_fly_up
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

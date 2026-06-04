@@ -166,7 +166,7 @@ void TestNode::client_response(rclcpp::Client<px4_msgs::srv::VehicleCommand>::Sh
 
 
 void TestNode::switch_to_offboard_mode(){
-    RCLCPP_INFO(this->get_logger(), "requesting switch to offboard mode");
+    RCLCPP_INFO(this->get_logger(), "requesting switch to ohow long does it take to ffboard mode");
     request_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
 
 };
