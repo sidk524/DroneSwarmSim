@@ -16,7 +16,7 @@ public:
     trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
     initialCoords = {};
     initialCoords = initialCoords.withPositionX(-20.0).withPositionY(0.0).withPositionZ(-20.0);
-
+  
   }
 
   void onActivate() override
