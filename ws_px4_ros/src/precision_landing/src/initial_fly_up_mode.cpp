@@ -12,7 +12,6 @@
 int main(int argc, char* argv[]){
 
     using initialFlyUpNode = px4_ros2::NodeWithMode<InitialFlyUpMode>;
-
     rclcpp::init(argc, argv);
     rclcpp::spin(std::make_shared<initialFlyUpNode>("node_with_mode", true));
     rclcpp::shutdown();

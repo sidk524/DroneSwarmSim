@@ -6,16 +6,20 @@ def generate_launch_description():
         Node(
             package='ros_gz_bridge',
             executable="parameter_bridge",
-            arguments = ["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"]
+            arguments = ["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+            remappings = [(
+                "/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image",
+                "/fmu/out/camera_image"
+        )]
         ),
         Node(
             package='ros_gz_bridge',
             executable="parameter_bridge",
-            arguments = ["/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image@sensor_msgs/msg/Image[gz.msgs.Image "],
-            remappings = [(
+            arguments = ["/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image@sensor_msgs/msg/Image[gz.msgs.Image"],
+                        remappings = [(
                 "/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image",
                 "/fmu/out/camera_image"
-            )]
+        )]
         ),
         Node( 
             package='precision_landing',
@@ -24,7 +28,8 @@ def generate_launch_description():
             remappings = [(
                 "/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image",
                 "/fmu/out/camera_image"
-            )]
+        )]
         )
     ])
+
 
