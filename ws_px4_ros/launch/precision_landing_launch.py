@@ -16,7 +16,7 @@ def generate_launch_description():
             package='ros_gz_bridge',
             executable="parameter_bridge",
             arguments = ["/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image@sensor_msgs/msg/Image[gz.msgs.Image"],
-                        remappings = [(
+        remappings = [(
                 "/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image",
                 "/fmu/out/camera_image"
         )]
@@ -28,7 +28,8 @@ def generate_launch_description():
             remappings = [(
                 "/world/aruco/model/x500_mono_cam_down_0/link/camera_link/sensor/camera/image",
                 "/fmu/out/camera_image"
-        )]
+        )],
+        prefix=['gdb -ex run --args']
         )
     ])
 

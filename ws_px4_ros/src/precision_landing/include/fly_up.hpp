@@ -15,7 +15,7 @@ public:
     // [3]
     trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
     initialCoords = {};
-    initialCoords = initialCoords.withPositionX(-20.0).withPositionY(0.0).withPositionZ(-20.0);
+    initialCoords = initialCoords.withPositionX(-5.0).withPositionY(0.0).withPositionZ(-5.0);
   
   }
 
@@ -41,5 +41,6 @@ private:
 void InitialFlyUpMode::fly_up() {
   trajectorySetpoint->update(initialCoords);
 }
+
 
 

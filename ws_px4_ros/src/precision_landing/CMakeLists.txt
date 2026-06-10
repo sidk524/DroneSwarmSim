@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.8)
 project(precision_landing)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic -g)
 endif()
-add_executable(precision_landing_mode_executor src/precision_landing_mode_executor.cpp)
-add_executable(initial_fly_up src/initial_fly_up_mode.cpp)
-add_executable(locate_marker src/locate_marker.cpp)
 
 
 # find dependencies
@@ -19,32 +16,53 @@ find_package(px4_ros2_cpp REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 
-ament_target_dependencies(precision_landing_mode_executor ament_cmake)
-ament_target_dependencies(precision_landing_mode_executor geometry_msgs)
-ament_target_dependencies(precision_landing_mode_executor px4_msgs)
-ament_target_dependencies(precision_landing_mode_executor rclcpp)
-ament_target_dependencies(precision_landing_mode_executor sensor_msgs)
-ament_target_dependencies(precision_landing_mode_executor std_msgs)
-ament_target_dependencies(precision_landing_mode_executor px4_ros2_cpp)
+include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${cv_bridge_INCLUDE_DIRS})
 
-ament_target_dependencies(initial_fly_up ament_cmake)
-ament_target_dependencies(initial_fly_up geometry_msgs)
-ament_target_dependencies(initial_fly_up px4_msgs)
-ament_target_dependencies(initial_fly_up rclcpp)
-ament_target_dependencies(initial_fly_up sensor_msgs)
-ament_target_dependencies(initial_fly_up std_msgs)
-ament_target_dependencies(initial_fly_up px4_ros2_cpp)
+link_directories(/usr/local/lib)
 
-ament_target_dependencies(locate_marker ament_cmake)
-ament_target_dependencies(locate_marker geometry_msgs)
-ament_target_dependencies(locate_marker px4_msgs)
-ament_target_dependencies(locate_marker rclcpp)
-ament_target_dependencies(locate_marker sensor_msgs)
-ament_target_dependencies(locate_marker std_msgs)
-ament_target_dependencies(locate_marker px4_ros2_cpp)
-ament_target_dependencies(locate_marker cv_bridge)
-ament_target_dependencies(locate_marker OpenCV)
+add_executable(precision_landing_mode_executor 
+              src/precision_landing_mode_executor.cpp
+              src/locate_marker.cpp
+)
 
+add_executable(initial_fly_up src/initial_fly_up_mode.cpp)
+
+
+target_link_libraries(precision_landing_mode_executor ${OPENCV_LIBS})
+# target_link_libraries(locate_marker ${OPENCV_LIBS})
+
+ament_target_dependencies(precision_landing_mode_executor 
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  sensor_msgs 
+  std_msgs  
+  px4_ros2_cpp
+  cv_bridge
+  OpenCV
+)
+
+ament_target_dependencies(initial_fly_up ament_cmake 
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  sensor_msgs 
+  std_msgs
+  px4_ros2_cpp
+)
+
+# ament_target_dependencies(locate_marker ament_cmake 
+#   geometry_msgs
+#   px4_msgs
+#   rclcpp
+#   sensor_msgs
+#   std_msgs
+#   px4_ros2_cpp
+#   cv_bridge
+#   OpenCV
+# )
 
 
 # uncomment the following section in order to fill in
@@ -59,18 +77,18 @@ target_include_directories(precision_landing_mode_executor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
     
-target_include_directories(locate_marker PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+# target_include_directories(locate_marker PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+#   )
 
 target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-target_compile_features(initial_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-target_compile_features(locate_marker PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+# target_compile_features(initial_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17/target_compile_features(locate_marker PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 
 install(TARGETS precision_landing_mode_executor
   initial_fly_up
-  locate_marker
+  #locate_marker
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

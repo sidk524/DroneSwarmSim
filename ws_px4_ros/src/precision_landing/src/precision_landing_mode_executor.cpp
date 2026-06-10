@@ -1,18 +1,22 @@
 
 #include "rclcpp/rclcpp.hpp"
+#include <px4_ros2/components/mode.hpp>
 #include <px4_ros2/components/node_with_mode.hpp>
 #include <px4_ros2/components/mode_executor.hpp>
 #include <fly_up.hpp>
+#include <locate_marker.hpp>
 
 class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
   public:
-    PrecisionLandingExecutor(px4_ros2::ModeBase & owned_mode) : ModeExecutorBase(
+    PrecisionLandingExecutor(px4_ros2::ModeBase & owned_mode, px4_ros2::ModeBase & second_mode) : ModeExecutorBase(
       px4_ros2::ModeExecutorBase::Settings{
         px4_ros2::ModeExecutorBase::Settings::Activation::ActivateAlways
       }, 
-    
-      owned_mode),
-      _node(owned_mode.node())
+      owned_mode
+    ),
+      _node(owned_mode.node()),
+      _second_node(second_mode.node()),
+      _second_mode(second_mode)
 
     { }
 
@@ -21,11 +25,13 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
       check_arm,
       taking_off,
       fly_up,
+      find_marker,
       RTL,
       WaitUntilDisarmed
     };
 
     void onActivate() override {
+      RCLCPP_DEBUG(_node.get_logger(), "hello");
         runState(State::request_arm, px4_ros2::Result::Success);
     }
 
@@ -34,7 +40,7 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
     }
 
     void runState(State state, px4_ros2::Result previous_result){
-      RCLCPP_INFO(_node.get_logger(), "State %i: previous state failed: %s", (int)state,
+      RCLCPP_DEBUG(_node.get_logger(), "State %i: previous state failed: %s", (int)state,
           resultToString(previous_result));
 
         if (state == check_arm ) {
@@ -55,8 +61,15 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
           case State::fly_up:
             scheduleMode(
               ownedMode().id(), [this](px4_ros2::Result result) {
-                runState(State::RTL, result);
+                runState(State::find_marker, result);
             });
+            break;
+          case State::find_marker:
+            scheduleMode(
+              _second_mode.id(), [this] (px4_ros2::Result result) {
+                    runState(State::RTL, result);
+              }
+            );
             break;
           case State::RTL:
             rtl([this](px4_ros2::Result result) {runState(State::WaitUntilDisarmed, result);});
@@ -68,23 +81,27 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
             break;
       }
     }
-
+    
     private:
       rclcpp::Node & _node;
+      rclcpp::Node & _second_node;
+      px4_ros2::ModeBase &_second_mode;
 };
 
 
 
 int main(int argc, char* argv[])
 {
-  using precisionLandingExecutor = px4_ros2::NodeWithModeExecutor<PrecisionLandingExecutor, InitialFlyUpMode>;
-
-  static const std::string kNodeName = "precision_landing_executor";
-  static const bool kEnableDebugOutput = true;
-
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<precisionLandingExecutor>(kNodeName, kEnableDebugOutput));
-  rclcpp::shutdown();
-  return 0;
+  
+    using precisionLandingExecutor = px4_ros2::NodeWithModeExecutor<PrecisionLandingExecutor, InitialFlyUpMode, LocateArucoMarkerMode>;
+    static const std::string kNodeName = "precision_landing_executor";
+    static const bool kEnableDebugOutput = true;
+    
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<precisionLandingExecutor>(kNodeName, kEnableDebugOutput));
+    rclcpp::shutdown();
+    return 0;
+  
 }
+
 
