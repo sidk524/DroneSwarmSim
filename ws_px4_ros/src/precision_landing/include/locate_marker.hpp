@@ -1,7 +1,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/camera_info.hpp"
 
 #include <memory>
+#include <opencv2/core/mat.hpp>
+#include <opencv2/core/matx.hpp>
 #include <px4_ros2/components/mode.hpp>
 #include <cv_bridge/cv_bridge.hpp>
 
@@ -17,6 +20,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
+#include <vector>
 
 class LocateArucoMarkerMode : public px4_ros2::ModeBase
 {
@@ -28,15 +32,33 @@ public:
         trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
         imageSubscriber = _node.create_subscription<sensor_msgs::msg::Image>("/fmu/out/camera_image", 10,
         std::bind(&LocateArucoMarkerMode::image_callback, this, std::placeholders::_1));
+        imageInfoSubscriber = _node.create_subscription<sensor_msgs::msg::CameraInfo>("/camera_info", 
+            10, std::bind(&LocateArucoMarkerMode::image_info_callback, this, std::placeholders::_1));
     }
     void image_callback(sensor_msgs::msg::Image::SharedPtr image_msg);
+    void image_info_callback(sensor_msgs::msg::CameraInfo::SharedPtr image_info_msg);
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr imageSubscriber;
+    rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr imageInfoSubscriber;
+
+    cv::Mat distortionCoefficients;
+    cv::Mat cameraMatrix;
+
+    const float arucoMarkerLength = 0.5;
+    std::vector<cv::Vec3d> objPoints = {
+        {-0.25,0.25, 0},
+        {0.25, 0.25, 0},
+        {0.25, -0.25, 0},
+       { -0.25, -0.25, 0}
+    };
+    cv::Vec3d tvec;
+    cv::Vec3d rvec;
+
     cv::aruco::DetectorParameters detectorParams;
     cv::aruco::Dictionary dictionary;
     std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
-
+    
     std::vector<std::vector<cv::Point2f>> markerCorners, rejectedCandidates;
     cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);
 
