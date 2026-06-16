@@ -24,9 +24,8 @@ link_directories(/usr/local/lib)
 add_executable(precision_landing_mode_executor 
               src/precision_landing_mode_executor.cpp
               src/locate_marker.cpp
+              src/initial_fly_up_mode.cpp
 )
-
-add_executable(initial_fly_up src/initial_fly_up_mode.cpp)
 
 
 target_link_libraries(precision_landing_mode_executor ${OPENCV_LIBS})
@@ -44,26 +43,6 @@ ament_target_dependencies(precision_landing_mode_executor
   OpenCV
 )
 
-ament_target_dependencies(initial_fly_up ament_cmake 
-  geometry_msgs 
-  px4_msgs 
-  rclcpp 
-  sensor_msgs 
-  std_msgs
-  px4_ros2_cpp
-)
-
-# ament_target_dependencies(locate_marker ament_cmake 
-#   geometry_msgs
-#   px4_msgs
-#   rclcpp
-#   sensor_msgs
-#   std_msgs
-#   px4_ros2_cpp
-#   cv_bridge
-#   OpenCV
-# )
-
 
 # uncomment the following section in order to fill in
 # further dependencies manually.
@@ -73,9 +52,9 @@ target_include_directories(precision_landing_mode_executor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
-  target_include_directories(initial_fly_up PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+  # target_include_directories(initial_fly_up PUBLIC
+  # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  # $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
     
 # target_include_directories(locate_marker PUBLIC
 #   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -87,8 +66,7 @@ target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_
 
 
 install(TARGETS precision_landing_mode_executor
-  initial_fly_up
-  #locate_marker
+ # initial_fly_up
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

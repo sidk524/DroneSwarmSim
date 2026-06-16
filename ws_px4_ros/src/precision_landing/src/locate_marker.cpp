@@ -9,7 +9,30 @@
 #include <px4_ros2/control/setpoint_types/experimental/rates.hpp>
 #include <px4_ros2/control/setpoint_types/experimental/trajectory.hpp>
 #include <rclcpp/logging.hpp>
+#include <rclcpp/utilities.hpp>
+#include <rcutils/logging.h>
 #include <vector>
+
+LocateArucoMarkerMode::LocateArucoMarkerMode(rclcpp::Node& node) : 
+    ModeBase(node, Settings{"Locate Aruco Marker Mode"}),
+    _node(node)
+    {   
+        trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
+
+    }
+
+void LocateArucoMarkerMode::onActivate(){
+    RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
+    imageSubscriber = _node.create_subscription<sensor_msgs::msg::Image>("/fmu/out/camera_image", 10,
+    std::bind(&LocateArucoMarkerMode::image_callback, this, std::placeholders::_1));
+    imageInfoSubscriber = _node.create_subscription<sensor_msgs::msg::CameraInfo>("/camera_info", 
+        10, std::bind(&LocateArucoMarkerMode::image_info_callback, this, std::placeholders::_1));
+}
+
+void LocateArucoMarkerMode::onDeactivate(){
+    imageSubscriber.reset();
+    imageInfoSubscriber.reset();
+}
 
 void LocateArucoMarkerMode::image_callback(sensor_msgs::msg::Image::SharedPtr image_msg) {
     cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
@@ -19,14 +42,15 @@ void LocateArucoMarkerMode::image_callback(sensor_msgs::msg::Image::SharedPtr im
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
     detector.detectMarkers(cv_ptr->image, markerCorners, markerIds, rejectedCandidates);
     if (markerIds.size() > 0){
-        RCLCPP_DEBUG(_node.get_logger(), "marker ");
-
         cv::solvePnP(objPoints, markerCorners[0],    
             cameraMatrix, distortionCoefficients, rvec, tvec);
         RCLCPP_DEBUG(_node.get_logger(), "[%f %f %f]",
             tvec[0], tvec[1], tvec[2]); 
+
+        completed(px4_ros2::Result::Success);
     }
 }
+
 
 void LocateArucoMarkerMode::image_info_callback(sensor_msgs::msg::CameraInfo::SharedPtr image_info_msg){
     cameraMatrix = cv::Mat(3, 3, CV_64F, image_info_msg->k.data()).clone();

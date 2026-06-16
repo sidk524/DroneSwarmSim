@@ -25,18 +25,14 @@
 class LocateArucoMarkerMode : public px4_ros2::ModeBase
 {
 public:     
-    explicit LocateArucoMarkerMode(rclcpp::Node& node) : 
-    ModeBase(node, Settings{"Locate Aruco Marker Mode"}),
-    _node(node)
-    {
-        trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
-        imageSubscriber = _node.create_subscription<sensor_msgs::msg::Image>("/fmu/out/camera_image", 10,
-        std::bind(&LocateArucoMarkerMode::image_callback, this, std::placeholders::_1));
-        imageInfoSubscriber = _node.create_subscription<sensor_msgs::msg::CameraInfo>("/camera_info", 
-            10, std::bind(&LocateArucoMarkerMode::image_info_callback, this, std::placeholders::_1));
-    }
+    explicit LocateArucoMarkerMode(rclcpp::Node& node);
     void image_callback(sensor_msgs::msg::Image::SharedPtr image_msg);
     void image_info_callback(sensor_msgs::msg::CameraInfo::SharedPtr image_info_msg);
+    void onActivate() override;
+    void onDeactivate() override;
+
+    rclcpp::Node& _node;
+
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr imageSubscriber;
@@ -52,6 +48,7 @@ private:
         {0.25, -0.25, 0},
        { -0.25, -0.25, 0}
     };
+
     cv::Vec3d tvec;
     cv::Vec3d rvec;
 
@@ -63,7 +60,6 @@ private:
     cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);
 
     std::vector<int> markerIds;
-    rclcpp::Node& _node;
     
 };
 
