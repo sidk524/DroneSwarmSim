@@ -18,6 +18,8 @@
 #include <px4_ros2/control/setpoint_types/experimental/rates.hpp>
 #include <px4_ros2/control/setpoint_types/experimental/trajectory.hpp>
 
+#include <px4_ros2/odometry/local_position.hpp>
+
 #include <opencv2/opencv.hpp>
 #include <opencv2/objdetect/aruco_detector.hpp>
 #include <vector>
@@ -38,6 +40,8 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr imageSubscriber;
     rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr imageInfoSubscriber;
 
+    std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
+
     cv::Mat distortionCoefficients;
     cv::Mat cameraMatrix;
 
@@ -51,6 +55,8 @@ private:
 
     cv::Vec3d tvec;
     cv::Vec3d rvec;
+
+    Eigen::Vector3f poseAboveMarker;
 
     cv::aruco::DetectorParameters detectorParams;
     cv::aruco::Dictionary dictionary;

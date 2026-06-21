@@ -52,14 +52,7 @@ target_include_directories(precision_landing_mode_executor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
-  # target_include_directories(initial_fly_up PUBLIC
-  # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  # $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
-    
-# target_include_directories(locate_marker PUBLIC
-#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
-#   )
+
 
 target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 # target_compile_features(initial_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17/target_compile_features(locate_marker PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17

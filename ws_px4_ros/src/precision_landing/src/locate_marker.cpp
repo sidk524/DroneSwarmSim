@@ -1,7 +1,9 @@
 #include <array>
+#include <cmath>
 #include <locate_marker.hpp>
 #include "rclcpp/rclcpp.hpp"
 #include <cv_bridge/cv_bridge.hpp>
+#include <memory>
 #include <opencv2/core/hal/interface.h>
 #include <px4_ros2/components/mode.hpp>
 #include <px4_ros2/components/node_with_mode.hpp>
@@ -18,7 +20,7 @@ LocateArucoMarkerMode::LocateArucoMarkerMode(rclcpp::Node& node) :
     _node(node)
     {   
         trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
-
+        localPosition = std::make_shared<px4_ros2::OdometryLocalPosition>(*this);
     }
 
 void LocateArucoMarkerMode::onActivate(){
@@ -27,6 +29,7 @@ void LocateArucoMarkerMode::onActivate(){
     std::bind(&LocateArucoMarkerMode::image_callback, this, std::placeholders::_1));
     imageInfoSubscriber = _node.create_subscription<sensor_msgs::msg::CameraInfo>("/camera_info", 
         10, std::bind(&LocateArucoMarkerMode::image_info_callback, this, std::placeholders::_1));
+    
 }
 
 void LocateArucoMarkerMode::onDeactivate(){
@@ -46,6 +49,9 @@ void LocateArucoMarkerMode::image_callback(sensor_msgs::msg::Image::SharedPtr im
             cameraMatrix, distortionCoefficients, rvec, tvec);
         RCLCPP_DEBUG(_node.get_logger(), "[%f %f %f]",
             tvec[0], tvec[1], tvec[2]); 
+            poseAboveMarker = localPosition->positionNed();
+            //poseAboveMarker =
+            
 
         completed(px4_ros2::Result::Success);
     }

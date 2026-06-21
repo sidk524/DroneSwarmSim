@@ -33,6 +33,11 @@ def generate_launch_description():
             "/camera_info"
         )]
         ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments = [""]
+        ),
         Node( 
             package='precision_landing',
             executable='precision_landing_mode_executor',
