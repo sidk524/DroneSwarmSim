@@ -4,29 +4,27 @@
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "px4_msgs/msg/vehicle_global_position.hpp"
+#include "px4_msgs/msg/vehicle_odometry.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "tf2/LinearMath/Quaternion.hpp"
 #include "tf2_ros/static_transform_broadcaster.hpp"
+#include "tf2_ros/transform_broadcaster.hpp"
 #include <px4_msgs/msg/vehicle_global_position.hpp>
+#include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <rmw/types.h>
 #include <rmw/qos_profiles.h>
 
 
-
-class MapNedPublisher : public rclcpp::Node 
+class OdomPublisher : public rclcpp::Node
 {
-
     public:
-        explicit MapNedPublisher();
-
+        explicit OdomPublisher();
+    
     private:
+        rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::SharedPtr odometrySubscription;   
+        std::unique_ptr<tf2_ros::TransformBroadcaster> transformBroadcaster;
         const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available();
 
-        rclcpp::Subscription<px4_msgs::msg::VehicleGlobalPosition>::SharedPtr globalPositionSubscriber;
-        std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tfStaticTransformPublisher;
-        void globalPositionCallback(px4_msgs::msg::VehicleGlobalPosition msg);
-        bool transformPublished = false;
-        geometry_msgs::msg::TransformStamped transform;
+        void odometryCallback(px4_msgs::msg::VehicleOdometry msg);
 
 };
-
