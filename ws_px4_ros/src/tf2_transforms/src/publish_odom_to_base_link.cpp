@@ -12,7 +12,7 @@ OdomPublisher::OdomPublisher() : rclcpp::Node("OdomPublisher"){
 }
 
 void OdomPublisher::odometryCallback(px4_msgs::msg::VehicleOdometry msg){
-    RCLCPP_DEBUG(this->get_logger(), "Frame number: %i", msg.pose_frame);
+   // RCLCPP_DEBUG(this->get_logger(), "Frame number: %i", msg.pose_frame);
     geometry_msgs::msg::TransformStamped t;
     t.header.stamp = this->get_clock()->now();
     t.header.frame_id = "odom";
@@ -20,6 +20,12 @@ void OdomPublisher::odometryCallback(px4_msgs::msg::VehicleOdometry msg){
     t.transform.translation.x = msg.position[0];
     t.transform.translation.y = msg.position[1];    
     t.transform.translation.z = msg.position[2];
+    t.transform.rotation.w = msg.q[0];
+
+    t.transform.rotation.x = msg.q[1];
+    t.transform.rotation.y = msg.q[2];
+    t.transform.rotation.x = msg.q[3];
+
     transformBroadcaster->sendTransform(t);
 }
 

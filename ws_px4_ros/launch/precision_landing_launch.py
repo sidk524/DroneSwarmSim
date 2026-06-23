@@ -46,7 +46,18 @@ def generate_launch_description():
         Node(
             package='tf2_transforms',
             executable='publish_odom_to_base_link',
-            arguments = ["--ros-args", "--log-level", "debug"]
+            #arguments = ["--ros-args", "--log-level", "debug"]
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            arguments=["--x", "0", "--y", "0", "--z", "0", "--yaw", "0", "--pitch", "-1.5707", "--roll", "0",
+            "--frame-id", "base_link", "--child-frame-id", "camera_link"]
+        ),
+        Node(
+            package='tf2_transforms',
+            executable='publish_camera_optical',
+            #arguments = ["--ros-args", "--log-level", "camera_optical_publisher:=debug"]
         ),
         Node( 
             package='precision_landing',

@@ -16,6 +16,7 @@ find_package(tf2_ros REQUIRED)
 
 add_executable(publish_map_ned src/publish_map_ned.cpp)
 add_executable(publish_odom_to_base_link src/publish_odom_to_base_link.cpp)
+add_executable(publish_camera_optical src/publish_camera_optical.cpp)
 
 
 
@@ -36,6 +37,15 @@ ament_target_dependencies(publish_odom_to_base_link
   tf2_ros
 )
 
+
+ament_target_dependencies(publish_camera_optical
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  tf2_ros
+)
+
 target_include_directories(publish_map_ned PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
@@ -45,13 +55,17 @@ target_include_directories(publish_odom_to_base_link PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
+target_include_directories(publish_camera_optical PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
 target_compile_features(publish_map_ned  PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 target_compile_features(publish_odom_to_base_link  PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(publish_camera_optical PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 install(TARGETS publish_map_ned
   publish_odom_to_base_link
- # initial_fly_up
+ publish_camera_optical
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

@@ -50,9 +50,8 @@ void LocateArucoMarkerMode::image_callback(sensor_msgs::msg::Image::SharedPtr im
         RCLCPP_DEBUG(_node.get_logger(), "[%f %f %f]",
             tvec[0], tvec[1], tvec[2]); 
             poseAboveMarker = localPosition->positionNed();
-            //poseAboveMarker =
+            // poseAboveMarker =
             
-
         completed(px4_ros2::Result::Success);
     }
 }
