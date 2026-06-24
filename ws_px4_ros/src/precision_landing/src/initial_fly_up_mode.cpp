@@ -21,7 +21,7 @@ InitialFlyUpMode::InitialFlyUpMode(rclcpp::Node & node) : ModeBase(node, Setting
 
 void InitialFlyUpMode::onActivate() {
     initialCoords = {};
-    initialCoords = initialCoords.withPositionX(-2.0).withPositionY(3.0).withPositionZ(-5.0);
+    initialCoords = initialCoords.withPositionX(2.0).withPositionY(3.0).withPositionZ(-5.0);
     timer = _node.create_wall_timer(1000ms, std::bind(&InitialFlyUpMode::position_poll, this));
     fly_up();
 }
@@ -43,7 +43,7 @@ void InitialFlyUpMode::position_poll(){
       currLocalCoords.x(), currLocalCoords.y(), currLocalCoords.z()
     );
 
-  if ((currLocalCoords.x() < -1.5 && currLocalCoords.x() > -2.5) &&  
+  if ((currLocalCoords.x() > 1.5 && currLocalCoords.x() < 2.5) &&  
       (currLocalCoords.y() > 2.5 && currLocalCoords.y() < 3.5) &&
       (currLocalCoords.z() < -4.5 && currLocalCoords.z() > -5.5)){
 

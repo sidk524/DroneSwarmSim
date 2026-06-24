@@ -27,8 +27,8 @@ CameraOpticalPublisher::CameraOpticalPublisher() : rclcpp::Node("camera_optical_
 {   
     tfStaticTransformPublisher = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
 
-    q1.setRPY(0,0.78539816339, 0);
-    q2.setRPY(0,0,0.78539816339);
+    q1.setRPY(0,1.57079632679, 0);
+    q2.setRPY(0,0,1.57079632679);
     qtotal = q1 * q2;
     qtotal.normalize();
     
@@ -45,8 +45,6 @@ CameraOpticalPublisher::CameraOpticalPublisher() : rclcpp::Node("camera_optical_
     t.transform.rotation.y = qtotal.y();
     t.transform.rotation.z = qtotal.z();
     wallTimer = this->create_wall_timer(100ms, std::bind(&CameraOpticalPublisher::publishTransform, this));
-
-
 }
 
 void CameraOpticalPublisher::publishTransform(){

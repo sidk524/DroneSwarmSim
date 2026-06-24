@@ -59,6 +59,10 @@ def generate_launch_description():
             executable='publish_camera_optical',
             #arguments = ["--ros-args", "--log-level", "camera_optical_publisher:=debug"]
         ),
+        Node(
+            package='tf2_transforms',
+            executable='publish_aruco_marker'
+        ),
         Node( 
             package='precision_landing',
             executable='precision_landing_mode_executor',

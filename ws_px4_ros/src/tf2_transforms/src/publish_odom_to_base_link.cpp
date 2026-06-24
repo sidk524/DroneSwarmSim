@@ -24,7 +24,7 @@ void OdomPublisher::odometryCallback(px4_msgs::msg::VehicleOdometry msg){
 
     t.transform.rotation.x = msg.q[1];
     t.transform.rotation.y = msg.q[2];
-    t.transform.rotation.x = msg.q[3];
+    t.transform.rotation.z = msg.q[3];
 
     transformBroadcaster->sendTransform(t);
 }

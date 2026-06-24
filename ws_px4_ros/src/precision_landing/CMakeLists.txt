@@ -15,6 +15,11 @@ find_package(sensor_msgs REQUIRED)
 find_package(px4_ros2_cpp REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(my_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+
+
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${cv_bridge_INCLUDE_DIRS})
@@ -24,6 +29,7 @@ link_directories(/usr/local/lib)
 add_executable(precision_landing_mode_executor 
               src/precision_landing_mode_executor.cpp
               src/locate_marker.cpp
+              src/move_above_marker.cpp
               src/initial_fly_up_mode.cpp
 )
 
@@ -38,9 +44,12 @@ ament_target_dependencies(precision_landing_mode_executor
   rclcpp 
   sensor_msgs 
   std_msgs  
+  my_msgs
   px4_ros2_cpp
   cv_bridge
   OpenCV
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 
