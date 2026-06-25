@@ -16,6 +16,8 @@ find_package(cv_bridge REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(my_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${cv_bridge_INCLUDE_DIRS})
@@ -66,6 +68,7 @@ ament_target_dependencies(publish_aruco_marker
   cv_bridge
   my_msgs
   sensor_msgs
+  tf2_geometry_msgs
 )
 
 

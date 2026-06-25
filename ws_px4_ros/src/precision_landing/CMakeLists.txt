@@ -30,6 +30,7 @@ add_executable(precision_landing_mode_executor
               src/precision_landing_mode_executor.cpp
               src/locate_marker.cpp
               src/move_above_marker.cpp
+              src/descend_mode.cpp
               src/initial_fly_up_mode.cpp
 )
 

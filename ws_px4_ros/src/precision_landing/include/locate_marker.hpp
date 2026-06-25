@@ -36,7 +36,7 @@ class LocateArucoMarkerMode : public px4_ros2::ModeBase
 {
 public:     
     explicit LocateArucoMarkerMode(rclcpp::Node& node);
-    void tvecRvecCallback(my_msgs::msg::TvecRvec msg);
+    void tvecRvecCallback(geometry_msgs::msg::Vector3 msg);
     void onActivate() override;
     void onDeactivate() override;
 
@@ -45,7 +45,11 @@ public:
 
 private:
 
-    rclcpp::Subscription<my_msgs::msg::TvecRvec>::SharedPtr tvecRvecSubscriber;
+    const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available().durability_best_available();
+
+    rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr tvecRvecSubscriber;
+    
+    std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
 
 
     std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
@@ -67,7 +71,6 @@ private:
 
     cv::aruco::DetectorParameters detectorParams;
     cv::aruco::Dictionary dictionary;
-    std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
     
     std::vector<std::vector<cv::Point2f>> markerCorners, rejectedCandidates;
     cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);

@@ -32,16 +32,18 @@ LocateArucoMarkerMode::LocateArucoMarkerMode(rclcpp::Node& node) :
     }
 
 void LocateArucoMarkerMode::onActivate(){
-    RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
 
-    tvecRvecSubscriber = _node.create_subscription<my_msgs::msg::TvecRvec>("/tvec_rvec",10,
+    tvecRvecSubscriber = _node.create_subscription<geometry_msgs::msg::Vector3>("/aruco_marker_position", qosProfile,
         std::bind(&LocateArucoMarkerMode::tvecRvecCallback, this, std::placeholders::_1)
     );
+    trajectorySetpoint->updatePosition(Eigen::Vector3f {-2.0, 3.0, -4.0});
+    RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
 
-    tfStaticTransformPublisher = std::make_shared<tf2_ros::StaticTransformBroadcaster>(&_node);
 }
 
-void LocateArucoMarkerMode::tvecRvecCallback(my_msgs::msg::TvecRvec msg){
+void LocateArucoMarkerMode::tvecRvecCallback(geometry_msgs::msg::Vector3 msg){
+    RCLCPP_DEBUG(_node.get_logger(), "callback received");
+
     completed(px4_ros2::Result::Success);
 }
 

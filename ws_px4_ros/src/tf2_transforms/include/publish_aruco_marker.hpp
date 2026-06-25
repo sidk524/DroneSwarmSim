@@ -3,6 +3,7 @@
 #include <rclcpp/qos.hpp>
 #include <rclcpp/subscription.hpp>
 
+#include "geometry_msgs/msg/vector3.hpp"
 #include "my_msgs/msg/tvec_rvec.hpp"
 #include "tf2_ros/transform_broadcaster.hpp"
 #include <px4_msgs/msg/vehicle_global_position.hpp>
@@ -29,6 +30,8 @@
 #include <sensor_msgs/msg/image.hpp>
 #include "sensor_msgs/msg/camera_info.hpp"
 
+#include "tf2_ros/transform_listener.hpp"
+#include "tf2_ros/buffer.hpp"
 
 class PublishArucoMarkerFrame : public rclcpp::Node {
     public: 
@@ -40,7 +43,14 @@ class PublishArucoMarkerFrame : public rclcpp::Node {
         void image_info_callback(sensor_msgs::msg::CameraInfo::SharedPtr image_info_msg);
     
     private:
+        const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available().durability_best_available();
+
+
+        std::unique_ptr<tf2_ros::Buffer> buffer;
+        std::shared_ptr<tf2_ros::TransformListener> listener;
+
         rclcpp::Publisher<my_msgs::msg::TvecRvec>::SharedPtr tvecRvecPublisher;
+        rclcpp::Publisher<geometry_msgs::msg::Vector3>::SharedPtr arucoMarkerPosition;
 
         rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr imageSubscriber;
         rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr imageInfoSubscriber;

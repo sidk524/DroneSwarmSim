@@ -1,3 +1,4 @@
+#include "geometry_msgs/msg/vector3.hpp"
 #include <memory>
 #include <move_above_marker.hpp>
 #include <px4_ros2/components/mode.hpp>
@@ -14,39 +15,35 @@ using namespace std::chrono_literals;
 MoveAboveMarkerMode::MoveAboveMarkerMode(rclcpp::Node & node) : ModeBase(node, Settings("Move above marker mode")),
   _node(node)
 {
-    buffer = std::make_unique<tf2_ros::Buffer>(_node.get_clock() );
-    listener = std::make_shared<tf2_ros::TransformListener>(*buffer);
     trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
-
+    localPosition = std::make_shared<px4_ros2::OdometryLocalPosition>(*this);
 }
 
 void MoveAboveMarkerMode::onActivate() {
-    timer = _node.create_wall_timer(1s, std::bind(&MoveAboveMarkerMode::log_aruco_position, this));
+    arucoMarkerSubscriber = _node.create_subscription<geometry_msgs::msg::Vector3>( "/aruco_marker_position", 10, 
+        std::bind(&MoveAboveMarkerMode::arucoCallback, this, std::placeholders::_1));
+    timer = _node.create_wall_timer(500ms, std::bind(&MoveAboveMarkerMode::checkCompletion, this));
+}
 
+
+
+void MoveAboveMarkerMode::checkCompletion() {
+    Eigen::Vector3f currLocalCoords = localPosition->positionNed();
+     if ((currLocalCoords.x() > lastArucoPosition[0] - 0.5 && currLocalCoords.x() < lastArucoPosition[0] + 0.5) &&  
+      (currLocalCoords.y() > lastArucoPosition[1] - 0.5 && currLocalCoords.y() < lastArucoPosition[1] + 0.5)){
+        
+        completed(px4_ros2::Result::Success);
+    }
+}
+
+void MoveAboveMarkerMode::arucoCallback(geometry_msgs::msg::Vector3 msg) {
+    arucoCoords = {};
+    lastArucoPosition = {msg.x, msg.y, msg.z};
+    arucoCoords = arucoCoords.withPositionX(msg.x).withPositionY(msg.y).withPositionZ(localPosition->positionNed().z());
+    trajectorySetpoint->update(arucoCoords);
 }
 
 void MoveAboveMarkerMode::onDeactivate() {
-
-}
-
-void MoveAboveMarkerMode::log_aruco_position(){
-    geometry_msgs::msg::PointStamped aruco_point;
-
-    aruco_point.header.stamp = _node.get_clock()->now();
-    aruco_point.header.frame_id = "aruco_marker_frame";
-    aruco_point.point.x = 0.0;
-    aruco_point.point.y = 0.0;
-    aruco_point.point.z = 0.0;
-
-    geometry_msgs::msg::PointStamped odom_aruco_point;
-    
-    auto transformStamped = buffer->lookupTransform(
-        "odom", "aruco_marker_frame", tf2::TimePointZero, tf2::Duration(1)
-    );
-
-    tf2::doTransform(aruco_point, odom_aruco_point, transformStamped);
-
-    RCLCPP_DEBUG(_node.get_logger(), "x: %f y: %f z: %f",
-        odom_aruco_point.point.x, odom_aruco_point.point.y, odom_aruco_point.point.z 
-    );
+    arucoMarkerSubscriber.reset();
+    timer->cancel();
 }

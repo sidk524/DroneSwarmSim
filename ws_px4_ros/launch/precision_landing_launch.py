@@ -61,7 +61,8 @@ def generate_launch_description():
         ),
         Node(
             package='tf2_transforms',
-            executable='publish_aruco_marker'
+            executable='publish_aruco_marker',
+            # arguments = ["--ros-args", "--log-level", "debug"]
         ),
         Node( 
             package='precision_landing',

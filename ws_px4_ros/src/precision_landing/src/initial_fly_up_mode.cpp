@@ -20,8 +20,9 @@ InitialFlyUpMode::InitialFlyUpMode(rclcpp::Node & node) : ModeBase(node, Setting
   }
 
 void InitialFlyUpMode::onActivate() {
+
     initialCoords = {};
-    initialCoords = initialCoords.withPositionX(2.0).withPositionY(3.0).withPositionZ(-5.0);
+    initialCoords = initialCoords.withPositionX(x).withPositionY(y).withPositionZ(z);
     timer = _node.create_wall_timer(1000ms, std::bind(&InitialFlyUpMode::position_poll, this));
     fly_up();
 }
@@ -39,16 +40,10 @@ void InitialFlyUpMode::fly_up() {
 void InitialFlyUpMode::position_poll(){
   currLocalCoords = localPosition->positionNed();
   
-  RCLCPP_DEBUG(_node.get_logger(), "POSITION POLL x: %f, y:%f, z:%f",
-      currLocalCoords.x(), currLocalCoords.y(), currLocalCoords.z()
-    );
 
-  if ((currLocalCoords.x() > 1.5 && currLocalCoords.x() < 2.5) &&  
-      (currLocalCoords.y() > 2.5 && currLocalCoords.y() < 3.5) &&
-      (currLocalCoords.z() < -4.5 && currLocalCoords.z() > -5.5)){
-
-    RCLCPP_DEBUG(_node.get_logger(), "initial fly mode should finish here"
-    );
+  if ((currLocalCoords.x() > x - 0.5 && currLocalCoords.x() < x + 0.5) &&  
+      (currLocalCoords.y() > y - 0.5 && currLocalCoords.y() < y + 0.5) &&
+      (currLocalCoords.z() > z - 0.5 && currLocalCoords.z() < z + 0.5)){
           // timer->cancel();
           // localPosition.reset();
           // trajectorySetpoint.reset();

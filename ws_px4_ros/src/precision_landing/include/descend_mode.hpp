@@ -20,7 +20,7 @@
 
 #include <px4_ros2/control/setpoint_types/experimental/rates.hpp>
 #include <px4_ros2/control/setpoint_types/experimental/trajectory.hpp>
-
+#include <px4_ros2/vehicle_state/land_detected.hpp>
 #include <px4_ros2/odometry/local_position.hpp>
 
 #include <opencv2/opencv.hpp>
@@ -30,27 +30,36 @@
 #include "tf2_ros/transform_listener.hpp"
 #include "tf2_ros/buffer.hpp"
 
-
-
 #include <geometry_msgs/msg/point_stamped.hpp>
 
-class MoveAboveMarkerMode : public px4_ros2::ModeBase {
+
+class DescendMode : public px4_ros2::ModeBase {
     public:
-        explicit MoveAboveMarkerMode(rclcpp::Node& node);
-        rclcpp::Node &_node;
+        explicit DescendMode(rclcpp::Node & node);
         void onActivate() override;
         void onDeactivate() override;
-        void arucoCallback(geometry_msgs::msg::Vector3 msg);
-        void checkCompletion();
 
+        void check_landing();
+
+        void arucoMarkerCallback(geometry_msgs::msg::Vector3 msg);
+    
     private:
-
+        rclcpp::Node &_node;
         std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
-        std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
-        px4_ros2::TrajectorySetpoint arucoCoords;
-        rclcpp::TimerBase::SharedPtr timer;
-        rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr arucoMarkerSubscriber;
 
-        cv::Vec3d lastArucoPosition;
+        std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
+
+        std::shared_ptr<px4_ros2::LandDetected> landingDetected;
+
+        rclcpp::Subscription<geometry_msgs::msg::Vector3>::SharedPtr arucoMarkerPositionSubscriber;
+
+        rclcpp::TimerBase::SharedPtr timer;
+
+        float currentZ;
+
+        const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available().durability_best_available();
+
+        px4_ros2::TrajectorySetpoint descendPosition;
+
 
 };
