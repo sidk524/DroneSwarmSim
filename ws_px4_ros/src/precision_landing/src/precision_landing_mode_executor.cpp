@@ -36,7 +36,7 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
       find_marker,
       move_above_marker,
       descend,
-      WaitUntilDisarmed
+      disarmDrone
     };
 
     void onActivate() override {
@@ -109,12 +109,13 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
             RCLCPP_INFO(_node.get_logger(), "Descend" );
               scheduleMode(
                 _fourth_mode.id(), [this] (px4_ros2::Result result) {
-                    runState(State::WaitUntilDisarmed, result);
+                    runState(State::disarmDrone, result);
               }
               );
             break;
-          case State::WaitUntilDisarmed:
-            waitUntilDisarmed([this](px4_ros2::Result result) {
+          case State::disarmDrone:
+            
+            disarm([this](px4_ros2::Result result) {
                 RCLCPP_INFO(_node.get_logger(), "All states complete (%s)", resultToString(result));
               });
             break;

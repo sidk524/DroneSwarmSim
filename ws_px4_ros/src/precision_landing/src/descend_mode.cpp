@@ -4,6 +4,7 @@
 #include <px4_ros2/components/mode.hpp>
 #include <px4_ros2/odometry/local_position.hpp>
 #include <px4_ros2/vehicle_state/land_detected.hpp>
+#include <rclcpp/logging.hpp>
 
 using namespace std::chrono_literals;
 
@@ -27,10 +28,17 @@ void DescendMode::arucoMarkerCallback(geometry_msgs::msg::Vector3 msg){
 }
 
 void DescendMode::check_landing() {
+    RCLCPP_INFO(_node.get_logger(), "%s", landingDetected->landed() ? "true" : "false");
     if (landingDetected->landed()){
+        arucoMarkerPositionSubscriber.reset();
+        timer->cancel();
         completed(px4_ros2::Result::Success);
-    } else{
+    } else if (currentZ < 0){
         currentZ = currentZ + 1;
+    } else{
+        currentZ = 1;
+        completed(px4_ros2::Result::Success);
+
     }
 }
 
