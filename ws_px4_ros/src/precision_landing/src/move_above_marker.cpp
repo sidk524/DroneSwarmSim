@@ -42,7 +42,7 @@ void MoveAboveMarkerMode::arucoCallback(geometry_msgs::msg::Vector3 msg) {
     arucoCoords = arucoCoords.withPositionX(msg.x).withPositionY(msg.y).withPositionZ(localPosition->positionNed().z());
     trajectorySetpoint->update(arucoCoords);
 }
-
+ 
 void MoveAboveMarkerMode::onDeactivate() {
     arucoMarkerSubscriber.reset();
     timer->cancel();

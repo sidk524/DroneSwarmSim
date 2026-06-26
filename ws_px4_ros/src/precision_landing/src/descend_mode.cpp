@@ -16,7 +16,7 @@ DescendMode::DescendMode(rclcpp::Node & node) : px4_ros2::ModeBase(node, Setting
 
         localPosition = std::make_shared<px4_ros2::OdometryLocalPosition>(*this);
 
-        descendPosition    = {};
+        descendPosition = {};
         
 
     }
