@@ -28,7 +28,7 @@ void MapNedPublisher::globalPositionCallback(px4_msgs::msg::VehicleGlobalPositio
     transform.transform.translation.x = 0.0;
     transform.transform.translation.y = 0.0;
     transform.transform.translation.z = 0.0;
-
+    
     transform.transform.rotation.w = 0.5;
     transform.transform.rotation.x = 0.5;
     transform.transform.rotation.y = 0.5;
