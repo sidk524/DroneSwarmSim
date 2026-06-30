@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 project(urop_navigation_control)
 
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -15,6 +19,27 @@ find_package(px4_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(px4_ros2_cpp REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(X11 REQUIRED)
+
+add_executable(keyboard_flight_mode
+  src/keyboard_flight_mode.cpp
+)
+target_link_libraries(keyboard_flight_mode
+  px4_ros2_cpp::px4_ros2_cpp
+  rclcpp::rclcpp
+  ${X11_LIBRARIES}
+)
+target_include_directories(keyboard_flight_mode PRIVATE
+  ${X11_INCLUDE_DIR}
+)
+ament_target_dependencies(keyboard_flight_mode
+  rclcpp
+)
+
+install(TARGETS
+  keyboard_flight_mode
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -26,7 +26,11 @@ link_directories(/usr/local/lib)
 
 add_executable(publish_map_ned src/publish_map_ned.cpp)
 add_executable(publish_odom_to_base_link_ned src/publish_odom_to_base_link_ned.cpp)
-add_executable(publish_camera_optical src/publish_camera_optical.cpp)
+add_executable(publish_odom_to_base_link_enu src/publish_odom_to_base_link_enu.cpp)
+
+add_executable(publish_camera_optical_ned src/publish_camera_optical_ned.cpp)
+add_executable(publish_camera_optical_enu src/publish_camera_optical_enu.cpp)
+
 add_executable(publish_aruco_marker src/publish_aruco_marker.cpp)
 
 ament_target_dependencies(publish_map_ned
@@ -34,10 +38,8 @@ ament_target_dependencies(publish_map_ned
   geometry_msgs 
   px4_msgs 
   rclcpp 
-
   tf2_ros
 )
-
 
 ament_target_dependencies(publish_odom_to_base_link_ned
   ament_cmake
@@ -47,14 +49,31 @@ ament_target_dependencies(publish_odom_to_base_link_ned
   tf2_ros
 )
 
-
-ament_target_dependencies(publish_camera_optical
+ament_target_dependencies(publish_odom_to_base_link_enu
   ament_cmake
   geometry_msgs 
   px4_msgs 
   rclcpp 
   tf2_ros
 )
+
+ament_target_dependencies(publish_camera_optical_ned
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  tf2_ros
+)
+
+
+ament_target_dependencies(publish_camera_optical_enu
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  tf2_ros
+)
+
 
 ament_target_dependencies(publish_aruco_marker
   ament_cmake
@@ -79,9 +98,22 @@ target_include_directories(publish_odom_to_base_link_ned PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
-target_include_directories(publish_camera_optical PUBLIC
+
+
+target_include_directories(publish_odom_to_base_link_enu PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+
+target_include_directories(publish_camera_optical_ned PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+
+target_include_directories(publish_camera_optical_enu PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
 
   target_include_directories(publish_aruco_marker PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -89,13 +121,20 @@ target_include_directories(publish_camera_optical PUBLIC
 
 target_compile_features(publish_map_ned  PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 target_compile_features(publish_odom_to_base_link_ned  PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-target_compile_features(publish_camera_optical PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(publish_odom_to_base_link_enu  PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+target_compile_features(publish_camera_optical_ned PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(publish_camera_optical_enu PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
 target_compile_features(publish_aruco_marker PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 
 install(TARGETS publish_map_ned
   publish_odom_to_base_link_ned
-  publish_camera_optical
+  publish_odom_to_base_link_enu
+  publish_camera_optical_ned
+
+  publish_camera_optical_enu
   publish_aruco_marker
   DESTINATION lib/${PROJECT_NAME})
 
