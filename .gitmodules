@@ -13,3 +13,9 @@
 [submodule "ws_px4_ros/src/px4-ros2-interface-lib"]
 	path = ws_px4_ros/src/px4-ros2-interface-lib
 	url = git@github.com:Auterion/px4-ros2-interface-lib.git
+[submodule "ws_px4_ros/src/common_interfaces"]
+        path = ws_px4_ros/src/common_interfaces
+        url = git@github.com:ros2/common_interfaces.git
+[submodule "ws_px4_ros/src/octomap_rviz_plugins"]
+        path = ws_px4_ros/src/octomap_rviz_plugins
+        url = git@github.com:OctoMap/octomap_rviz_plugins.git
