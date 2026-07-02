@@ -20,3 +20,6 @@ QGroundControl-x86_64.AppImage
 .vscode/
 .idea/
 .DS_Store
+
+*.pem
+

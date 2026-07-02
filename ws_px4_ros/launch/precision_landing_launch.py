@@ -45,7 +45,7 @@ def generate_launch_description():
         ),
         Node(
             package='tf2_transforms',
-            executable='publish_odom_to_base_link',
+            executable='publish_odom_to_base_link_ned',
             #arguments = ["--ros-args", "--log-level", "debug"]
         ),
         Node(
@@ -56,7 +56,7 @@ def generate_launch_description():
         ),
         Node(
             package='tf2_transforms',
-            executable='publish_camera_optical',
+            executable='publish_camera_optical_ned',
             #arguments = ["--ros-args", "--log-level", "camera_optical_publisher:=debug"]
         ),
         Node(
