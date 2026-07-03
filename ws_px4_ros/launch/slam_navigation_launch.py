@@ -27,6 +27,7 @@ def generate_launch_description():
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
         'Rtabmap/DetectionRate': '1.0', 
+        "Grid/CellSize": "0.10"
     }]
 
     return LaunchDescription([
