@@ -25,8 +25,6 @@ void MoveAboveMarkerMode::onActivate() {
     timer = _node.create_wall_timer(500ms, std::bind(&MoveAboveMarkerMode::checkCompletion, this));
 }
 
-
-
 void MoveAboveMarkerMode::checkCompletion() {
     Eigen::Vector3f currLocalCoords = localPosition->positionNed();
      if ((currLocalCoords.x() > lastArucoPosition[0] - 0.5 && currLocalCoords.x() < lastArucoPosition[0] + 0.5) &&  

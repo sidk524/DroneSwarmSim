@@ -16,6 +16,7 @@ find_package(cv_bridge REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(my_msgs REQUIRED)
+find_package(nav_msgs)
 find_package(tf2_geometry_msgs REQUIRED)
 
 
@@ -55,6 +56,7 @@ ament_target_dependencies(publish_odom_to_base_link_enu
   px4_msgs 
   rclcpp 
   tf2_ros
+  nav_msgs
 )
 
 ament_target_dependencies(publish_camera_optical_ned

@@ -1,5 +1,8 @@
 from launch import LaunchDescription
-from launch_ros.actions import Node
+from launch_ros.actions import Node, LifecycleNode
+from launch.actions import RegisterEventHandler
+from launch_ros.event_handlers import OnStateTransition
+
 
 def generate_launch_description():
 
@@ -26,9 +29,114 @@ def generate_launch_description():
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '1.0', 
-        "Grid/CellSize": "0.10"
+        'Rtabmap/DetectionRate': '4', 
+        "Grid/CellSize": "0.10",
+
+        'fsm/flight_type': 2,              # 1 = /move_base_simple/goal, 2 = preset waypoints
+        'fsm/thresh_replan_time': 0.05,
+        'fsm/thresh_no_replan_meter': 4.0,
+        'fsm/planning_horizon': 15.0,
+        'fsm/planning_horizen_time': 3.0,
+        'fsm/emergency_time': 1.0,
+        'fsm/realworld_experiment': False,
+        'fsm/fail_safe': True,
+
+        'fsm/waypoint_num': 1,
+        'fsm/waypoint0_x': 20.0,
+        'fsm/waypoint0_y': 0.0,
+        'fsm/waypoint0_z': 3.0,
+
+        'grid_map/resolution': 0.1,
+        'grid_map/map_size_x': 50.0,
+        'grid_map/map_size_y': 50.0,
+        'grid_map/map_size_z': 50.0,
+        'grid_map/local_update_range_x': 10.0,
+        'grid_map/local_update_range_y': 10.0,
+        'grid_map/local_update_range_z': 10.0,
+        'grid_map/obstacles_inflation': 1.5,
+        'grid_map/local_map_margin': 10,
+        'grid_map/ground_height': -0.01,
+        'grid_map/virtual_ceil_height': -1.0,
+        'grid_map/visualization_truncate_height': 30.0,
+        'grid_map/frame_id': 'odom',
+
+        # only really needed for depth input
+        'grid_map/pose_type': 1,
+        'grid_map/fx': 387.2,
+        'grid_map/fy': 387.2,
+        'grid_map/cx': 321.0,
+        'grid_map/cy': 243.4,
+        'grid_map/use_depth_filter': True,
+        'grid_map/depth_filter_tolerance': 0.15,
+        'grid_map/depth_filter_maxdist': 5.0,
+        'grid_map/depth_filter_mindist': 0.2,
+        'grid_map/depth_filter_margin': 2,
+        'grid_map/k_depth_scaling_factor': 1000.0,
+        'grid_map/skip_pixel': 2,
+        'grid_map/p_hit': 0.65,
+        'grid_map/p_miss': 0.35,
+        'grid_map/p_min': 0.12,
+        'grid_map/p_max': 0.90,
+        'grid_map/p_occ': 0.80,
+        'grid_map/min_ray_length': 0.1,
+        'grid_map/max_ray_length': 4.5,
+
+        # planner limits
+        'manager/max_vel': 5.0,
+        'manager/max_acc': 5.0,
+        'manager/max_jerk': 5.0,
+        'manager/control_points_distance': 0.2,
+        'manager/feasibility_tolerance': 0.05,
+        'manager/planning_horizon': 15.0,
+        'manager/use_distinctive_trajs': True,
+        'manager/drone_id': 0,
+
+        # optimizers
+        'optimization/lambda_smooth': 1.0,
+        'optimization/lambda_collision': 1.0,
+        'optimization/lambda_feasibility': 0.1,
+        'optimization/lambda_fitness': 1.0,
+        'optimization/dist0': 5.0,
+        'optimization/swarm_clearance': 0.5,
+        'optimization/max_vel': 5.0,
+        'optimization/max_acc': 5.0,
+
+        'traj_server/time_forward' : 1.0
     }]
+
+    ego_remappings=[
+        ('odom_world', '/nav_msgs/odom'),
+        ('grid_map/odom', '/nav_msgs/odom'),
+        ('grid_map/cloud', '/cloud_map'),
+        ('planning/bspline', '/drone_0_planning/bspline'),
+        ('planning/broadcast_bspline_from_planner', '/broadcast_bspline'),
+        ('planning/broadcast_bspline_to_planner', '/broadcast_bspline'),
+    ]
+
+    traj_remappings=[
+        ('planning/bspline', '/drone_0_planning/bspline')
+    ]
+
+    LifecycleAutoNavigationMode = LifecycleNode(
+        package = 'urop_navigation_control',
+        executable = 'lifecycle_navigation_node',
+        name = "lifecycle_navigation_node",
+        namespace=""
+    )
+
+    ego_planner_node = Node(
+        package="ego_planner",
+        executable="ego_planner_node",
+        remappings=ego_remappings,
+        parameters=parameters
+    )
+
+    traj_server_node = Node(
+        package="ego_planner",
+        executable="traj_server",
+        remappings=traj_remappings,
+        parameters=parameters
+    )
 
     return LaunchDescription([
         Node(
@@ -36,7 +144,6 @@ def generate_launch_description():
             executable="parameter_bridge",
             arguments = ["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
             parameters = [{"use_sim_time": True}]
-
         ),
         Node(
             package = "ros_gz_bridge",
@@ -134,5 +241,21 @@ def generate_launch_description():
         Node( 
             package='urop_navigation_control',
             executable='keyboard_flight_mode'
+        ), 
+        LifecycleAutoNavigationMode,
+        Node(
+            package='urop_navigation_control',
+            executable='autonomous_navigation_mode'
+        ),
+        RegisterEventHandler(
+            OnStateTransition(
+                target_lifecycle_node=LifecycleAutoNavigationMode,
+                start_state="activating",  
+                goal_state="active",
+                entities=[
+                    ego_planner_node,
+                    traj_server_node
+                ]
+            )
         )
     ])

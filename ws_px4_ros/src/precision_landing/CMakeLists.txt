@@ -69,7 +69,6 @@ target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_
 
 
 install(TARGETS precision_landing_mode_executor
- # initial_fly_up
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

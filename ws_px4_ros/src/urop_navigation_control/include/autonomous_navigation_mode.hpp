@@ -1,0 +1,46 @@
+
+#include "lifecycle_msgs/srv/change_state.hpp"
+#include "quadrotor_msgs/msg/position_command.hpp"
+#include <memory>
+#include <px4_ros2/components/mode.hpp>
+
+#include <px4_ros2/components/node_with_mode.hpp>
+#include <rclcpp/publisher.hpp>
+#include <rclcpp/service.hpp>
+#include <rclcpp/subscription.hpp>
+
+#include <px4_ros2/components/mode_executor.hpp>
+
+#include <px4_ros2/control/setpoint_types/experimental/rates.hpp>
+#include <px4_ros2/control/setpoint_types/experimental/trajectory.hpp>
+
+#include <px4_ros2/odometry/local_position.hpp>
+
+#include <geometry_msgs/msg/point_stamped.hpp>
+
+#include <lifecycle_msgs/srv/change_state.hpp>
+#include <quadrotor_msgs/msg/position_command.hpp>
+
+
+class AutonomousNavigationMode : public px4_ros2::ModeBase {
+    public:
+        explicit AutonomousNavigationMode(rclcpp::Node & node);
+        void onActivate() override;
+        void onDeactivate() override;
+        rclcpp::Node &_node;
+
+        std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
+        void positionCmdCallback(quadrotor_msgs::msg::PositionCommand msg);
+        px4_ros2::TrajectorySetpoint coords;
+
+
+    
+    private:
+        rclcpp::Client<lifecycle_msgs::srv::ChangeState>::SharedPtr changeStateService;
+        const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available();
+
+        rclcpp::Subscription<quadrotor_msgs::msg::PositionCommand>::SharedPtr positionCmdSubscriber;
+
+
+
+};
