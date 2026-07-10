@@ -21,6 +21,9 @@
 #include <lifecycle_msgs/srv/change_state.hpp>
 #include <quadrotor_msgs/msg/position_command.hpp>
 
+#include <tf2_ros/buffer.hpp>
+#include <tf2_ros/transform_listener.hpp>
+
 
 class AutonomousNavigationMode : public px4_ros2::ModeBase {
     public:
@@ -37,6 +40,8 @@ class AutonomousNavigationMode : public px4_ros2::ModeBase {
     
     private:
         rclcpp::Client<lifecycle_msgs::srv::ChangeState>::SharedPtr changeStateService;
+        std::unique_ptr<tf2_ros::Buffer> tfBuffer;
+        std::shared_ptr<tf2_ros::TransformListener> tfListener;
         const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available();
 
         rclcpp::Subscription<quadrotor_msgs::msg::PositionCommand>::SharedPtr positionCmdSubscriber;

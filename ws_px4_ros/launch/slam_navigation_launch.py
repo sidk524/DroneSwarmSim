@@ -6,6 +6,9 @@ from launch_ros.event_handlers import OnStateTransition
 
 def generate_launch_description():
 
+    # Must match the Gazebo world PX4 is launched with (PX4_GZ_WORLD / make target)
+    world = "obstacle_course"
+
     remappings = [(
                 "rgb/image", "/fmu/out/camera_image"
             ), (
@@ -16,7 +19,7 @@ def generate_launch_description():
                 "depth/image", "/fmu/out/depth_image"
             )
             ]
-    
+
     parameters = [{
         "frame_id": "base_link",
         "subscribe_rgb": True,
@@ -29,36 +32,36 @@ def generate_launch_description():
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '4', 
+        'Rtabmap/DetectionRate': '2', 
         "Grid/CellSize": "0.10",
 
         'fsm/flight_type': 2,              # 1 = /move_base_simple/goal, 2 = preset waypoints
-        'fsm/thresh_replan_time': 0.05,
-        'fsm/thresh_no_replan_meter': 4.0,
-        'fsm/planning_horizon': 15.0,
+        'fsm/thresh_replan_time': 0.5,
+        'fsm/thresh_no_replan_meter': 2.0,
+        'fsm/planning_horizon': 10.0,
         'fsm/planning_horizen_time': 3.0,
         'fsm/emergency_time': 1.0,
         'fsm/realworld_experiment': False,
         'fsm/fail_safe': True,
 
         'fsm/waypoint_num': 1,
-        'fsm/waypoint0_x': 20.0,
+        'fsm/waypoint0_x': 45.0,
         'fsm/waypoint0_y': 0.0,
-        'fsm/waypoint0_z': 3.0,
+        'fsm/waypoint0_z': 1.5,
 
         'grid_map/resolution': 0.1,
-        'grid_map/map_size_x': 50.0,
-        'grid_map/map_size_y': 50.0,
-        'grid_map/map_size_z': 50.0,
+        'grid_map/map_size_x': 100.0,
+        'grid_map/map_size_y': 20.0,
+        'grid_map/map_size_z': 10.0,
         'grid_map/local_update_range_x': 10.0,
         'grid_map/local_update_range_y': 10.0,
         'grid_map/local_update_range_z': 10.0,
-        'grid_map/obstacles_inflation': 1.5,
+        'grid_map/obstacles_inflation': 0.4,
         'grid_map/local_map_margin': 10,
         'grid_map/ground_height': -0.01,
-        'grid_map/virtual_ceil_height': -1.0,
+        'grid_map/virtual_ceil_height': 3.0,
         'grid_map/visualization_truncate_height': 30.0,
-        'grid_map/frame_id': 'odom',
+        'grid_map/frame_id': 'map',
 
         # only really needed for depth input
         'grid_map/pose_type': 1,
@@ -68,7 +71,7 @@ def generate_launch_description():
         'grid_map/cy': 243.4,
         'grid_map/use_depth_filter': True,
         'grid_map/depth_filter_tolerance': 0.15,
-        'grid_map/depth_filter_maxdist': 5.0,
+        'grid_map/depth_filter_maxdist': 7.0,
         'grid_map/depth_filter_mindist': 0.2,
         'grid_map/depth_filter_margin': 2,
         'grid_map/k_depth_scaling_factor': 1000.0,
@@ -79,29 +82,29 @@ def generate_launch_description():
         'grid_map/p_max': 0.90,
         'grid_map/p_occ': 0.80,
         'grid_map/min_ray_length': 0.1,
-        'grid_map/max_ray_length': 4.5,
+        'grid_map/max_ray_length': 6.5,
 
         # planner limits
-        'manager/max_vel': 5.0,
-        'manager/max_acc': 5.0,
-        'manager/max_jerk': 5.0,
-        'manager/control_points_distance': 0.2,
+        'manager/max_vel': 2.0,
+        'manager/max_acc': 10.0,
+        'manager/max_jerk': 20.0,
+        'manager/control_points_distance': 0.3,
         'manager/feasibility_tolerance': 0.05,
-        'manager/planning_horizon': 15.0,
-        'manager/use_distinctive_trajs': True,
+        'manager/planning_horizon': 10.0,
+        'manager/use_distinctive_trajs': False,
         'manager/drone_id': 0,
 
         # optimizers
-        'optimization/lambda_smooth': 1.0,
-        'optimization/lambda_collision': 1.0,
+        'optimization/lambda_smooth': 2.5,
+        'optimization/lambda_collision': 0.5,
         'optimization/lambda_feasibility': 0.1,
         'optimization/lambda_fitness': 1.0,
-        'optimization/dist0': 5.0,
+        'optimization/dist0': 0.7,
         'optimization/swarm_clearance': 0.5,
-        'optimization/max_vel': 5.0,
-        'optimization/max_acc': 5.0,
+        'optimization/max_vel': 2.0,
+        'optimization/max_acc': 2.0,
 
-        'traj_server/time_forward' : 1.0
+        'traj_server/time_forward' : 2.0
     }]
 
     ego_remappings=[
@@ -138,6 +141,7 @@ def generate_launch_description():
         parameters=parameters
     )
 
+
     return LaunchDescription([
         Node(
             package='ros_gz_bridge',
@@ -148,9 +152,9 @@ def generate_launch_description():
         Node(
             package = "ros_gz_bridge",
             executable = "parameter_bridge",
-            arguments=["/world/walls/model/x500_depth_0/link/camera_link/sensor/IMX214/image@sensor_msgs/msg/Image[gz.msgs.Image"],
+            arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image@sensor_msgs/msg/Image[gz.msgs.Image"],
             remappings=[(
-                "/world/walls/model/x500_depth_0/link/camera_link/sensor/IMX214/image",
+                f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image",
                 "/fmu/out/camera_image"
             )],
             parameters = [{"use_sim_time": True}]
@@ -158,20 +162,10 @@ def generate_launch_description():
         Node(
             package = "ros_gz_bridge",
             executable = "parameter_bridge",
-            arguments=["/world/walls/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
+            arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
                remappings=[(
-                "/world/walls/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info",
+                f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info",
                 "/fmu/out/camera_info"
-            )],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package = "ros_gz_bridge",
-            executable = "parameter_bridge",
-            arguments=["/depth_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked"],
-            remappings=[(
-                "/depth_camera/points",
-                "/fmu/out/depth_camera_points"
             )],
             parameters = [{"use_sim_time": True}]
         ),

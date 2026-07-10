@@ -6,8 +6,8 @@
 #include <publish_odom_to_base_link.hpp>
 #include <rclcpp/publisher.hpp>
 #include <tf2/LinearMath/Vector3.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2_ros/transform_broadcaster.hpp>
-#include <nav_msgs/msg/odometry.hpp>
 #include <cmath>
 
 OdomPublisher::OdomPublisher() : rclcpp::Node("OdomPublisher"){
@@ -17,6 +17,9 @@ OdomPublisher::OdomPublisher() : rclcpp::Node("OdomPublisher"){
 
         transformBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(this);
 
+
+        tfBuffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());
+        tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
 }
 
 void OdomPublisher::odometryCallback(const px4_msgs::msg::VehicleOdometry msg)
@@ -24,9 +27,7 @@ void OdomPublisher::odometryCallback(const px4_msgs::msg::VehicleOdometry msg)
     geometry_msgs::msg::TransformStamped t;
 
     nav_msgs::msg::Odometry navOdomMsg; 
-    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr navOdomPublisher = 
-        this->create_publisher<nav_msgs::msg::Odometry>("/nav_msgs/odom", qosProfile);
-
+ 
     t.header.stamp = this->get_clock()->now();
 
     navOdomMsg.header.stamp = this->get_clock()->now();
@@ -86,6 +87,25 @@ void OdomPublisher::odometryCallback(const px4_msgs::msg::VehicleOdometry msg)
     navOdomMsg.twist.twist.angular.x = 0.0;
     navOdomMsg.twist.twist.angular.y = 0.0;
     navOdomMsg.twist.twist.angular.z = 0.0;
+    try {
+        const auto mapToOdom = tfBuffer->lookupTransform("map", "odom", tf2::TimePointZero);
+        tf2::doTransform(navOdomMsg.pose.pose, navOdomMsg.pose.pose, mapToOdom);
+
+        tf2::Quaternion qMapOdom;
+        tf2::fromMsg(mapToOdom.transform.rotation, qMapOdom);
+        const tf2::Vector3 velMap = tf2::quatRotate(qMapOdom,
+            {navOdomMsg.twist.twist.linear.x,
+             navOdomMsg.twist.twist.linear.y,
+             navOdomMsg.twist.twist.linear.z});
+        navOdomMsg.twist.twist.linear.x = velMap.x();
+        navOdomMsg.twist.twist.linear.y = velMap.y();
+        navOdomMsg.twist.twist.linear.z = velMap.z();
+
+        navOdomMsg.header.frame_id = "map";
+    } catch (const tf2::TransformException & ex) {
+        RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
+            "map->odom TF unavailable, publishing odometry in odom frame: %s", ex.what());
+    }
 
     navOdomPublisher->publish(navOdomMsg);
 

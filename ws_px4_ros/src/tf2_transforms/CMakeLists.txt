@@ -48,14 +48,18 @@ ament_target_dependencies(publish_odom_to_base_link_ned
   px4_msgs 
   rclcpp 
   tf2_ros
+  nav_msgs
+
 )
 
 ament_target_dependencies(publish_odom_to_base_link_enu
   ament_cmake
-  geometry_msgs 
-  px4_msgs 
-  rclcpp 
+  geometry_msgs
+  px4_msgs
+  rclcpp
+  tf2
   tf2_ros
+  tf2_geometry_msgs
   nav_msgs
 )
 
