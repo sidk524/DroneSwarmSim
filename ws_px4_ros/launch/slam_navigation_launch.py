@@ -86,7 +86,7 @@ def generate_launch_description():
 
         # planner limits
         'manager/max_vel': 2.0,
-        'manager/max_acc': 10.0,
+        'manager/max_acc': 4.0,
         'manager/max_jerk': 20.0,
         'manager/control_points_distance': 0.3,
         'manager/feasibility_tolerance': 0.05,
@@ -102,7 +102,7 @@ def generate_launch_description():
         'optimization/dist0': 0.7,
         'optimization/swarm_clearance': 0.5,
         'optimization/max_vel': 2.0,
-        'optimization/max_acc': 2.0,
+        'optimization/max_acc': 4.0,
 
         'traj_server/time_forward' : 2.0
     }]
