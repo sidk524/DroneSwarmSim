@@ -509,6 +509,7 @@ namespace ego_planner
       break;
     }
 
+    
     case SEQUENTIAL_START: // for swarm
     {
       if (planner_manager_->pp_.drone_id <= 0 || (planner_manager_->pp_.drone_id >= 1 && have_recv_pre_agent_))

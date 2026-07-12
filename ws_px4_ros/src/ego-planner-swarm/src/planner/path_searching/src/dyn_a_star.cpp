@@ -1,4 +1,5 @@
 #include "path_searching/dyn_a_star.h"
+#include <rclcpp/logging.hpp>
 
 using namespace std;
 using namespace Eigen;
@@ -90,8 +91,11 @@ vector<GridNodePtr> AStar::retrievePath(GridNodePtr current)
 
 bool AStar::ConvertToIndexAndAdjustStartEndPoints(Vector3d start_pt, Vector3d end_pt, Vector3i &start_idx, Vector3i &end_idx)
 {
-    if (!Coord2Index(start_pt, start_idx) || !Coord2Index(end_pt, end_idx))
+    
+    if (!Coord2Index(start_pt, start_idx) || !Coord2Index(end_pt, end_idx)){
+        RCLCPP_ERROR(rclcpp::get_logger("AstarSearch"), "Start point: %f %f %f End Point: %f %f %f", start_pt[0], start_pt[1], start_pt[2], end_pt[0], end_pt[1], end_pt[2]);
         return false;
+    }
 
     if (checkOccupancy(Index2Coord(start_idx)))
     {
@@ -130,6 +134,8 @@ bool AStar::AstarSearch(const double step_size, Vector3d start_pt, Vector3d end_
     Vector3i start_idx, end_idx;
     if (!ConvertToIndexAndAdjustStartEndPoints(start_pt, end_pt, start_idx, end_idx))
     {
+        RCLCPP_ERROR(rclcpp::get_logger("AstarSearch"), "Start point: %f %f %f End Point: %f %f %f", start_pt[0], start_pt[1], start_pt[2], end_pt[0], end_pt[1], end_pt[2]);
+
         RCLCPP_ERROR(rclcpp::get_logger("AstarSearch"), "Unable to handle the initial or end point, force return!");
         return false;
     }

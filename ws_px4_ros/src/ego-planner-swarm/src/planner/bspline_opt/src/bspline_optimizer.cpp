@@ -1578,7 +1578,6 @@ namespace ego_planner
       /* ---------- optimize ---------- */
       t1 = rclcpp::Clock().now();
       // 执行优化
-      int result = lbfgs::lbfgs_optimize(variable_num_, q, &final_cost, BsplineOptimizer::costFunctionRebound, NULL, BsplineOptimizer::earlyExit, this, &lbfgs_params);
       t2 = rclcpp::Clock().now();
       double time_ms = (t2 - t1).seconds() * 1000;
       double total_time_ms = (t2 - t0).seconds() * 1000;
