@@ -87,7 +87,7 @@ def generate_launch_description():
         # planner limits
         'manager/max_vel': 2.0,
         'manager/max_acc': 4.0,
-        'manager/max_jerk': 20.0,
+        'manager/max_jerk': 4.0,
         'manager/control_points_distance': 0.3,
         'manager/feasibility_tolerance': 0.05,
         'manager/planning_horizon': 10.0,
