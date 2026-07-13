@@ -1,13 +1,18 @@
 #include "lifecycle_msgs/srv/change_state.hpp"
+#include "octomap_msgs/msg/octomap.hpp"
 #include "quadrotor_msgs/msg/position_command.hpp"
 #include <autonomous_navigation_mode.hpp>
 #include <memory>
+#include <octomap/octomap.h>
+
+#include <octomap_msgs/conversions.h>
 #include <px4_ros2/components/mode.hpp>
 #include <px4_ros2/components/node_with_mode.hpp>
 #include <rclcpp/logging.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <tf2/utils.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -19,14 +24,18 @@ AutonomousNavigationMode::AutonomousNavigationMode(rclcpp::Node & node) : px4_ro
         trajectorySetpoint = std::make_shared<px4_ros2::TrajectorySetpointType>(*this);
         positionCmdSubscriber = _node.create_subscription<quadrotor_msgs::msg::PositionCommand>("/position_cmd", qosProfile, 
         std::bind(&AutonomousNavigationMode::positionCmdCallback, this, std::placeholders::_1));
+        
+
         changeStateService = _node.create_client<lifecycle_msgs::srv::ChangeState>("/lifecycle_navigation_node/change_state");
 
         tfBuffer = std::make_unique<tf2_ros::Buffer>(_node.get_clock());
         tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
     }
 
+
+
 void AutonomousNavigationMode::positionCmdCallback(quadrotor_msgs::msg::PositionCommand msg) {
-    tf2::Vector3 pos(msg.position.x, msg.position.y, msg.position.z);
+    pos = {msg.position.x, msg.position.y, msg.position.z};
     tf2::Vector3 vel(msg.velocity.x, msg.velocity.y, msg.velocity.z);
     tf2::Vector3 acc(msg.acceleration.x, msg.acceleration.y, msg.acceleration.z);
     double yaw = msg.yaw;

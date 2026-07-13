@@ -23,7 +23,7 @@ find_package(px4_ros2_cpp REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(ego_planner REQUIRED)
 find_package(quadrotor_msgs REQUIRED)
-
+find_package(octomap_msgs REQUIRED)
 find_package(X11 REQUIRED)
 
 add_executable(keyboard_flight_mode
@@ -71,7 +71,7 @@ ament_target_dependencies(autonomous_navigation_mode
   tf2_ros
   tf2_geometry_msgs
   ego_planner
-
+  octomap_msgs
 )
 
 ament_target_dependencies(lifecycle_navigation_node

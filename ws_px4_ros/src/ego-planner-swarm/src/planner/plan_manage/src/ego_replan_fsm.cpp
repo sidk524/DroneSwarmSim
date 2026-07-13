@@ -68,7 +68,7 @@ namespace ego_planner
     exec_timer_ = node_->create_wall_timer(std::chrono::milliseconds(10),
                                            std::bind(&EGOReplanFSM::execFSMCallback, this));
 
-    safety_timer_ = node_->create_wall_timer(std::chrono::milliseconds(50),
+    safety_timer_ = node_->create_wall_timer(std::chrono::milliseconds(20),
                                              std::bind(&EGOReplanFSM::checkCollisionCallback, this));
 
     odom_sub_ = node_->create_subscription<nav_msgs::msg::Odometry>(
@@ -770,27 +770,28 @@ namespace ego_planner
       if (occ)
       {
 
-        if (planFromCurrentTraj()) // Make a chance
+        if (t - t_cur < emergency_time_) // 0.8s of emergency time
         {
-          changeFSMExecState(EXEC_TRAJ, "SAFETY");
-          publishSwarmTrajs(false);
-          return;
+          RCLCPP_WARN(node_->get_logger(), "Suddenly discovered obstacles. emergency stop! time=%f", t - t_cur);
+
+          changeFSMExecState(EMERGENCY_STOP, "SAFETY");
         }
         else
         {
-          if (t - t_cur < emergency_time_) // 0.8s of emergency time
+          if (planFromCurrentTraj()) // Make a chance
           {
-            RCLCPP_WARN(node_->get_logger(), "Suddenly discovered obstacles. emergency stop! time=%f", t - t_cur);
-
-            changeFSMExecState(EMERGENCY_STOP, "SAFETY");
+            changeFSMExecState(EXEC_TRAJ, "SAFETY");
+            publishSwarmTrajs(false);
+            return;
           }
           else
           {
             RCLCPP_WARN(node_->get_logger(), "current traj in collision, replan.");
             changeFSMExecState(REPLAN_TRAJ, "SAFETY");
+            return;
           }
-          return;
         }
+        
         break;
       }
     }

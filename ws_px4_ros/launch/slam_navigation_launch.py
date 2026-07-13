@@ -66,7 +66,7 @@ def generate_launch_description():
 
         # planner limits
         'manager/max_vel': 2.0,
-        'manager/max_acc': 3.0,
+        'manager/max_acc': 4.0,
         'manager/max_jerk': 4.0,
         'manager/control_points_distance': 0.3,
         'manager/feasibility_tolerance': 0.05,
@@ -74,15 +74,16 @@ def generate_launch_description():
         'manager/use_distinctive_trajs': False,
         'manager/drone_id': 0,
 
+
         # optimizers
-        'optimization/lambda_smooth': 0.5,
+        'optimization/lambda_smooth': 2.0,
         'optimization/lambda_collision': 1.0,
         'optimization/lambda_feasibility': 0.1,
         'optimization/lambda_fitness': 1.0,
         'optimization/dist0': 0.7,
         'optimization/swarm_clearance': 0.5,
         'optimization/max_vel': 2.0,
-        'optimization/max_acc': 5.0,
+        'optimization/max_acc': 4.0,
 
         'traj_server/time_forward' : 2.0
     }]

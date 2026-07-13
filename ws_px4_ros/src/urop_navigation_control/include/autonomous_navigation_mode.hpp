@@ -2,6 +2,7 @@
 #include "lifecycle_msgs/srv/change_state.hpp"
 #include "quadrotor_msgs/msg/position_command.hpp"
 #include <memory>
+#include <octomap/OcTreeNode.h>
 #include <px4_ros2/components/mode.hpp>
 
 #include <px4_ros2/components/node_with_mode.hpp>
@@ -37,7 +38,6 @@ class AutonomousNavigationMode : public px4_ros2::ModeBase {
         px4_ros2::TrajectorySetpoint coords;
 
 
-    
     private:
         rclcpp::Client<lifecycle_msgs::srv::ChangeState>::SharedPtr changeStateService;
         std::unique_ptr<tf2_ros::Buffer> tfBuffer;
@@ -46,6 +46,7 @@ class AutonomousNavigationMode : public px4_ros2::ModeBase {
 
         rclcpp::Subscription<quadrotor_msgs::msg::PositionCommand>::SharedPtr positionCmdSubscriber;
 
+        tf2::Vector3 pos;
 
 
 };

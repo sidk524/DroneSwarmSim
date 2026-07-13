@@ -16,3 +16,6 @@
 [submodule "ws_px4_ros/src/octomap_rviz_plugins"]
         path = ws_px4_ros/src/octomap_rviz_plugins
         url = git@github.com:OctoMap/octomap_rviz_plugins.git
+[submodule "ws_px4_ros/src/octomap_msgs"]
+	path = ws_px4_ros/src/octomap_msgs
+	url = git@github.com:OctoMap/octomap_msgs.git
