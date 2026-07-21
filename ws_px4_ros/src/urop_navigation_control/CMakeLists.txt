@@ -24,6 +24,7 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(ego_planner REQUIRED)
 find_package(quadrotor_msgs REQUIRED)
 find_package(octomap_msgs REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(X11 REQUIRED)
 
 add_executable(keyboard_flight_mode
@@ -38,6 +39,10 @@ add_executable(lifecycle_navigation_node
   src/lifecycle_navigation_node.cpp
 )
 
+add_executable(slam_ekf_node
+  src/slam_ekf2_odometry.cpp
+)
+
 target_link_libraries(keyboard_flight_mode
   px4_ros2_cpp::px4_ros2_cpp
   rclcpp::rclcpp
@@ -49,6 +54,12 @@ target_include_directories(keyboard_flight_mode PRIVATE
 )
 
 target_include_directories(autonomous_navigation_mode PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+
+
+target_include_directories(slam_ekf_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
@@ -74,6 +85,25 @@ ament_target_dependencies(autonomous_navigation_mode
   octomap_msgs
 )
 
+
+ament_target_dependencies(slam_ekf_node
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  rclcpp_lifecycle
+  lifecycle_msgs
+  quadrotor_msgs
+  sensor_msgs 
+  std_msgs  
+  px4_ros2_cpp
+  tf2_ros
+  tf2_geometry_msgs
+  ego_planner
+  octomap_msgs
+  Eigen3
+)
+
 ament_target_dependencies(lifecycle_navigation_node
   ament_cmake
   geometry_msgs 
@@ -94,6 +124,7 @@ install(TARGETS
   keyboard_flight_mode
   autonomous_navigation_mode
   lifecycle_navigation_node
+  slam_ekf_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

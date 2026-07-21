@@ -6,7 +6,6 @@ from launch_ros.event_handlers import OnStateTransition
 
 def generate_launch_description():
 
-    # Must match the Gazebo world PX4 is launched with (PX4_GZ_WORLD / make target)
     world = "obstacle_course"
 
     remappings = [(
@@ -32,7 +31,7 @@ def generate_launch_description():
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '2', 
+        'Rtabmap/DetectionRate': '1', 
         "Grid/CellSize": "0.10",
 
         'fsm/flight_type': 2,              # 1 = /move_base_simple/goal, 2 = preset waypoints
@@ -45,45 +44,44 @@ def generate_launch_description():
         'fsm/fail_safe': True,
 
         'fsm/waypoint_num': 1,
-        'fsm/waypoint0_x': 45.0,
-        'fsm/waypoint0_y': 0.0,
-        'fsm/waypoint0_z': 1.5,
+        'fsm/waypoint0_x': 25.0,
+        'fsm/waypoint0_y': -20.0,
+        'fsm/waypoint0_z': 4.0,
 
         'grid_map/resolution': 0.1,
-        'grid_map/map_size_x': 100.0,
-        'grid_map/map_size_y': 20.0,
-        'grid_map/map_size_z': 10.0,
+        'grid_map/map_size_x': 70.0,
+        'grid_map/map_size_y': 50.0,
+        'grid_map/map_size_z': 18.0,
         'grid_map/local_update_range_x': 10.0,
         'grid_map/local_update_range_y': 10.0,
         'grid_map/local_update_range_z': 10.0,
         'grid_map/obstacles_inflation': 0.4,
         'grid_map/local_map_margin': 10,
         'grid_map/ground_height': -0.01,
-        'grid_map/virtual_ceil_height': 4.0,
+        'grid_map/virtual_ceil_height': 17.0,
         'grid_map/visualization_truncate_height': 30.0,
         'grid_map/frame_id': 'map',
 
 
         # planner limits
-        'manager/max_vel': 2.0,
-        'manager/max_acc': 4.0,
-        'manager/max_jerk': 4.0,
+        'manager/max_vel': 1.0,
+        'manager/max_acc': 2.0,
+        'manager/max_jerk': 3.0,
         'manager/control_points_distance': 0.3,
         'manager/feasibility_tolerance': 0.05,
         'manager/planning_horizon': 7.5,
         'manager/use_distinctive_trajs': False,
         'manager/drone_id': 0,
 
-
         # optimizers
-        'optimization/lambda_smooth': 2.0,
+        'optimization/lambda_smooth': 1.0,
         'optimization/lambda_collision': 1.0,
         'optimization/lambda_feasibility': 0.1,
         'optimization/lambda_fitness': 1.0,
         'optimization/dist0': 0.7,
         'optimization/swarm_clearance': 0.5,
-        'optimization/max_vel': 2.0,
-        'optimization/max_acc': 4.0,
+        'optimization/max_vel': 1.0,
+        'optimization/max_acc': 2.0,
 
         'traj_server/time_forward' : 2.0
     }]
@@ -120,6 +118,12 @@ def generate_launch_description():
         executable="traj_server",
         remappings=traj_remappings,
         parameters=parameters
+    )
+
+    slam_ekf_node = Node(
+        package='urop_navigation_control',
+        executable = 'slam_ekf_node',
+        parameters = parameters
     )
 
 
@@ -213,24 +217,27 @@ def generate_launch_description():
             parameters=parameters,
             arguments=["-d"]
         ),
-        Node( 
-            package='urop_navigation_control',
-            executable='keyboard_flight_mode'
-        ), 
-        LifecycleAutoNavigationMode,
         Node(
-            package='urop_navigation_control',
-            executable='autonomous_navigation_mode'
+            package="rtabmap_odom",
+            executable="rgbd_odometry",
+            remappings=remappings,
+            parameters=parameters
         ),
-        RegisterEventHandler(
-            OnStateTransition(
-                target_lifecycle_node=LifecycleAutoNavigationMode,
-                start_state="activating",  
-                goal_state="active",
-                entities=[
-                    ego_planner_node,
-                    traj_server_node
-                ]
-            )
-        )
+        slam_ekf_node,
+        # LifecycleAutoNavigationMode,
+        # Node(
+        #     package='urop_navigation_control',
+        #     executable='autonomous_navigation_mode'
+        # ),
+        # RegisterEventHandler(
+        #     OnStateTransition(
+        #         target_lifecycle_node=LifecycleAutoNavigationMode,
+        #         start_state="activating",  
+        #         goal_state="active",
+        #         entities=[
+        #             ego_planner_node,
+        #             traj_server_node
+        #         ]
+        #     )
+        # )
     ])

@@ -1,5 +1,6 @@
 #include "bspline_opt/bspline_optimizer.h"
 #include "bspline_opt/gradient_descent_optimizer.h"
+#include <rclcpp/clock.hpp>
 // using namespace std;
 
 namespace ego_planner
@@ -1548,7 +1549,7 @@ namespace ego_planner
     // 变量个数
     variable_num_ = 3 * (end_id - start_id);
 
-    rclcpp::Time t0 = node_->get_clock()->now(), t1, t2;
+    rclcpp::Time t0 = rclcpp::Clock().now() , t1, t2;
     int restart_nums = 0, rebound_times = 0;
     ;
     bool flag_force_return, flag_occ, success;
@@ -1576,11 +1577,11 @@ namespace ego_planner
       lbfgs_params.g_epsilon = 0.01;
 
       /* ---------- optimize ---------- */
-      t1 = node_->get_clock()->now();
+      t1 = rclcpp::Clock().now();
       // 执行优化
       int result = lbfgs::lbfgs_optimize(variable_num_, q, &final_cost, BsplineOptimizer::costFunctionRebound, NULL, BsplineOptimizer::earlyExit, this, &lbfgs_params);
 
-      t2 = node_->get_clock()->now();
+      t2 = rclcpp::Clock().now();
       double time_ms = (t2 - t1).seconds() * 1000;
       double total_time_ms = (t2 - t0).seconds() * 1000;
 

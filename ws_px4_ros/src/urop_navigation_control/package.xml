@@ -22,7 +22,7 @@
   <depend>ego_planner</depend>
   <depend>quadrotor_msgs</depend>
   <depend>octomap_msgs</depend>
-
+  <depend>eigen</depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

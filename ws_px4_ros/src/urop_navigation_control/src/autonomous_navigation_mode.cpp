@@ -33,7 +33,6 @@ AutonomousNavigationMode::AutonomousNavigationMode(rclcpp::Node & node) : px4_ro
     }
 
 
-
 void AutonomousNavigationMode::positionCmdCallback(quadrotor_msgs::msg::PositionCommand msg) {
     pos = {msg.position.x, msg.position.y, msg.position.z};
     tf2::Vector3 vel(msg.velocity.x, msg.velocity.y, msg.velocity.z);

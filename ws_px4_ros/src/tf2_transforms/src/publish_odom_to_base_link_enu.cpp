@@ -17,7 +17,6 @@ OdomPublisher::OdomPublisher() : rclcpp::Node("OdomPublisher"){
 
         transformBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(this);
 
-
         tfBuffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());
         tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
 }

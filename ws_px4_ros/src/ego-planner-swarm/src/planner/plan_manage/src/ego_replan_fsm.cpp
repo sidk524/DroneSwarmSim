@@ -540,7 +540,6 @@ namespace ego_planner
 
     case GEN_NEW_TRAJ:
     {
-
       bool success = planFromGlobalTraj(10); // zx-todo
       if (success)
       {
