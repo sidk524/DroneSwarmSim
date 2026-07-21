@@ -6,7 +6,7 @@ from launch_ros.event_handlers import OnStateTransition
 
 def generate_launch_description():
 
-    world = "obstacle_course"
+    world = "baylands"
 
     remappings = [(
                 "rgb/image", "/fmu/out/camera_image"
@@ -27,7 +27,9 @@ def generate_launch_description():
         "odom_frame_id": "odom",
         "use_sim_time": True,
         "approx_sync": False,
-        "sync_queue_size": 30,
+        "sync_queue_size": 10,
+        # "topic_queue_size": 10,
+        # "approx_sync_max_interval": 0.05,
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",

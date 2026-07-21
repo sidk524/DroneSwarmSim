@@ -22,12 +22,20 @@ SlamEkfOdometry::SlamEkfOdometry() : rclcpp::Node("slam_ekf2"){
 
     tfBuffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());
     tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
+    
+    timesyncSubscriber = this->create_subscription<px4_msgs::msg::TimesyncStatus>("/fmu/out/timesync_status", qosProfile, 
+        std::bind(&SlamEkfOdometry::timesyncCallback, this, std::placeholders::_1));
+
 
     // px4OdomSubscriber = this->create_subscription<px4_msgs::msg::VehicleOdometry>("/fmu/out/vehicle_odometry", qosProfile,
     
     // std::bind(&SlamEkfOdometry::px4OdomCallback, this, std::placeholders::_1));
 
 }       
+
+void SlamEkfOdometry::timesyncCallback(px4_msgs::msg::TimesyncStatus msg) {
+    lastOffset = msg.estimated_offset;
+}
 
 
 void SlamEkfOdometry::px4OdomCallback(px4_msgs::msg::VehicleOdometry msg){
@@ -41,47 +49,15 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
     px4_msgs::msg::VehicleOdometry px4msg;
     
     px4msg.timestamp_sample =
-    static_cast<uint64_t>(msg.header.stamp.sec) * 1'000'000ULL +
-    static_cast<uint64_t>(msg.header.stamp.nanosec) / 1'000ULL;
+    (static_cast<uint64_t>(msg.header.stamp.sec) * 1'000'000ULL +
+    static_cast<uint64_t>(msg.header.stamp.nanosec) / 1'000ULL) - lastOffset;
 
     px4msg.pose_frame = 2;
 
-    tf2::Vector3 pos_tf2;
-    tf2::Quaternion q_tf2_result;
-
-    tf2::Quaternion q_tf2(msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, 
-        msg.pose.pose.orientation.z, msg.pose.pose.orientation.w);
-    
-    pos_tf2[0] = msg.pose.pose.position.x;
-    pos_tf2[1] = msg.pose.pose.position.y;
-    pos_tf2[2] = msg.pose.pose.position.z;
-
-    // try {
-    //     const auto odomFromMap = tfBuffer->lookupTransform(
-    //         "odom",
-    //         msg.header.frame_id,
-    //         rclcpp::Time(msg.header.stamp),
-    //         rclcpp::Duration::from_seconds(0.05));
-    //     tf2::Transform T;
-    //     tf2::fromMsg(odomFromMap.transform, T);
-    //     pos_tf2 = T * pos_tf2;
-    //     q_tf2_result = T.getRotation() * q_tf2;
-    //     q_tf2_result.normalize();
-    // } catch (const tf2::TransformException & ex) {
-    //     RCLCPP_WARN_THROTTLE(
-    //         get_logger(),
-    //         *get_clock(),
-    //         2000,
-    //         "Could not transform map pose into odom: %s",
-    //         ex.what());
-
-    //         return;
-    // }
-
     Eigen::Matrix<float, 3, 1> pos;
-    pos(0) = pos_tf2[0];
-    pos(1) = pos_tf2[1];
-    pos(2) = pos_tf2[2];
+    pos(0) = msg.pose.pose.position.x;
+    pos(1) = msg.pose.pose.position.y;
+    pos(2) = msg.pose.pose.position.z;
 
     pos = px4_ros2::positionEnuToNed(pos);
 
@@ -93,9 +69,9 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
 
     px4msg.position = pos_array;
 
-    Eigen::Quaternion<float> curr_q(static_cast<float>(q_tf2_result.w()), 
-        static_cast<float>(q_tf2_result.x()), 
-        static_cast<float>(q_tf2_result.y()), static_cast<float>(q_tf2_result.z()));
+    Eigen::Quaternion<float> curr_q(static_cast<float>(msg.pose.pose.orientation.w), 
+        static_cast<float>(msg.pose.pose.orientation.x), 
+        static_cast<float>(msg.pose.pose.orientation.y), static_cast<float>(msg.pose.pose.orientation.z));
 
     curr_q = px4_ros2::attitudeEnuToNed(curr_q);
 
@@ -126,19 +102,13 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
 
     px4msg.velocity = vel_array;
 
-    Eigen::Matrix<float, 3, 1> angular_vel_vector;
-
-    angular_vel_vector(0) = msg.twist.twist.angular.x;
-    angular_vel_vector(1) = msg.twist.twist.angular.y;
-    angular_vel_vector(2) = msg.twist.twist.angular.z;
-
     std::array<float, 3> angularVel;
 
     // angular_vel_vector = px4_ros2::fluToFrd(angular_vel_vector);
 
-    angularVel[0] = angular_vel_vector(0,0);
-    angularVel[1] = -angular_vel_vector(1,0);
-    angularVel[2] = -angular_vel_vector(2,0);
+    angularVel[0] = msg.twist.twist.angular.x;
+    angularVel[1] = -msg.twist.twist.angular.y;
+    angularVel[2] = -msg.twist.twist.angular.z;
 
     px4msg.angular_velocity = angularVel;
 
@@ -148,7 +118,7 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
     posVariance(1) = msg.pose.covariance[7];
     posVariance(2) = msg.pose.covariance[14];
 
-    // posVariance = px4_ros2::varianceEnuToNed(posVariance);
+    posVariance = px4_ros2::varianceEnuToNed(posVariance);
 
     std::array<float, 3> posVarianceArray;
 
@@ -188,7 +158,7 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
     px4msg.position_variance = posVarianceArray;
     px4msg.orientation_variance = orientationVarianceArray;
     px4msg.velocity_variance = velocityVarianceArray;
-    px4msg.timestamp = this->get_clock()->now().nanoseconds() / 1000;
+    px4msg.timestamp = (this->get_clock()->now().nanoseconds() / 1000) - lastOffset;
 
     odometryPublisher->publish(px4msg);
 }

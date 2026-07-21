@@ -23,7 +23,7 @@
 #include <geometry_msgs/msg/point_stamped.hpp>
 
 #include <px4_msgs/msg/vehicle_odometry.hpp>
-
+#include <px4_msgs/msg/timesync_status.hpp>
 #include <lifecycle_msgs/srv/change_state.hpp>
 #include <quadrotor_msgs/msg/position_command.hpp>
 
@@ -38,6 +38,7 @@ class SlamEkfOdometry : public rclcpp::Node
         
         void slamOdomCallback(nav_msgs::msg::Odometry msg);
         void px4OdomCallback(px4_msgs::msg::VehicleOdometry msg);
+        void timesyncCallback(px4_msgs::msg::TimesyncStatus msg);
 
     private:
         const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available();
@@ -46,6 +47,9 @@ class SlamEkfOdometry : public rclcpp::Node
         rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr slamOdomSubscriber;
 
         rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::SharedPtr px4OdomSubscriber;
+        rclcpp::Subscription<px4_msgs::msg::TimesyncStatus>::SharedPtr timesyncSubscriber;
+
+        std::int64_t lastOffset = 0;
 
         std::unique_ptr<tf2_ros::Buffer> tfBuffer;
         std::shared_ptr<tf2_ros::TransformListener> tfListener;
