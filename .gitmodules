@@ -3,7 +3,8 @@
 	url = git@github.com:eProsima/Micro-XRCE-DDS-Agent.git
 [submodule "PX4-Autopilot"]
 	path = px4_ws/PX4-Autopilot
-	url = git@github.com:PX4/PX4-Autopilot.git
+	url = git@github.com:sidk524/PX4-Autopilot.git
+	branch = droneswarm
 [submodule "px4_msgs"]
 	path = ws_px4_ros/src/px4_msgs
 	url = git@github.com:PX4/px4_msgs.git

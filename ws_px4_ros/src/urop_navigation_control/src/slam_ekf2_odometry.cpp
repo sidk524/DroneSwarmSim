@@ -17,40 +17,67 @@
 SlamEkfOdometry::SlamEkfOdometry() : rclcpp::Node("slam_ekf2"){
     odometryPublisher = this->create_publisher<px4_msgs::msg::VehicleOdometry>("/fmu/in/vehicle_visual_odometry", qosProfile);
 
+    pythagPublisher = this->create_publisher<std_msgs::msg::Float64>("/pythagDistance", qosProfile);
+
+
     slamOdomSubscriber = this->create_subscription<nav_msgs::msg::Odometry>("/odom", qosProfile, 
         std::bind(&SlamEkfOdometry::slamOdomCallback, this, std::placeholders::_1));
 
     tfBuffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());
     tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
+ 
+    px4OdomSubscriber = this->create_subscription<px4_msgs::msg::VehicleOdometry>("/fmu/out/vehicle_odometry", qosProfile,
     
-    timesyncSubscriber = this->create_subscription<px4_msgs::msg::TimesyncStatus>("/fmu/out/timesync_status", qosProfile, 
-        std::bind(&SlamEkfOdometry::timesyncCallback, this, std::placeholders::_1));
+    std::bind(&SlamEkfOdometry::px4OdomCallback, this, std::placeholders::_1));
 
+    groundTruthPoseSubscriber = this->create_subscription<geometry_msgs::msg::PoseArray>("/ground_truth_poses", qosProfile,
+            std::bind(&SlamEkfOdometry::groundTruthCallback, this, std::placeholders::_1)
+    );
+}     
 
-    // px4OdomSubscriber = this->create_subscription<px4_msgs::msg::VehicleOdometry>("/fmu/out/vehicle_odometry", qosProfile,
-    
-    // std::bind(&SlamEkfOdometry::px4OdomCallback, this, std::placeholders::_1));
+void SlamEkfOdometry::groundTruthCallback(geometry_msgs::msg::PoseArray msg){
+    if (!groundTruthReceived){
+        groundTruthReceived = true;
+        Eigen::Matrix<float, 3, 1> offsetPoseMatrix;
+        offsetPoseMatrix(0) = msg.poses[0].position.x;
+        offsetPoseMatrix(1) = msg.poses[0].position.y;
+        offsetPoseMatrix(2) = msg.poses[0].position.z;
 
-}       
+        offsetPoseMatrix = px4_ros2::positionEnuToNed(offsetPoseMatrix);
 
-void SlamEkfOdometry::timesyncCallback(px4_msgs::msg::TimesyncStatus msg) {
-    lastOffset = msg.estimated_offset;
+        poseOffset = {offsetPoseMatrix[0], offsetPoseMatrix[1], offsetPoseMatrix[2]};
+    } else {
+
+        Eigen::Matrix<float, 3, 1> dronePoseMatrix;
+        dronePoseMatrix(0) = msg.poses[0].position.x;
+        dronePoseMatrix(1) = msg.poses[0].position.y;
+        dronePoseMatrix(2) = msg.poses[0].position.z;
+
+        dronePoseMatrix = px4_ros2::positionEnuToNed(dronePoseMatrix);
+
+        std_msgs::msg::Float64 pythagMsg;
+
+        pythagMsg.data = std::sqrt(std::pow((dronePoseMatrix(0) - poseOffset[0] - lastPx4OdomPos[0]), 2) + 
+        std::pow((dronePoseMatrix(1) - poseOffset[1] - lastPx4OdomPos[1]), 2) +
+        std::pow((dronePoseMatrix(2) - poseOffset[2] - lastPx4OdomPos[2]), 2));
+
+        pythagPublisher->publish(pythagMsg);
+    }
 }
-
 
 void SlamEkfOdometry::px4OdomCallback(px4_msgs::msg::VehicleOdometry msg){
-    RCLCPP_INFO(this->get_logger(), "pos: %f %f %f", msg.position[0], msg.position[1], msg.position[2]);
-    RCLCPP_INFO(this->get_logger(), "velocity: %f %f %f", msg.velocity[0], msg.velocity[1], msg.velocity[2]);
+    lastPx4OdomPos = {msg.position[0], msg.position[1], msg.position[2]};
 
 }
-
 
 void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
     px4_msgs::msg::VehicleOdometry px4msg;
+
+    lastSlamOdomPos = {msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z};
     
     px4msg.timestamp_sample =
     (static_cast<uint64_t>(msg.header.stamp.sec) * 1'000'000ULL +
-    static_cast<uint64_t>(msg.header.stamp.nanosec) / 1'000ULL) - lastOffset;
+    static_cast<uint64_t>(msg.header.stamp.nanosec) / 1'000ULL); //- lastOffset;
 
     px4msg.pose_frame = 2;
 
@@ -158,7 +185,7 @@ void SlamEkfOdometry::slamOdomCallback(nav_msgs::msg::Odometry msg){
     px4msg.position_variance = posVarianceArray;
     px4msg.orientation_variance = orientationVarianceArray;
     px4msg.velocity_variance = velocityVarianceArray;
-    px4msg.timestamp = (this->get_clock()->now().nanoseconds() / 1000) - lastOffset;
+    px4msg.timestamp = (this->get_clock()->now().nanoseconds() / 1000); // - lastOffset;
 
     odometryPublisher->publish(px4msg);
 }

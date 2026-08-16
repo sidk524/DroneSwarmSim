@@ -10,6 +10,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/empty.hpp"
 #include <vector>
+#include <std_msgs/msg/bool.hpp>
 #include "visualization_msgs/msg/marker.hpp"
 
 #include "bspline_opt/bspline_optimizer.h"
@@ -98,6 +99,11 @@ namespace ego_planner
     rclcpp::Publisher<traj_utils::msg::DataDisp>::SharedPtr data_disp_pub_;
     rclcpp::Publisher<traj_utils::msg::MultiBsplines>::SharedPtr swarm_trajs_pub_;
     rclcpp::Publisher<traj_utils::msg::Bspline>::SharedPtr broadcast_bspline_pub_;
+    rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr ready_for_waypoint_pub_;
+
+    bool receivedFirstWaypoint = false;
+    rclcpp::TimerBase::SharedPtr signalReadyFirstWaypoint;
+    void sendWaypointSignal();
 
     /* helper functions */
     bool callReboundReplan(bool flag_use_poly_init, bool flag_randomPolyTraj); // front-end and back-end method

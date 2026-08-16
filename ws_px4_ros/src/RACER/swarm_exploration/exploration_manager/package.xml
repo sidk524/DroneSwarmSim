@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>exploration_manager</name>
+  <version>0.0.0</version>
+  <description>RACER exploration FSM and manager (frontier tours, swarm coordination msgs) - ROS 2 port scaffold; nodes pending rewrite against ego-planner</description>
+
+  <maintainer email="siddharthkambli6@gmail.com">Siddharth Kambli</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>plan_env_racer</depend>
+  <depend>path_searching_racer</depend>
+  <depend>active_perception</depend>
+  <depend>lkh_tsp_solver</depend>
+  <depend>lkh_mtsp_solver</depend>
+  <depend>cv_bridge</depend>
+  <depend>libpcl-all-dev</depend>
+  <depend>eigen</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

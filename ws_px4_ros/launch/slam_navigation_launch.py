@@ -6,7 +6,7 @@ from launch_ros.event_handlers import OnStateTransition
 
 def generate_launch_description():
 
-    world = "baylands"
+    world = "jetty"
 
     remappings = [(
                 "rgb/image", "/fmu/out/camera_image"
@@ -19,24 +19,24 @@ def generate_launch_description():
             )
             ]
 
-    parameters = [{
+    parameters = {
         "frame_id": "base_link",
         "subscribe_rgb": True,
         "subscribe_depth" : False,
         "subscribe_scan_cloud" : True,
         "odom_frame_id": "odom",
         "use_sim_time": True,
-        "approx_sync": False,
+        "approx_sync": True,
         "sync_queue_size": 10,
         # "topic_queue_size": 10,
-        # "approx_sync_max_interval": 0.05,
+        "approx_sync_max_interval": 0.03,
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '1', 
+        'Rtabmap/DetectionRate': '4', 
         "Grid/CellSize": "0.10",
 
-        'fsm/flight_type': 2,              # 1 = /move_base_simple/goal, 2 = preset waypoints
+        'fsm/flight_type': 1,              # 1 = /move_base_simple/goal, 2 = preset waypoints
         'fsm/thresh_replan_time': 0.5,
         'fsm/thresh_no_replan_meter': 2.0,
         'fsm/planning_horizon': 7.5,
@@ -45,10 +45,10 @@ def generate_launch_description():
         'fsm/realworld_experiment': False,
         'fsm/fail_safe': True,
 
-        'fsm/waypoint_num': 1,
-        'fsm/waypoint0_x': 25.0,
-        'fsm/waypoint0_y': -20.0,
-        'fsm/waypoint0_z': 4.0,
+        # 'fsm/waypoint_num': 1,
+        # 'fsm/waypoint0_x': 25.0,
+        # 'fsm/waypoint0_y': -20.0,
+        # 'fsm/waypoint0_z': 4.0,
 
         'grid_map/resolution': 0.1,
         'grid_map/map_size_x': 70.0,
@@ -86,7 +86,7 @@ def generate_launch_description():
         'optimization/max_acc': 2.0,
 
         'traj_server/time_forward' : 2.0
-    }]
+    }
 
     ego_remappings=[
         ('odom_world', '/nav_msgs/odom'),
@@ -112,20 +112,20 @@ def generate_launch_description():
         package="ego_planner",
         executable="ego_planner_node",
         remappings=ego_remappings,
-        parameters=parameters
+        parameters=[parameters]
     )
 
     traj_server_node = Node(
         package="ego_planner",
         executable="traj_server",
         remappings=traj_remappings,
-        parameters=parameters
+        parameters=[parameters]
     )
 
     slam_ekf_node = Node(
         package='urop_navigation_control',
         executable = 'slam_ekf_node',
-        parameters = parameters
+        parameters = [parameters]
     )
 
 
@@ -177,6 +177,13 @@ def generate_launch_description():
             parameters = [{"use_sim_time": True}]
         ),
         Node(
+            package="ros_gz_bridge", 
+            executable="parameter_bridge",
+            arguments=[f"/world/{world}/dynamic_pose/info@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V"],
+            remappings=[(f"/world/{world}/dynamic_pose/info", "/ground_truth_poses")],
+            parameters=[{"use_sim_time": True}],
+        ),
+        Node(
             package="rtabmap_util",
             executable="point_cloud_xyz",
             remappings=[
@@ -216,30 +223,37 @@ def generate_launch_description():
             package="rtabmap_slam",
             executable="rtabmap",
             remappings=remappings,
-            parameters=parameters,
+            parameters=[parameters],
             arguments=["-d"]
         ),
         Node(
             package="rtabmap_odom",
             executable="rgbd_odometry",
             remappings=remappings,
-            parameters=parameters
+            # arguments=["--udebug"],
+            # output="screen",
+            # emulate_tty=True,
+            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
+            # , "Vis/DepthAsMask": "false",
+            #                         "OdomF2M/ValidDepthRatio": "0.1",
+            #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
+                                    }]
         ),
         slam_ekf_node,
-        # LifecycleAutoNavigationMode,
-        # Node(
-        #     package='urop_navigation_control',
-        #     executable='autonomous_navigation_mode'
-        # ),
-        # RegisterEventHandler(
-        #     OnStateTransition(
-        #         target_lifecycle_node=LifecycleAutoNavigationMode,
-        #         start_state="activating",  
-        #         goal_state="active",
-        #         entities=[
-        #             ego_planner_node,
-        #             traj_server_node
-        #         ]
-        #     )
-        # )
+        LifecycleAutoNavigationMode,
+        Node(
+            package = 'urop_navigation_control',
+            executable='auto_nav_mode_executor'
+        ),
+        RegisterEventHandler(
+            OnStateTransition(
+                target_lifecycle_node=LifecycleAutoNavigationMode,
+                start_state="activating",  
+                goal_state="active",
+                entities=[
+                    ego_planner_node,
+                    traj_server_node
+                ]
+            )
+        )
     ])

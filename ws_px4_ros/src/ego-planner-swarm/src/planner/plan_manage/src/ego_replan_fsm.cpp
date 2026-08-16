@@ -117,7 +117,8 @@ namespace ego_planner
 
     bspline_pub_ = node_->create_publisher<traj_utils::msg::Bspline>("planning/bspline", 10);
     data_disp_pub_ = node_->create_publisher<traj_utils::msg::DataDisp>("planning/data_display", 100);
-
+    ready_for_waypoint_pub_ = node_->create_publisher<std_msgs::msg::Bool>("/ready_for_waypoint", 10);
+    RCLCPP_INFO(node_->get_logger(), "PROGRAM IS HERE");
     if (target_type_ == TARGET_TYPE::MANUAL_TARGET)
     {
       waypoint_sub_ = node_->create_subscription<geometry_msgs::msg::PoseStamped>(
@@ -127,6 +128,9 @@ namespace ego_planner
           {
             this->waypointCallback(msg);
           });
+
+      signalReadyFirstWaypoint = node_->create_wall_timer(1000ms, std::bind(&EGOReplanFSM::sendWaypointSignal, this));
+     
     }
     else if (target_type_ == TARGET_TYPE::PRESET_TARGET)
     {
@@ -160,6 +164,15 @@ namespace ego_planner
       cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
   }
 
+  void EGOReplanFSM::sendWaypointSignal(){
+      if (receivedFirstWaypoint){
+        signalReadyFirstWaypoint->cancel();
+      } else{
+        std_msgs::msg::Bool msg;
+        msg.data = true;
+        ready_for_waypoint_pub_->publish(msg);
+      } 
+  }
   void EGOReplanFSM::readGivenWps()
 
   {
@@ -240,14 +253,15 @@ namespace ego_planner
 
   void EGOReplanFSM::waypointCallback(const std::shared_ptr<const geometry_msgs::msg::PoseStamped> &msg)
   {
+
     if (msg->pose.position.z < -0.1)
       return;
-
+    receivedFirstWaypoint = true;
     cout << "Triggered!" << endl;
 
     init_pt_ = odom_pos_;
 
-    Eigen::Vector3d end_wp(msg->pose.position.x, msg->pose.position.y, 1.0);
+    Eigen::Vector3d end_wp(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
 
     planNextWaypoint(end_wp);
   }

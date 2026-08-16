@@ -31,9 +31,9 @@ add_executable(keyboard_flight_mode
   src/keyboard_flight_mode.cpp
 )
 
-add_executable(autonomous_navigation_mode
-  src/autonomous_navigation_mode.cpp
-)
+# add_executable(autonomous_navigation_mode
+#   src/autonomous_navigation_mode.cpp
+# )
 
 add_executable(lifecycle_navigation_node
   src/lifecycle_navigation_node.cpp
@@ -41,6 +41,13 @@ add_executable(lifecycle_navigation_node
 
 add_executable(slam_ekf_node
   src/slam_ekf2_odometry.cpp
+)
+
+add_executable(auto_nav_mode_executor
+  src/autonomous_navigation_mode.cpp
+  src/ascend_mode.cpp
+  src/auto_nav_mode_executor.cpp
+
 )
 
 target_link_libraries(keyboard_flight_mode
@@ -53,13 +60,15 @@ target_include_directories(keyboard_flight_mode PRIVATE
   ${X11_INCLUDE_DIR}
 )
 
-target_include_directories(autonomous_navigation_mode PUBLIC
+# target_include_directories(autonomous_navigation_mode PUBLIC
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+target_include_directories(slam_ekf_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
-
-
-target_include_directories(slam_ekf_node PUBLIC
+target_include_directories(auto_nav_mode_executor PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 
@@ -68,7 +77,24 @@ ament_target_dependencies(keyboard_flight_mode
   rclcpp
 )
 
-ament_target_dependencies(autonomous_navigation_mode
+# ament_target_dependencies(autonomous_navigation_mode
+#   ament_cmake
+#   geometry_msgs 
+#   px4_msgs 
+#   rclcpp 
+#   rclcpp_lifecycle
+#   lifecycle_msgs
+#   quadrotor_msgs
+#   sensor_msgs 
+#   std_msgs  
+#   px4_ros2_cpp
+#   tf2_ros
+#   tf2_geometry_msgs
+#   ego_planner
+#   octomap_msgs
+# )
+
+ament_target_dependencies(auto_nav_mode_executor
   ament_cmake
   geometry_msgs 
   px4_msgs 
@@ -84,7 +110,6 @@ ament_target_dependencies(autonomous_navigation_mode
   ego_planner
   octomap_msgs
 )
-
 
 ament_target_dependencies(slam_ekf_node
   ament_cmake
@@ -122,9 +147,10 @@ ament_target_dependencies(lifecycle_navigation_node
 
 install(TARGETS
   keyboard_flight_mode
-  autonomous_navigation_mode
+  # autonomous_navigation_mode
   lifecycle_navigation_node
   slam_ekf_node
+  auto_nav_mode_executor
   DESTINATION lib/${PROJECT_NAME}
 )
 

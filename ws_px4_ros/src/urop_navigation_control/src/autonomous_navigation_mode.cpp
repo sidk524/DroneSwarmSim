@@ -17,6 +17,7 @@
 #include <string>
 #include <cmath>
 
+using namespace std::chrono_literals;
 
 AutonomousNavigationMode::AutonomousNavigationMode(rclcpp::Node & node) : px4_ros2::ModeBase(node, Settings("Auto navigation mode")),
     _node(node)
@@ -25,6 +26,10 @@ AutonomousNavigationMode::AutonomousNavigationMode(rclcpp::Node & node) : px4_ro
         positionCmdSubscriber = _node.create_subscription<quadrotor_msgs::msg::PositionCommand>("/position_cmd", qosProfile, 
         std::bind(&AutonomousNavigationMode::positionCmdCallback, this, std::placeholders::_1));
         
+        waypointPublisher = _node.create_publisher<geometry_msgs::msg::PoseStamped>("/move_base_simple/goal", qosProfile);
+
+    
+        
 
         changeStateService = _node.create_client<lifecycle_msgs::srv::ChangeState>("/lifecycle_navigation_node/change_state");
 
@@ -32,6 +37,17 @@ AutonomousNavigationMode::AutonomousNavigationMode(rclcpp::Node & node) : px4_ro
         tfListener = std::make_shared<tf2_ros::TransformListener>(*tfBuffer);
     }
 
+void AutonomousNavigationMode::sendWaypoint(std_msgs::msg::Bool msg1) {
+    readyForWaypoint = true;
+    RCLCPP_INFO(_node.get_logger(), "WAYPOINT CALLBACK RECEIVED. WAYPOINT CALLBACK RECEIVED. WAYPOINT CALLBACK RECEIVED. WAYPOINT CALLBACK RECEIVED. ");
+    geometry_msgs::msg::PoseStamped msg;
+    msg.header.stamp = _node.get_clock()->now();
+    msg.header.frame_id = "odom";
+    msg.pose.position.x = 25.0;
+    msg.pose.position.y = 15.0;
+    msg.pose.position.z = 5.0;
+    waypointPublisher->publish(msg);
+}
 
 void AutonomousNavigationMode::positionCmdCallback(quadrotor_msgs::msg::PositionCommand msg) {
     pos = {msg.position.x, msg.position.y, msg.position.z};
@@ -39,8 +55,6 @@ void AutonomousNavigationMode::positionCmdCallback(quadrotor_msgs::msg::Position
     tf2::Vector3 acc(msg.acceleration.x, msg.acceleration.y, msg.acceleration.z);
     double yaw = msg.yaw;
 
-    // the planner works in the map frame, but px4's local frame corresponds to
-    // odom, so re-express the command in odom before the ENU->NED conversion
     try {
         const auto odomFromMap = tfBuffer->lookupTransform("odom", "map", tf2::TimePointZero);
         tf2::Transform T;
@@ -66,7 +80,9 @@ void AutonomousNavigationMode::positionCmdCallback(quadrotor_msgs::msg::Position
 
 void AutonomousNavigationMode::onActivate(){
     RCLCPP_INFO(_node.get_logger(), "activated auto navigation node");
-
+    readyForWaypointSub = _node.create_subscription<std_msgs::msg::Bool>(
+        "/ready_for_waypoint", qosProfile, std::bind(&AutonomousNavigationMode::sendWaypoint, this, std::placeholders::_1)
+    );
     auto requestToInactive = std::make_shared<lifecycle_msgs::srv::ChangeState::Request>();
     requestToInactive->transition.id = 1;
     requestToInactive->transition.label = "configure";
@@ -110,14 +126,14 @@ void AutonomousNavigationMode::onDeactivate(){
 
 
 
-int main(int argc, char *argv[]){
-    using autoNavigationMode = px4_ros2::NodeWithMode<AutonomousNavigationMode>;
+// int main(int argc, char *argv[]){
+//     using autoNavigationMode = px4_ros2::NodeWithMode<AutonomousNavigationMode>;
 
-    static const std::string kNodeName = "auto_navigation_node";
-    static const bool kEnableDebugOutput = true;
+//     static const std::string kNodeName = "auto_navigation_node";
+//     static const bool kEnableDebugOutput = true;
 
-    rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<autoNavigationMode>(kNodeName, kEnableDebugOutput));
-    rclcpp::shutdown();
+//     rclcpp::init(argc, argv);
+//     rclcpp::spin(std::make_shared<autoNavigationMode>(kNodeName, kEnableDebugOutput));
+//     rclcpp::shutdown();
 
-}
+// }
