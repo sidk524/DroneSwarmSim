@@ -54,7 +54,7 @@ class ObjGenerator : public rclcpp::Node{
               this->create_publisher<geometry_msgs::msg::PoseStamped>("/dynamic/pose_" + to_string(i), 10);
           pose_pubs.push_back(pose_pub);
         }
-        rclcpp::TimerBase::SharedPtr update_timer = this->create_wall_timer(33ms, std::bind(&updateCallback, this));
+        rclcpp::TimerBase::SharedPtr update_timer = this->create_wall_timer(33ms, std::bind(&ObjGenerator::updateCallback, this));
         cout << "[dynamic]: initialize with " + to_string(obj_num) << " moving obj." << endl;
         rclcpp::sleep_for(1000ms);
               

@@ -5,11 +5,19 @@
 #include <Eigen/StdVector>
 
 #include <queue>
-#include <ros/ros.h>
+
 #include <tuple>
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+
+
+#include <rclcpp/node.hpp>
+#include <rclcpp/publisher.hpp>
+#include <rclcpp/service.hpp>
+#include <rclcpp/subscription.hpp>
+
+
 
 using namespace std;
 
@@ -25,14 +33,14 @@ struct MapData;
 class MapROS;
 class MultiMapManager;
 
-class SDFMap {
+class SDFMap : public rclcpp::Node{
 public:
   SDFMap();
   ~SDFMap();
 
   enum OCCUPANCY { UNKNOWN, FREE, OCCUPIED };
 
-  void initMap(ros::NodeHandle& nh);
+  void initMap();
   void inputPointCloud(const pcl::PointCloud<pcl::PointXYZ>& points, const int& point_num,
       const Eigen::Vector3d& camera_pos);
 

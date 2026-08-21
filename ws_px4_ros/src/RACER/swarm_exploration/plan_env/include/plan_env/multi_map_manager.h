@@ -2,7 +2,6 @@
 #define _MULTI_MAP_MANAGER_H
 
 #include <pcl_conversions/pcl_conversions.h>
-#include <ros/ros.h>
 
 #include <plan_env/ChunkStamps.h>
 #include <plan_env/ChunkData.h>
@@ -11,6 +10,13 @@
 #include <random>
 #include <vector>
 #include <unordered_map>
+
+
+#include <rclcpp/node.hpp>
+#include <rclcpp/publisher.hpp>
+#include <rclcpp/service.hpp>
+#include <rclcpp/subscription.hpp>
+
 
 using std::shared_ptr;
 using std::vector;
@@ -61,8 +67,8 @@ private:
   void insertChunkToMap(const MapChunk& chunk, const int& chunk_drone_id);
   void adrToIndex(const uint32_t& adr, Eigen::Vector3i& idx);
 
-  void stampTimerCallback(const ros::TimerEvent& e);
-  void chunkTimerCallback(const ros::TimerEvent& e);
+  void stampTimerCallback();
+  void chunkTimerCallback();
   void stampMsgCallback(const plan_env::ChunkStampsConstPtr& msg);
   void chunkCallback(const plan_env::ChunkDataConstPtr& msg);
 
@@ -80,10 +86,12 @@ private:
   int chunk_size_;
 
   SDFMap* map_;
-  ros::NodeHandle node_;
-  ros::Publisher stamp_pub_, chunk_pub_, marker_pub_;
-  ros::Subscriber stamp_sub_, chunk_sub_;
-  ros::Timer stamp_timer_, chunk_timer_;
+  ros::Publisher stamp_pub_, 
+  ros::Publisher chunk_pub_, 
+  ros::Publisher marker_pub_;
+  ros::Subscriber stamp_sub_, 
+  ros::Subscriber chunk_sub_;
+  rclcpp::TimerBase::SharedPtr stamp_timer_, chunk_timer_;
 
   vector<ChunksData> multi_map_chunks_;               // Main map data
   vector<uint32_t> adr_buffer_;                       // Buffer for chunks of this map

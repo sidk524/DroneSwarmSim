@@ -3,11 +3,17 @@
 
 #include <Eigen/Eigen>
 #include <algorithm>
-#include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <iostream>
 #include <list>
-#include <ros/ros.h>
-#include <visualization_msgs/Marker.h>
+#include <rclcpp/node.hpp>
+#include <visualization_msgs/msg/marker.hpp>
+#include <vector>
+
+#include <rclcpp/publisher.hpp>
+#include <rclcpp/service.hpp>
+#include <rclcpp/subscription.hpp>
+
 
 using std::cout;
 using std::endl;
@@ -69,20 +75,20 @@ public:
 };
 
 /* ========== subscribe and record object history ========== */
-class ObjHistory {
+class ObjHistory : public rclcpp::Node {
 public:
   static int skip_num_;
   static int queue_size_;
-  static ros::Time global_start_time_;
+  static rclcpp::Time global_start_time_;
 
-  ObjHistory() {
+  ObjHistory() : rclcpp::Node("obj_history"){
   }
   ~ObjHistory() {
   }
 
   void init(int id);
 
-  void poseCallback(const geometry_msgs::PoseStampedConstPtr& msg);
+  void poseCallback(const geometry_msgs::msg::PoseStamped msg);
 
   void clear() {
     history_.clear();
@@ -100,17 +106,16 @@ private:
 };
 
 /* ========== predict future trajectory using history ========== */
-class ObjPredictor {
+class ObjPredictor : public rclcpp::Node {
 private:
-  ros::NodeHandle node_handle_;
 
   int obj_num_;
   double lambda_;
   double predict_rate_;
 
-  vector<ros::Subscriber> pose_subs_;
-  ros::Subscriber marker_sub_;
-  ros::Timer predict_timer_;
+  vector<rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr> pose_subs_;
+  rclcpp::Subscription<visualization_msgs::msg::Marker>::SharedPtr marker_sub_;
+  rclcpp::TimerBase::SharedPtr predict_timer_;
   vector<shared_ptr<ObjHistory>> obj_histories_;
 
   /* share data with planner */
@@ -118,15 +123,14 @@ private:
   ObjScale obj_scale_;
   vector<bool> scale_init_;
 
-  void markerCallback(const visualization_msgs::MarkerConstPtr& msg);
+  void markerCallback(const visualization_msgs::msg::Marker msg);
 
-  void predictCallback(const ros::TimerEvent& e);
+  void predictCallback();
   void predictPolyFit();
   void predictConstVel();
 
 public:
-  ObjPredictor(/* args */);
-  ObjPredictor(ros::NodeHandle& node);
+  ObjPredictor();
   ~ObjPredictor();
 
   void init();
@@ -137,6 +141,7 @@ public:
   typedef shared_ptr<ObjPredictor> Ptr;
 };
 
-}  // namespace fast_planner
+}
+  // namespace fast_planner
 
 #endif

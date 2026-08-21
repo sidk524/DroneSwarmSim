@@ -415,11 +415,11 @@ void HeadingPlanner::calcFovAABB(const Eigen::Matrix3d& R_wc, const Eigen::Vecto
 }
 
 void HeadingPlanner::visualizeBox(const Eigen::Vector3d& lb, const Eigen::Vector3d& ub) {
-  visualization_msgs::Marker mk;
+  visualization_msgs::msg::Marker mk;
   mk.header.frame_id = "world";
   mk.header.stamp = this->get_clock()->now();
-  mk.type = visualization_msgs::Marker::CUBE;
-  mk.action = visualization_msgs::Marker::ADD;
+  mk.type = visualization_msgs::msg::Marker::CUBE;
+  mk.action = visualization_msgs::msg::Marker::ADD;
   mk.id = 0;
 
   Eigen::Vector3d pos = 0.5 * (lb + ub);
