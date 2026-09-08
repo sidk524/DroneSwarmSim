@@ -37,7 +37,9 @@ if(BUILD_TESTING)
 endif()
 
 
-# link_directories(/usr/local/lib)
+link_directories(/usr/local/lib
+)
+
 
 add_executable(drone_detect
   src/${PROJECT_NAME}_node.cpp
