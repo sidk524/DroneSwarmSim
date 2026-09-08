@@ -36,23 +36,25 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-include_directories(
-  include
-  ${EIGEN3_INCLUDE_DIR}
-  ${Boost_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
-  ${cv_bridge_INCLUDE_DIRS}
-)
 
-link_directories(/usr/local/lib)
+# link_directories(/usr/local/lib)
 
 add_executable(drone_detect
   src/${PROJECT_NAME}_node.cpp
   src/drone_detector.cpp
 )
+
 target_compile_features(drone_detect PUBLIC cxx_std_17)
 
-ament_target_dependencies(drone_detect rclcpp sensor_msgs nav_msgs geometry_msgs std_srvs cv_bridge Eigen3 OpenCV Boost message_filters)
+
+ament_target_dependencies(drone_detect rclcpp sensor_msgs nav_msgs geometry_msgs std_srvs OpenCV cv_bridge Eigen3 Boost message_filters)
+
+target_include_directories(
+  drone_detect PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+)
+
 
 # Install targets
 install(
@@ -83,12 +85,13 @@ install(
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
 
 # Enable testing
-# if(BUILD_TESTING)
-#   find_package(ament_cmake_gtest REQUIRED)
-#   ament_add_gtest(${PROJECT_NAME}-test
-#     test/test_drone_detector.cpp
-#   )
-#   ament_target_dependencies(${PROJECT_NAME}-test rclcpp sensor_msgs nav_msgs geometry_msgs std_srvs cv_bridge Eigen3 OpenCV Boost message_filters)
-# endif()
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(${PROJECT_NAME}-test
+    test/test_drone_detector.cpp
+  )
+  ament_target_dependencies(${PROJECT_NAME}-test rclcpp sensor_msgs nav_msgs geometry_msgs std_srvs cv_bridge Eigen3 OpenCV Boost message_filters)
+endif()
+
 
 ament_package() 
