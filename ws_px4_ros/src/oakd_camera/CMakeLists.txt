@@ -15,7 +15,7 @@ find_package(px4_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(px4_ros2_cpp REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
-find_package(depthai REQUIRED)
+find_package(depthai_v3 REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

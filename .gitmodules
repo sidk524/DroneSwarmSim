@@ -20,3 +20,6 @@
 [submodule "ws_px4_ros/src/octomap_msgs"]
 	path = ws_px4_ros/src/octomap_msgs
 	url = git@github.com:OctoMap/octomap_msgs.git
+[submodule "opencv"]
+	path = opencv
+	url = git@github.com:opencv/opencv.git
