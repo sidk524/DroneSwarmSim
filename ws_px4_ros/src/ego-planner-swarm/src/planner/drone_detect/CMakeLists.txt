@@ -48,6 +48,8 @@ add_executable(drone_detect
 
 target_compile_features(drone_detect PUBLIC cxx_std_17)
 
+target_link_libraries(drone_detect Eigen3::Eigen)
+target_link_libraries(drone_detect ${OpenCV_LIBS})
 
 ament_target_dependencies(drone_detect rclcpp sensor_msgs nav_msgs geometry_msgs std_srvs OpenCV cv_bridge Eigen3 Boost message_filters)
 

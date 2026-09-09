@@ -87,14 +87,14 @@ void PublishArucoMarkerFrame::publish_aruco_marker_frame(cv::Vec3d tvec, cv::Vec
 
 
 void PublishArucoMarkerFrame::image_callback(sensor_msgs::msg::Image::SharedPtr image_msg) {
-    cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
-    cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
-    cv::aruco::ArucoDetector detector(dictionary, detectorParams);
+    cv::Ptr<cv::aruco::DetectorParameters> detectorParams = cv::aruco::DetectorParameters::create();
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    //cv::aruco::ArucoDetector detector(dictionary, detectorParams);
 
     my_msgs::msg::TvecRvec msg;
 
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(image_msg, sensor_msgs::image_encodings::BGR8);
-    detector.detectMarkers(cv_ptr->image, markerCorners, markerIds, rejectedCandidates);
+    cv::aruco::detectMarkers(cv_ptr->image, dictionary, markerCorners, markerIds, detectorParams, rejectedCandidates);
     if (markerIds.size() > 0){
         cv::solvePnP(objPoints, markerCorners[0],    
             cameraMatrix, distortionCoefficients, rvec, tvec);

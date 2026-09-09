@@ -24,7 +24,7 @@
 #include <px4_ros2/odometry/local_position.hpp>
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/objdetect/aruco_detector.hpp>
+#include <opencv2/aruco.hpp>
 #include <vector>
 
 #include "tf2_ros/transform_listener.hpp"

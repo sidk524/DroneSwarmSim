@@ -25,7 +25,8 @@
 #include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.hpp>
 
-#include <opencv2/objdetect/aruco_detector.hpp>
+#include <opencv2/aruco.hpp>
+
 #include <my_msgs/msg/tvec_rvec.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include "sensor_msgs/msg/camera_info.hpp"
@@ -73,11 +74,11 @@ class PublishArucoMarkerFrame : public rclcpp::Node {
         cv::Vec3d rvec;
 
 
-        cv::aruco::DetectorParameters detectorParams;
-        cv::aruco::Dictionary dictionary;
+        cv::Ptr<cv::aruco::DetectorParameters> detectorParams;
+        cv::Ptr<cv::aruco::Dictionary> dictionary;
         
         std::vector<std::vector<cv::Point2f>> markerCorners, rejectedCandidates;
-        cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);
+        //cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);
         std::vector<int> markerIds;
 
 
