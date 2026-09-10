@@ -1,0 +1,21 @@
+{
+  "crashdumpTimestamp": "2026-09-10 06:38:14",
+  "crashdumpVersion": "1.0.0",
+  "depthaiBootloaderVersion": "0.0.29",
+  "depthaiBuildDatetime": "2026-08-17 21:34:15 +0000",
+  "depthaiCommitDatetime": "",
+  "depthaiCommitHash": "",
+  "depthaiDeviceRVC3Version": "0.0.1+462021e2f146d868dfe59cdf9230c3b733bef115",
+  "depthaiDeviceRVC4Version": "0.0.1+58d182b6fce698d1c84c07cac440535774defbde",
+  "depthaiDeviceVersion": "ac60599e9650fbfec38ff4b5acb4448a402889b0",
+  "depthaiVersion": "3.9.0",
+  "depthaiVersionBuildInfo": "",
+  "depthaiVersionMajor": "3",
+  "depthaiVersionMinor": "9",
+  "depthaiVersionPatch": "0",
+  "depthaiVersionPreReleaseType": "",
+  "depthaiVersionPreReleaseVersion": "0",
+  "deviceId": "19443010D1BC9F5A00",
+  "osPlatform": "Linux",
+  "platform": "RVC2"
+}

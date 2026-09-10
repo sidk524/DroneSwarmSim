@@ -1,0 +1,3293 @@
+{
+  "crashReports": [
+    {
+      "crashedThreadId": 184614940,
+      "errorSource": "RTEMS_FATAL_SOURCE_INVALID_HEAP_FREE",
+      "errorSourceInfo": {
+        "assertContext": {
+          "fileName": "",
+          "functionName": "",
+          "line": 0
+        },
+        "errorId": 2294602432,
+        "trapContext": {
+          "trapAddress": 0,
+          "trapName": "",
+          "trapNumber": 0
+        }
+      },
+      "prints": [
+        "sippPalThreadCreate: Thread /SIPP created",
+        "Initing ImgPreproc system!",
+        "Inited ImgPreproc system!",
+        "LRT - build pipeline call",
+        "[FAIL ] - Start Source: Invalid config steps, 1 -- ../..//mdk/common/components/flic/plugins/arch/ma2x8x/plgSrcMipi/leon/PlgSrcMipi.cpp: threadFunc:1019 >>",
+        "assertion \"0\" failed: file \"../..//mdk/common/components/flic/plugins/arch/ma2x8x/plgSrcMipi/leon/PlgSrcMipi.cpp\", line 1020, function: virtual void* PlgSrcMipi::threadFunc(void*)",
+        "",
+        "Fatal error RTEMS_FATAL_SOURCE_INVALID_HEAP_FREE",
+        "Error -2000364864 ",
+        "=== crashdumpmgr::stackTrace: Collecting... buffer size 80000"
+      ],
+      "processor": 1,
+      "statusFlags": 0,
+      "threadCallstack": [
+        {
+          "callStack": [
+            {
+              "callSite": 2157154548,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162224192
+            },
+            {
+              "callSite": 2157147844,
+              "calledTarget": 2157154292,
+              "context": "",
+              "framePointer": 2162224288
+            },
+            {
+              "callSite": 2154095904,
+              "calledTarget": 2157147756,
+              "context": "",
+              "framePointer": 2162224424
+            },
+            {
+              "callSite": 2157169520,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162224536
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162224632
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162224728
+            }
+          ],
+          "instructionPointer": 2157154548,
+          "stackBottom": 2162208440,
+          "stackPointer": 2162224192,
+          "stackTop": 2162224823,
+          "threadId": 167837697,
+          "threadName": "CBTH",
+          "threadStatus": "WAITING_FOR_MESSAGE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157140844,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162256600
+            },
+            {
+              "callSite": 2157141264,
+              "calledTarget": 2157140756,
+              "context": "",
+              "framePointer": 2162256768
+            },
+            {
+              "callSite": 2156271828,
+              "calledTarget": 2157141248,
+              "context": "",
+              "framePointer": 2162256864
+            },
+            {
+              "callSite": 2148084700,
+              "calledTarget": 2156271808,
+              "context": "",
+              "framePointer": 2162256976
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162257456
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162257552
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162257648
+            }
+          ],
+          "instructionPointer": 2157140844,
+          "stackBottom": 2162224976,
+          "stackPointer": 2162256600,
+          "stackTop": 2162257743,
+          "threadId": 184614913,
+          "threadName": "main",
+          "threadStatus": "UNKNOWN"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162290120
+            },
+            {
+              "callSite": 2150020872,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162290256
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162290376
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162290472
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162290568
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162257896,
+          "stackPointer": 2162290120,
+          "stackTop": 2162290663,
+          "threadId": 184614914,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162323648
+            },
+            {
+              "callSite": 2153750888,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162323784
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162323880
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162323976
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162324072
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162291400,
+          "stackPointer": 2162323648,
+          "stackTop": 2162324167,
+          "threadId": 184614915,
+          "threadName": "RmtBarrThrd",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162356384
+            },
+            {
+              "callSite": 2154472184,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162356520
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162356704
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162356800
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162356896
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162356992
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162324320,
+          "stackPointer": 2162356384,
+          "stackTop": 2162357087,
+          "threadId": 184614916,
+          "threadName": "",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162389016
+            },
+            {
+              "callSite": 2152466132,
+              "calledTarget": 2148615208,
+              "context": "",
+              "framePointer": 2162389152
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162389624
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162389720
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162389816
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162389912
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162357240,
+          "stackPointer": 2162389016,
+          "stackTop": 2162390007,
+          "threadId": 184614917,
+          "threadName": "IpcPipelineBuil",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157154548,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162458808
+            },
+            {
+              "callSite": 2157138352,
+              "calledTarget": 2157154292,
+              "context": "",
+              "framePointer": 2162458904
+            },
+            {
+              "callSite": 2153893948,
+              "calledTarget": 2157138200,
+              "context": "",
+              "framePointer": 2162459040
+            },
+            {
+              "callSite": 2153955448,
+              "calledTarget": 2153893932,
+              "context": "",
+              "framePointer": 2162459144
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162459256
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162459352
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162459448
+            }
+          ],
+          "instructionPointer": 2157154548,
+          "stackBottom": 2162426776,
+          "stackPointer": 2162458808,
+          "stackTop": 2162459543,
+          "threadId": 184614919,
+          "threadName": "SIPP",
+          "threadStatus": "WAITING_FOR_MESSAGE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162502680
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162502816
+            },
+            {
+              "callSite": 2148613728,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2162502944
+            },
+            {
+              "callSite": 2148635848,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162503048
+            },
+            {
+              "callSite": 2148611264,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162503160
+            },
+            {
+              "callSite": 2148620008,
+              "calledTarget": 2148611232,
+              "context": "",
+              "framePointer": 2162503256
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162503584
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162503680
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162503776
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162503872
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162471200,
+          "stackPointer": 2162502680,
+          "stackTop": 2162503967,
+          "threadId": 184614920,
+          "threadName": "CTAgO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162543904
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162544040
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2162544168
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162544272
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162544384
+            },
+            {
+              "callSite": 2153819124,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2162544480
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162544704
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162544800
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162544896
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162544992
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162512320,
+          "stackPointer": 2162543904,
+          "stackTop": 2162545087,
+          "threadId": 184614921,
+          "threadName": "PlgSrcMipi",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162578048
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2162578184
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162578304
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162578400
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162578496
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162545824,
+          "stackPointer": 2162578048,
+          "stackTop": 2162578591,
+          "threadId": 184614922,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162610400
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162610536
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2162610664
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162610768
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162610880
+            },
+            {
+              "callSite": 2153799468,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2162610976
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162611128
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162611224
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162611320
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162611416
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162578744,
+          "stackPointer": 2162610400,
+          "stackTop": 2162611511,
+          "threadId": 184614923,
+          "threadName": "PlgIspCtrl",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162642184
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162642320
+            },
+            {
+              "callSite": 2148671224,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2162642448
+            },
+            {
+              "callSite": 2148638696,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162642560
+            },
+            {
+              "callSite": 2148611840,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162642672
+            },
+            {
+              "callSite": 2153801532,
+              "calledTarget": 2148611808,
+              "context": "",
+              "framePointer": 2162642768
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162644048
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162644144
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162644240
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162644336
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162611664,
+          "stackPointer": 2162642184,
+          "stackTop": 2162644431,
+          "threadId": 184614924,
+          "threadName": "PlgMonoIsp",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162676808
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2162676944
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162677064
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162677160
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162677256
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162644584,
+          "stackPointer": 2162676808,
+          "stackTop": 2162677351,
+          "threadId": 184614925,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162709536
+            },
+            {
+              "callSite": 2148671076,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2162709672
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162709888
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162709984
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162710080
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162710176
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162677504,
+          "stackPointer": 2162709536,
+          "stackTop": 2162710271,
+          "threadId": 184614926,
+          "threadName": "RmtI",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162741888
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162742024
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2162742152
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162742256
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162742368
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2162742464
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162742808
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162742904
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162743000
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162743096
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162710424,
+          "stackPointer": 2162741888,
+          "stackTop": 2162743191,
+          "threadId": 184614927,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162774808
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162774944
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2162775072
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162775176
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162775288
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2162775384
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162775728
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162775824
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162775920
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162776016
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162743344,
+          "stackPointer": 2162774808,
+          "stackTop": 2162776111,
+          "threadId": 184614928,
+          "threadName": "CRmO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162815992
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162816128
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2162816256
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162816360
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162816472
+            },
+            {
+              "callSite": 2149890452,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2162816568
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162816848
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162816944
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162817040
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162817136
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162784464,
+          "stackPointer": 2162815992,
+          "stackTop": 2162817231,
+          "threadId": 184614929,
+          "threadName": "PlgStereoSync",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157144228,
+              "calledTarget": 2157168420,
+              "context": "",
+              "framePointer": 2162850024
+            },
+            {
+              "callSite": 2153822584,
+              "calledTarget": 2157144060,
+              "context": "",
+              "framePointer": 2162850160
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162850352
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162850448
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162850544
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162850640
+            }
+          ],
+          "instructionPointer": 2157144228,
+          "stackBottom": 2162817968,
+          "stackPointer": 2162850024,
+          "stackTop": 2162850735,
+          "threadId": 184614930,
+          "threadName": "PlgStereo",
+          "threadStatus": "UNKNOWN"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162879696
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162879832
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2162879960
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162880064
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162880176
+            },
+            {
+              "callSite": 2149884856,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2162880272
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162883272
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162883368
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162883464
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162883560
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162850888,
+          "stackPointer": 2162879696,
+          "stackTop": 2162883655,
+          "threadId": 184614931,
+          "threadName": "PlgStereoLoader",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162916032
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2162916168
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162916288
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162916384
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162916480
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162883808,
+          "stackPointer": 2162916032,
+          "stackTop": 2162916575,
+          "threadId": 184614932,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162948144
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2162948280
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2162948408
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162948512
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162948624
+            },
+            {
+              "callSite": 2153729296,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2162948720
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162949112
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162949208
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162949304
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162949400
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162916728,
+          "stackPointer": 2162948144,
+          "stackTop": 2162949495,
+          "threadId": 184614933,
+          "threadName": "PlgStereoRectif",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2162981872
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2162982008
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162982128
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2162982224
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2162982320
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162949648,
+          "stackPointer": 2162981872,
+          "stackTop": 2162982415,
+          "threadId": 184614934,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163014792
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163014928
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163015048
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163015144
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163015240
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2162982568,
+          "stackPointer": 2163014792,
+          "stackTop": 2163015335,
+          "threadId": 184614935,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163047048
+            },
+            {
+              "callSite": 2148568644,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163047184
+            },
+            {
+              "callSite": 2148830564,
+              "calledTarget": 2148568560,
+              "context": "",
+              "framePointer": 2163047312
+            },
+            {
+              "callSite": 2148829576,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163047416
+            },
+            {
+              "callSite": 2148822956,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163047528
+            },
+            {
+              "callSite": 2153861452,
+              "calledTarget": 2148822924,
+              "context": "",
+              "framePointer": 2163047624
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163047872
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163047968
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163048064
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163048160
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163015488,
+          "stackPointer": 2163047048,
+          "stackTop": 2163048255,
+          "threadId": 184614936,
+          "threadName": "PlgWarpHW",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163087000
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163087136
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163087264
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163087368
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163087480
+            },
+            {
+              "callSite": 2149891696,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163087576
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163089152
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163089248
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163089344
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163089440
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163056768,
+          "stackPointer": 2163087000,
+          "stackTop": 2163089535,
+          "threadId": 184614937,
+          "threadName": "",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163123648
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163123784
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163123904
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163124000
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163124096
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163091424,
+          "stackPointer": 2163123648,
+          "stackTop": 2163124191,
+          "threadId": 184614938,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163155680
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163155816
+            },
+            {
+              "callSite": 2148613728,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163155944
+            },
+            {
+              "callSite": 2148635848,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163156048
+            },
+            {
+              "callSite": 2148611264,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163156160
+            },
+            {
+              "callSite": 2148620008,
+              "calledTarget": 2148611232,
+              "context": "",
+              "framePointer": 2163156256
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163156584
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163156680
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163156776
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163156872
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163124200,
+          "stackPointer": 2163155680,
+          "stackTop": 2163156967,
+          "threadId": 184614939,
+          "threadName": "CTAgO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2153682752,
+              "calledTarget": 2153678436,
+              "context": "",
+              "framePointer": 2163187520
+            },
+            {
+              "callSite": 2157176860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163187616
+            },
+            {
+              "callSite": 1881162980,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163187712
+            },
+            {
+              "callSite": 2157177012,
+              "calledTarget": 1881162912,
+              "context": "",
+              "framePointer": 2163187832
+            },
+            {
+              "callSite": 2157102980,
+              "calledTarget": 2157176992,
+              "context": "",
+              "framePointer": 2163187936
+            },
+            {
+              "callSite": 2148033236,
+              "calledTarget": 2156373496,
+              "context": "",
+              "framePointer": 2163188032
+            },
+            {
+              "callSite": 2148110352,
+              "calledTarget": 2148033176,
+              "context": "",
+              "framePointer": 2163188128
+            },
+            {
+              "callSite": 2156334276,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163188224
+            },
+            {
+              "callSite": 2156243924,
+              "calledTarget": 2156333960,
+              "context": "",
+              "framePointer": 2163188320
+            },
+            {
+              "callSite": 2157186792,
+              "calledTarget": 2156243916,
+              "context": "",
+              "framePointer": 2163188416
+            },
+            {
+              "callSite": 2157187068,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163188512
+            },
+            {
+              "callSite": 2157187276,
+              "calledTarget": 2157186956,
+              "context": "",
+              "framePointer": 2163188624
+            },
+            {
+              "callSite": 1881162712,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163188720
+            },
+            {
+              "callSite": 2157186492,
+              "calledTarget": 2157166320,
+              "context": "",
+              "framePointer": 2163188824
+            },
+            {
+              "callSite": 2156243680,
+              "calledTarget": 2156268140,
+              "context": "",
+              "framePointer": 2163188936
+            },
+            {
+              "callSite": 2156243760,
+              "calledTarget": 2156243676,
+              "context": "",
+              "framePointer": 2163189032
+            },
+            {
+              "callSite": 2153819472,
+              "calledTarget": 2156243700,
+              "context": "",
+              "framePointer": 2163189136
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163189360
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163189456
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163189552
+            },
+            {
+              "callSite": 184614941,
+              "calledTarget": 1349807474,
+              "context": "Thread exit",
+              "framePointer": 7106415
+            }
+          ],
+          "instructionPointer": 2153682752,
+          "stackBottom": 2163156976,
+          "stackPointer": 2163187520,
+          "stackTop": 2163189743,
+          "threadId": 184614940,
+          "threadName": "PlgSrcMipi",
+          "threadStatus": "READY"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163221976
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163222112
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163222232
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163222328
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163222424
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163189752,
+          "stackPointer": 2163221976,
+          "stackTop": 2163222519,
+          "threadId": 184614941,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163254184
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163254320
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163254448
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163254552
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163254664
+            },
+            {
+              "callSite": 2153799468,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163254760
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163254912
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163255008
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163255104
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163255200
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163222528,
+          "stackPointer": 2163254184,
+          "stackTop": 2163255295,
+          "threadId": 184614942,
+          "threadName": "PlgIspCtrl",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163285968
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163286104
+            },
+            {
+              "callSite": 2148671224,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163286232
+            },
+            {
+              "callSite": 2148638696,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163286344
+            },
+            {
+              "callSite": 2148611840,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163286456
+            },
+            {
+              "callSite": 2153801532,
+              "calledTarget": 2148611808,
+              "context": "",
+              "framePointer": 2163286552
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163287832
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163287928
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163288024
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163288120
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163255448,
+          "stackPointer": 2163285968,
+          "stackTop": 2163288215,
+          "threadId": 184614943,
+          "threadName": "PlgMonoIsp",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163320592
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163320728
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163320848
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163320944
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163321040
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163288368,
+          "stackPointer": 2163320592,
+          "stackTop": 2163321135,
+          "threadId": 184614944,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163361720
+            },
+            {
+              "callSite": 2148671076,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163361856
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163362072
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163362168
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163362264
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163362360
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163329688,
+          "stackPointer": 2163361720,
+          "stackTop": 2163362455,
+          "threadId": 184614945,
+          "threadName": "RmtI",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163394512
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163394648
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163394776
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163394880
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163394992
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2163395088
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163395432
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163395528
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163395624
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163395720
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163363048,
+          "stackPointer": 2163394512,
+          "stackTop": 2163395815,
+          "threadId": 184614946,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163427432
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163427568
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163427696
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163427800
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163427912
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2163428008
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163428352
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163428448
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163428544
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163428640
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163395968,
+          "stackPointer": 2163427432,
+          "stackTop": 2163428735,
+          "threadId": 184614947,
+          "threadName": "CRmO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163460368
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163460504
+            },
+            {
+              "callSite": 2148613728,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163460632
+            },
+            {
+              "callSite": 2148635848,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163460736
+            },
+            {
+              "callSite": 2148611264,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163460848
+            },
+            {
+              "callSite": 2148620008,
+              "calledTarget": 2148611232,
+              "context": "",
+              "framePointer": 2163460944
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163461272
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163461368
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163461464
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163461560
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163428888,
+          "stackPointer": 2163460368,
+          "stackTop": 2163461655,
+          "threadId": 184614948,
+          "threadName": "CTAgO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163493392
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163493528
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163493656
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163493760
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163493872
+            },
+            {
+              "callSite": 2153819124,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2163493968
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163494192
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163494288
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163494384
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163494480
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163461808,
+          "stackPointer": 2163493392,
+          "stackTop": 2163494575,
+          "threadId": 184614949,
+          "threadName": "PlgSrcMipi",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163526952
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163527088
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163527208
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163527304
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163527400
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163494728,
+          "stackPointer": 2163526952,
+          "stackTop": 2163527495,
+          "threadId": 184614950,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163559304
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163559440
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163559568
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163559672
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163559784
+            },
+            {
+              "callSite": 2153799468,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163559880
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163560032
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163560128
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163560224
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163560320
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163527648,
+          "stackPointer": 2163559304,
+          "stackTop": 2163560415,
+          "threadId": 184614951,
+          "threadName": "PlgIspCtrl",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163591080
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163591216
+            },
+            {
+              "callSite": 2148671224,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163591344
+            },
+            {
+              "callSite": 2148638696,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163591456
+            },
+            {
+              "callSite": 2148611840,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163591568
+            },
+            {
+              "callSite": 2153775732,
+              "calledTarget": 2148611808,
+              "context": "",
+              "framePointer": 2163591664
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163592952
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163593048
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163593144
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163593240
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163560568,
+          "stackPointer": 2163591080,
+          "stackTop": 2163593335,
+          "threadId": 184614952,
+          "threadName": "PlgColorIsp1xPo",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163634152
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163634288
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163634408
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163634504
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163634600
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163601928,
+          "stackPointer": 2163634152,
+          "stackTop": 2163634695,
+          "threadId": 184614953,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163667320
+            },
+            {
+              "callSite": 2148671076,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163667456
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163667672
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163667768
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163667864
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163667960
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163635288,
+          "stackPointer": 2163667320,
+          "stackTop": 2163668055,
+          "threadId": 184614954,
+          "threadName": "RmtI",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163699672
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163699808
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163699936
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163700040
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163700152
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2163700248
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163700592
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163700688
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163700784
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163700880
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163668208,
+          "stackPointer": 2163699672,
+          "stackTop": 2163700975,
+          "threadId": 184614955,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163732592
+            },
+            {
+              "callSite": 2148567244,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163732728
+            },
+            {
+              "callSite": 2148613536,
+              "calledTarget": 2148567160,
+              "context": "",
+              "framePointer": 2163732856
+            },
+            {
+              "callSite": 2148639328,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163732960
+            },
+            {
+              "callSite": 2148612120,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163733072
+            },
+            {
+              "callSite": 2148619704,
+              "calledTarget": 2148612088,
+              "context": "",
+              "framePointer": 2163733168
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163733512
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163733608
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163733704
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163733800
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163701128,
+          "stackPointer": 2163732592,
+          "stackTop": 2163733895,
+          "threadId": 184614956,
+          "threadName": "CRmO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163763816
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163763952
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163764080
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163764184
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163764296
+            },
+            {
+              "callSite": 2148880108,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163764392
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163766432
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163766528
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163766624
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163766720
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163734048,
+          "stackPointer": 2163763816,
+          "stackTop": 2163766815,
+          "threadId": 184614957,
+          "threadName": "PlgImageManipV2",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163799192
+            },
+            {
+              "callSite": 2148655184,
+              "calledTarget": 2148615188,
+              "context": "",
+              "framePointer": 2163799328
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163799448
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163799544
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163799640
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163766968,
+          "stackPointer": 2163799192,
+          "stackTop": 2163799735,
+          "threadId": 184614958,
+          "threadName": "rmtPool",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163831384
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163831520
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163831648
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163831752
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163831864
+            },
+            {
+              "callSite": 2153609684,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163831960
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163832272
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163832368
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163832464
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163832560
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163799888,
+          "stackPointer": 2163831384,
+          "stackTop": 2163832655,
+          "threadId": 184614959,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163864304
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163864440
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163864568
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163864672
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163864784
+            },
+            {
+              "callSite": 2153609684,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163864880
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163865192
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163865288
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163865384
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163865480
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163832808,
+          "stackPointer": 2163864304,
+          "stackTop": 2163865575,
+          "threadId": 184614960,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163905704
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163905840
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163905968
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163906072
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163906184
+            },
+            {
+              "callSite": 2153609684,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163906280
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163906592
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163906688
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163906784
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163906880
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163874208,
+          "stackPointer": 2163905704,
+          "stackTop": 2163906975,
+          "threadId": 184614961,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163939064
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163939200
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163939328
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163939432
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163939544
+            },
+            {
+              "callSite": 2153609684,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163939640
+            },
+            {
+              "callSite": 2153751708,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163939952
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163940048
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163940144
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163940240
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163907568,
+          "stackPointer": 2163939064,
+          "stackTop": 2163940335,
+          "threadId": 184614962,
+          "threadName": "RmtO",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157150524,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2163967488
+            },
+            {
+              "callSite": 2148566744,
+              "calledTarget": 2157150372,
+              "context": "",
+              "framePointer": 2163967624
+            },
+            {
+              "callSite": 2148594944,
+              "calledTarget": 2148566660,
+              "context": "",
+              "framePointer": 2163967752
+            },
+            {
+              "callSite": 2148588148,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163967856
+            },
+            {
+              "callSite": 2148579872,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163967968
+            },
+            {
+              "callSite": 2153825792,
+              "calledTarget": 2148579840,
+              "context": "",
+              "framePointer": 2163968064
+            },
+            {
+              "callSite": 2153832792,
+              "calledTarget": 2153825344,
+              "context": "",
+              "framePointer": 2163972872
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163972968
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2163973064
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2163973160
+            }
+          ],
+          "instructionPointer": 2157150524,
+          "stackBottom": 2163940488,
+          "stackPointer": 2163967488,
+          "stackTop": 2163973255,
+          "threadId": 184614963,
+          "threadName": "PlgStereo",
+          "threadStatus": "WAITING_FOR_SEMAPHORE"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157181528,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2164000608
+            },
+            {
+              "callSite": 2148893544,
+              "calledTarget": 2157181436,
+              "context": "",
+              "framePointer": 2164000744
+            },
+            {
+              "callSite": 2153825772,
+              "calledTarget": 2148893532,
+              "context": "",
+              "framePointer": 2164000840
+            },
+            {
+              "callSite": 2153832792,
+              "calledTarget": 2153825344,
+              "context": "",
+              "framePointer": 2164005648
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164005744
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164005840
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2164005936
+            }
+          ],
+          "instructionPointer": 2157181528,
+          "stackBottom": 2163973264,
+          "stackPointer": 2164000608,
+          "stackTop": 2164006031,
+          "threadId": 184614964,
+          "threadName": "lgStereo",
+          "threadStatus": "WAITING_FOR_MUTEX"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157146664,
+              "calledTarget": 1881162428,
+              "context": "",
+              "framePointer": 2164039856
+            },
+            {
+              "callSite": 2157146476,
+              "calledTarget": 2157146500,
+              "context": "",
+              "framePointer": 2164039960
+            },
+            {
+              "callSite": 2153812248,
+              "calledTarget": 2157146372,
+              "context": "",
+              "framePointer": 2164040080
+            },
+            {
+              "callSite": 2153812752,
+              "calledTarget": 2153812136,
+              "context": "",
+              "framePointer": 2164040240
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164040336
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164040432
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2164040528
+            }
+          ],
+          "instructionPointer": 2157146664,
+          "stackBottom": 2164007856,
+          "stackPointer": 2164039856,
+          "stackTop": 2164040623,
+          "threadId": 184614965,
+          "threadName": "PlgSrcMipi",
+          "threadStatus": "WAITING_FOR_EVENT"
+        },
+        {
+          "callStack": [
+            {
+              "callSite": 2157154548,
+              "calledTarget": 2157170392,
+              "context": "",
+              "framePointer": 2164071976
+            },
+            {
+              "callSite": 2157138352,
+              "calledTarget": 2157154292,
+              "context": "",
+              "framePointer": 2164072072
+            },
+            {
+              "callSite": 2153813880,
+              "calledTarget": 2157138200,
+              "context": "",
+              "framePointer": 2164072208
+            },
+            {
+              "callSite": 2153815604,
+              "calledTarget": 2153813744,
+              "context": "",
+              "framePointer": 2164073160
+            },
+            {
+              "callSite": 2157169544,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164073256
+            },
+            {
+              "callSite": 1881162860,
+              "calledTarget": 0,
+              "context": "Thread handler",
+              "framePointer": 2164073352
+            },
+            {
+              "callSite": 1881162764,
+              "calledTarget": 0,
+              "context": "Thread exit",
+              "framePointer": 2164073448
+            }
+          ],
+          "instructionPointer": 2157154548,
+          "stackBottom": 2164040776,
+          "stackPointer": 2164071976,
+          "stackTop": 2164073543,
+          "threadId": 184614966,
+          "threadName": "PlgSrcMipi",
+          "threadStatus": "WAITING_FOR_MESSAGE"
+        }
+      ],
+      "timerRaw": 2676914127,
+      "uptimeNs": 3134939386
+    }
+  ],
+  "depthaiCommitHash": "ac60599e9650fbfec38ff4b5acb4448a402889b0",
+  "deviceId": "19443010D1BC9F5A00"
+}
