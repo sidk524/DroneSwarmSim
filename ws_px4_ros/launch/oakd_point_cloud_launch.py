@@ -12,6 +12,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import LoadComposableNodes
 from launch_ros.descriptions import ComposableNode
 
+
 def launch_setup(context, *args, **kwargs):
     params_file = LaunchConfiguration("params_file")
     depthai_prefix = get_package_share_directory("depthai_ros_driver_v3")
@@ -52,12 +53,10 @@ def launch_setup(context, *args, **kwargs):
     ]
 
 
-
 def generate_launch_description():
     depthai_prefix = get_package_share_directory("depthai_ros_driver_v3")
     declared_arguments = [
         DeclareLaunchArgument("name", default_value="oak"),
-        DeclareLaunchArgument("camera_model", default_value="OAK-D"),
         DeclareLaunchArgument("parent_frame", default_value="oak_parent_frame"),
         DeclareLaunchArgument("cam_pos_x", default_value="0.0"),
         DeclareLaunchArgument("cam_pos_y", default_value="0.0"),
@@ -66,15 +65,10 @@ def generate_launch_description():
         DeclareLaunchArgument("cam_pitch", default_value="0.0"),
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
-           "params_file",
-            default_value="/home/sidk524/Documents/DroneSwarmSim/ws_px4_ros/launch/camera_params.yaml",
-        ),  
-        DeclareLaunchArgument("use_rviz", default_value="False"),
-        DeclareLaunchArgument(
-            "rviz_config",
-            default_value=os.path.join(depthai_prefix, "config", "rviz", "rgbd.rviz"),
+            "params_file",
+            default_value=os.path.join(depthai_prefix, "config", "pcl.yaml"),
         ),
-        DeclareLaunchArgument("rs_compat", default_value="False"),
+        DeclareLaunchArgument("use_rviz", default_value="False"),
     ]
 
     return LaunchDescription(

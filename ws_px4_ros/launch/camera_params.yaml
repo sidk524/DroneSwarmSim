@@ -1,7 +1,13 @@
 /oak:
   ros__parameters:
-    driver:
-      i_usb_speed: "SUPER"
+    pipeline_gen:
+      i_pipeline_type: RGBD
+      i_nn_type: none
     rgb:
       i_width: 1920
       i_height: 1080
+      i_fps: 30.0
+    stereo:
+      i_width: 640
+      i_height: 480
+      i_fps: 30.0

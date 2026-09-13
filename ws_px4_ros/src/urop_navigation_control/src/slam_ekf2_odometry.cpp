@@ -19,7 +19,6 @@ SlamEkfOdometry::SlamEkfOdometry() : rclcpp::Node("slam_ekf2"){
 
     pythagPublisher = this->create_publisher<std_msgs::msg::Float64>("/pythagDistance", qosProfile);
 
-
     slamOdomSubscriber = this->create_subscription<nav_msgs::msg::Odometry>("/odom", qosProfile, 
         std::bind(&SlamEkfOdometry::slamOdomCallback, this, std::placeholders::_1));
 
