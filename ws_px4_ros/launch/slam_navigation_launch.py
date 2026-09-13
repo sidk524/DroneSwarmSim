@@ -9,7 +9,7 @@ def generate_launch_description():
     world = "jetty"
 
     remappings = [(
-                "rgb/image", "/fmu/out/camera_image"
+                "rgb/image", "/oak/rgb/camera_info"
             ), (
                 "rgb/camera_info", "/fmu/out/camera_info"
             ), (

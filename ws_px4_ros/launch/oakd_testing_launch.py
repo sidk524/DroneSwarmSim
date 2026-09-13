@@ -52,7 +52,7 @@ def generate_launch_description():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
            "params_file",
-            default_value="/home/sidk524/Documents/DroneSwarmSim/ws_px4_ros/launch/camera_params.yaml",
+            default_value="/home/sidk524/Documents/PersonalProjects/DroneSwarmSim/ws_px4_ros/launch/camera_params.yaml",
         ),
         DeclareLaunchArgument("use_rviz", default_value="False"),
         DeclareLaunchArgument(

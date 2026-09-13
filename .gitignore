@@ -2,6 +2,7 @@
 ws_px4_ros/build/
 ws_px4_ros/install/
 ws_px4_ros/log/
+ws_px4_ros/bags/
 
 # PX4
 PX4-Autopilot/build/
