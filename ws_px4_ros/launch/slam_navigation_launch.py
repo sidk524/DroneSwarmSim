@@ -106,14 +106,14 @@ def generate_launch_description():
         "odom_frame_id": "odom",
        # "use_sim_time": True,
         "approx_sync": True,
-        "sync_queue_size": 30,
+        "sync_queue_size": 10,
         # "topic_queue_size": 10,
-        "approx_sync_max_interval": 0.05,
+        "approx_sync_max_interval": 0.1,
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '1', 
-        "Grid/CellSize": "0.10",
+        'Rtabmap/DetectionRate': '2', 
+        "Grid/CellSize": "0.05",
 
         'fsm/flight_type': 1,              # 1 = /move_base_simple/goal, 2 = preset waypoints
         'fsm/thresh_replan_time': 0.5,
