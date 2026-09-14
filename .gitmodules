@@ -23,3 +23,9 @@
 [submodule "opencv"]
 	path = opencv
 	url = git@github.com:opencv/opencv.git
+[submodule "ws_px4_ros/src/depthai-ros"]
+	path = ws_px4_ros/src/depthai-ros
+	url = git@github.com:luxonis/depthai-ros.git
+[submodule "ws_px4_ros/src/depthai-core"]
+	path = ws_px4_ros/src/depthai-core
+	url = git@github.com:luxonis/depthai-core.git

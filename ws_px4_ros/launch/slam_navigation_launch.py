@@ -1,21 +1,99 @@
-from launch import LaunchDescription
 from launch_ros.actions import Node, LifecycleNode
-from launch.actions import RegisterEventHandler
+from launch.actions import RegisterEventHandler, TimerAction
 from launch_ros.event_handlers import OnStateTransition
+import os
+
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import (
+    DeclareLaunchArgument,
+    IncludeLaunchDescription,
+    OpaqueFunction,
+)
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import LoadComposableNodes
+from launch_ros.descriptions import ComposableNode
+
+
+
+def launch_setup(context, *args, **kwargs):
+    params_file = LaunchConfiguration("params_file")
+    depthai_prefix = get_package_share_directory("depthai_ros_driver_v3")
+
+    name = LaunchConfiguration("name").perform(context)
+
+    return [
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(depthai_prefix, "launch", "driver.launch.py")
+            ),
+            launch_arguments={
+                "name": name,
+                "params_file": params_file,
+                "parent_frame": LaunchConfiguration("parent_frame"),
+                "cam_pos_x": LaunchConfiguration("cam_pos_x"),
+                "cam_pos_y": LaunchConfiguration("cam_pos_y"),
+                "cam_pos_z": LaunchConfiguration("cam_pos_z"),
+                "cam_roll": LaunchConfiguration("cam_roll"),
+                "cam_pitch": LaunchConfiguration("cam_pitch"),
+                "cam_yaw": LaunchConfiguration("cam_yaw"),
+                "use_rviz": LaunchConfiguration("use_rviz"),
+            }.items(),
+        ),
+        # LoadComposableNodes(
+        #     target_container=name + "_container",
+        #     composable_node_descriptions=[
+        #         ComposableNode(
+        #             package="depth_image_proc",
+        #             plugin="depth_image_proc::PointCloudXyzNode",
+        #             name="point_cloud_xyz",
+        #             remappings=[ ("image_rect", name + "/stereo/image_raw"),
+        #                 ("points", name + "/points"),
+        #             ],
+        #         ),
+        #     ],
+        # ),
+    ]
 
 
 def generate_launch_description():
+#     arguments=["--x", "0.12", "--y", "0", "--z", "-0.06", "--yaw", "0", "--pitch", "0.174533", "--roll", "0",
+
+    depthai_prefix = get_package_share_directory("depthai_ros_driver_v3")
+    declared_arguments = [
+        DeclareLaunchArgument("name", default_value="oak"),
+        DeclareLaunchArgument("camera_model", default_value="OAK-D"),
+        DeclareLaunchArgument("parent_frame", default_value="base_link"),
+        DeclareLaunchArgument("cam_pos_x", default_value="0.12"),
+        DeclareLaunchArgument("cam_pos_y", default_value="0.0"),
+        DeclareLaunchArgument("cam_pos_z", default_value="-0.06"),
+        DeclareLaunchArgument("cam_roll", default_value="0.0"),
+        DeclareLaunchArgument("cam_pitch", default_value="0.174533"),
+        DeclareLaunchArgument("cam_yaw", default_value="0.0"),
+        DeclareLaunchArgument(
+           "params_file",
+            default_value="/home/sidk524/Documents/DroneSwarmSim/ws_px4_ros/launch/camera_params.yaml",
+        ),  
+        DeclareLaunchArgument("use_rviz", default_value="False"),
+        DeclareLaunchArgument(
+            "rviz_config",
+            default_value=os.path.join(depthai_prefix, "config", "rviz", "rgbd.rviz"),
+        ),
+        DeclareLaunchArgument("rs_compat", default_value="False"),
+    ]
+
 
     world = "jetty"
 
     remappings = [(
-                "rgb/image", "/oak/rgb/camera_info"
+                "rgb/image", "/oak/rgb/image_raw"
             ), (
-                "rgb/camera_info", "/fmu/out/camera_info"
+                "rgb/camera_info", "/oak/rgb/camera_info"
             ), (
-                "scan_cloud", "/fmu/out/depth_camera_points_projected"
+                "scan_cloud", "/oak/points"
             ), (
-                "depth/image", "/fmu/out/depth_image"
+                "depth/image", "/oak/stereo/image_raw"
             )
             ]
 
@@ -24,16 +102,17 @@ def generate_launch_description():
         "subscribe_rgb": True,
         "subscribe_depth" : False,
         "subscribe_scan_cloud" : True,
+
         "odom_frame_id": "odom",
-        "use_sim_time": True,
+       # "use_sim_time": True,
         "approx_sync": True,
-        "sync_queue_size": 10,
+        "sync_queue_size": 30,
         # "topic_queue_size": 10,
-        "approx_sync_max_interval": 0.03,
+        "approx_sync_max_interval": 0.05,
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '4', 
+        'Rtabmap/DetectionRate': '1', 
         "Grid/CellSize": "0.10",
 
         'fsm/flight_type': 1,              # 1 = /move_base_simple/goal, 2 = preset waypoints
@@ -128,68 +207,84 @@ def generate_launch_description():
         parameters = [parameters]
     )
 
+    rtabmap_slam_node = Node(
+            package="rtabmap_slam",
+            executable="rtabmap",
+            remappings=remappings,
+            parameters=[parameters],
+            arguments=["-d"]
+        )
 
-    return LaunchDescription([
-        Node(
-            package='ros_gz_bridge',
-            executable="parameter_bridge",
-            arguments = ["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package = "ros_gz_bridge",
-            executable = "parameter_bridge",
-            arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image@sensor_msgs/msg/Image[gz.msgs.Image"],
-            remappings=[(
-                f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image",
-                "/fmu/out/camera_image"
-            )],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package = "ros_gz_bridge",
-            executable = "parameter_bridge",
-            arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
-               remappings=[(
-                f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info",
-                "/fmu/out/camera_info"
-            )],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package = "ros_gz_bridge",
-            executable = "parameter_bridge",
-            arguments=["/depth_camera@sensor_msgs/msg/Image[gz.msgs.Image"],
-            remappings=[(
-                "/depth_camera",
-                "/fmu/out/depth_image"
-            )],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package = "ros_gz_bridge",
-            executable = "parameter_bridge",
-            arguments=["/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
-            remappings=[(
-                "/camera_info",
-                "/fmu/out/depth_camera_info"
-            )],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package="ros_gz_bridge", 
-            executable="parameter_bridge",
-            arguments=[f"/world/{world}/dynamic_pose/info@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V"],
-            remappings=[(f"/world/{world}/dynamic_pose/info", "/ground_truth_poses")],
-            parameters=[{"use_sim_time": True}],
-        ),
+    return LaunchDescription(
+        
+        declared_arguments + [OpaqueFunction(function=launch_setup)] + 
+    
+    [
+        
+        # Node(
+        #     package='ros_gz_bridge',
+        #     executable="parameter_bridge",
+        #     arguments = ["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        # Node(
+        #     package = "ros_gz_bridge",
+        #     executable = "parameter_bridge",
+        #     arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image@sensor_msgs/msg/Image[gz.msgs.Image"],
+        #     remappings=[(
+        #         f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/image",
+        #         "/fmu/out/camera_image"
+        #     )],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        # Node(
+        #     package = "ros_gz_bridge",
+        #     executable = "parameter_bridge",
+        #     arguments=[f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
+        #        remappings=[(
+        #         f"/world/{world}/model/x500_depth_0/link/camera_link/sensor/IMX214/camera_info",
+        #         "/fmu/out/camera_info"
+        #     )],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        # Node(
+        #     package = "ros_gz_bridge",
+        #     executable = "parameter_bridge",
+        #     arguments=["/depth_camera@sensor_msgs/msg/Image[gz.msgs.Image"],
+        #     remappings=[(
+        #         "/depth_camera",
+        #         "/fmu/out/depth_image"
+        #     )],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        # Node(
+        #     package = "ros_gz_bridge",
+        #     executable = "parameter_bridge",
+        #     arguments=["/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo"],
+        #     remappings=[(
+        #         "/camera_info",
+        #         "/fmu/out/depth_camera_info"
+        #     )],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        # Node(
+        #     package="ros_gz_bridge", 
+        #     executable="parameter_bridge",
+        #     arguments=[f"/world/{world}/dynamic_pose/info@geometry_msgs/msg/PoseArray[gz.msgs.Pose_V"],
+        #     remappings=[(f"/world/{world}/dynamic_pose/info", "/ground_truth_poses")],
+        #     parameters=[{"use_sim_time": True}],
+        # ),
         Node(
             package="rtabmap_util",
             executable="point_cloud_xyz",
             remappings=[
-                ("depth/image", "/fmu/out/depth_image"),
-                ("depth/camera_info", "/fmu/out/depth_camera_info"),
-                ("cloud", "/fmu/out/depth_camera_points_projected")
+                #("depth/image", "/oak"),
+                ("depth/camera_info", "/oak/stereo/camera_info"),
+                (
+                "cloud", "/oak/points"
+            ), (
+                "depth/image", "/oak/stereo/image_raw"
+            )
             ],
             parameters=[{
                 "use_sim_time": True,
@@ -202,58 +297,56 @@ def generate_launch_description():
             package='tf2_transforms',
             executable='publish_odom_to_base_link_enu',
             #arguments = ["--ros-args", "--log-level", "debug"]
-            parameters = [{"use_sim_time": True}]
+  
         ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments=["--x", "0.12", "--y", "0.03", "--z", "0.242", "--yaw", "0", "--pitch", "0", "--roll", "0",
-            "--frame-id", "base_link", "--child-frame-id", "camera_link"],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            arguments=["--x", "0.01233", "--y", "-0.03", "--z", "0.01878",
-            "--yaw", "-1.57079632679", "--pitch", "0", "--roll", "-1.57079632679",
-            "--frame-id", "camera_link", "--child-frame-id", "camera_optical_frame"],
-            parameters = [{"use_sim_time": True}]
-        ),
-        Node(
-            package="rtabmap_slam",
-            executable="rtabmap",
-            remappings=remappings,
-            parameters=[parameters],
-            arguments=["-d"]
-        ),
-        Node(
-            package="rtabmap_odom",
-            executable="rgbd_odometry",
-            remappings=remappings,
-            # arguments=["--udebug"],
-            # output="screen",
-            # emulate_tty=True,
-            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
-            # , "Vis/DepthAsMask": "false",
-            #                         "OdomF2M/ValidDepthRatio": "0.1",
-            #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
-                                    }]
-        ),
-        slam_ekf_node,
-        LifecycleAutoNavigationMode,
-        Node(
-            package = 'urop_navigation_control',
-            executable='auto_nav_mode_executor'
-        ),
-        RegisterEventHandler(
-            OnStateTransition(
-                target_lifecycle_node=LifecycleAutoNavigationMode,
-                start_state="activating",  
-                goal_state="active",
-                entities=[
-                    ego_planner_node,
-                    traj_server_node
-                ]
-            )
-        )
+
+        # Node(
+        #     package='tf2_ros',
+        #     executable='static_transform_publisher',
+        #     arguments=["--x", "0.01233", "--y", "-0.03", "--z", "0.01878",
+        #     "--yaw", "-1.57079632679", "--pitch", "0", "--roll", "-1.57079632679",
+        #     "--frame-id", "camera_link", "--child-frame-id", "camera_optical_frame"],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+        TimerAction(period = 10.0, actions = [rtabmap_slam_node,         
+        
+        # Node(
+        #     package='tf2_ros',
+        #     executable='static_transform_publisher',
+        #     arguments=["--x", "0.12", "--y", "0", "--z", "-0.06", "--yaw", "0", "--pitch", "0.174533", "--roll", "0",
+        #     "--frame-id", "base_link", "--child-frame-id", "oak"],
+        #     parameters = [{"use_sim_time": True}]
+        # ),
+
+        ])
+        # Node(
+        #     package="rtabmap_odom",
+        #     executable="rgbd_odometry",
+        #     remappings=remappings,
+        #     # arguments=["--udebug"],
+        #     # output="screen",
+        #     # emulate_tty=True,
+        #     parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
+        #     # , "Vis/DepthAsMask": "false"
+        #     #                         "OdomF2M/ValidDepthRatio": "0.1",
+        #     #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
+        # }]
+        # ),
+        # slam_ekf_node,
+        # LifecycleAutoNavigationMode,
+        # Node(
+        #     package = 'urop_navigation_control',
+        #     executable='auto_nav_mode_executor'
+        # ),
+        # RegisterEventHandler(
+        #     OnStateTransition(
+        #         target_lifecycle_node=LifecycleAutoNavigationMode,
+        #         start_state="activating",  
+        #         goal_state="active",
+        #         entities=[
+        #             ego_planner_node,
+        #             traj_server_node
+        #         ]
+        #     )
+        # )
     ])
