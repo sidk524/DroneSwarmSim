@@ -41,19 +41,19 @@ def launch_setup(context, *args, **kwargs):
                 "use_rviz": LaunchConfiguration("use_rviz"),
             }.items(),
         ),
-        # LoadComposableNodes(
-        #     target_container=name + "_container",
-        #     composable_node_descriptions=[
-        #         ComposableNode(
-        #             package="depth_image_proc",
-        #             plugin="depth_image_proc::PointCloudXyzNode",
-        #             name="point_cloud_xyz",
-        #             remappings=[ ("image_rect", name + "/stereo/image_raw"),
-        #                 ("points", name + "/points"),
-        #             ],
-        #         ),
-        #     ],
-        # ),
+        LoadComposableNodes(
+            target_container=name + "_container",
+            composable_node_descriptions=[
+                ComposableNode(
+                    package="depth_image_proc",
+                    plugin="depth_image_proc::PointCloudXyzNode",
+                    name="point_cloud_xyz",
+                    remappings=[ ("image_rect", name + "/stereo/image_raw"),
+                        ("points", name + "/points"),
+                    ],
+                ),
+            ],
+        ),
     ]
 
 
@@ -217,7 +217,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         
-        declared_arguments + [OpaqueFunction(function=launch_setup)] + 
+        #declared_arguments + [OpaqueFunction(function=launch_setup)] + 
     
     [
         
@@ -274,25 +274,25 @@ def generate_launch_description():
         #     remappings=[(f"/world/{world}/dynamic_pose/info", "/ground_truth_poses")],
         #     parameters=[{"use_sim_time": True}],
         # ),
-        Node(
-            package="rtabmap_util",
-            executable="point_cloud_xyz",
-            remappings=[
-                #("depth/image", "/oak"),
-                ("depth/camera_info", "/oak/stereo/camera_info"),
-                (
-                "cloud", "/oak/points"
-            ), (
-                "depth/image", "/oak/stereo/image_raw"
-            )
-            ],
-            parameters=[{
-                "use_sim_time": True,
-                "decimation": 1,
-                "max_depth": 19.1,
-                "voxel_size": 0.0
-            }]
-        ),
+        # Node(
+        #     package="rtabmap_util",
+        #     executable="point_cloud_xyz",
+        #     remappings=[
+        #         #("depth/image", "/oak"),
+        #         ("depth/camera_info", "/oak/stereo/camera_info"),
+        #         (
+        #         "cloud", "/oak/points"
+        #     ), (
+        #         "depth/image", "/oak/stereo/image_raw"
+        #     )
+        #     ],
+        #     parameters=[{
+        #         "use_sim_time": True,
+        #         "decimation": 1,
+        #         "max_depth": 19.1,
+        #         "voxel_size": 0.0
+        #     }]
+        # ),
         Node(
             package='tf2_transforms',
             executable='publish_odom_to_base_link_enu',
@@ -318,21 +318,22 @@ def generate_launch_description():
         #     parameters = [{"use_sim_time": True}]
         # ),
 
-        ])
-        # Node(
-        #     package="rtabmap_odom",
-        #     executable="rgbd_odometry",
-        #     remappings=remappings,
-        #     # arguments=["--udebug"],
-        #     # output="screen",
-        #     # emulate_tty=True,
-        #     parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
-        #     # , "Vis/DepthAsMask": "false"
-        #     #                         "OdomF2M/ValidDepthRatio": "0.1",
-        #     #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
-        # }]
-        # ),
-        # slam_ekf_node,
+        ]),
+
+        Node(
+            package="rtabmap_odom",
+            executable="rgbd_odometry",
+            remappings=remappings,
+            # arguments=["--udebug"],
+            # output="screen",
+            # emulate_tty=True,
+            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
+            # , "Vis/DepthAsMask": "false"
+            #                         "OdomF2M/ValidDepthRatio": "0.1",
+            #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
+        }]
+        ),
+        slam_ekf_node,
         # LifecycleAutoNavigationMode,
         # Node(
         #     package = 'urop_navigation_control',
