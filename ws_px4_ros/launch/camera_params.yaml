@@ -4,8 +4,8 @@
       i_pipeline_type: RGBD
       i_nn_type: none
     rgb:
-      i_width: 1920
-      i_height: 1080
+      i_width: 1280
+      i_height: 720
       i_fps: 30.0
     stereo:
       i_width: 640
