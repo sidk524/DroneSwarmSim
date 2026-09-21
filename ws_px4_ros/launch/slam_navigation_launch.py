@@ -108,7 +108,7 @@ def generate_launch_description():
         "approx_sync": True,
         "sync_queue_size": 30,
         # "topic_queue_size": 10,
-        "approx_sync_max_interval": 0.05,
+        "approx_sync_max_interval": 0.01,
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
@@ -217,7 +217,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         
-        #declared_arguments + [OpaqueFunction(function=launch_setup)] + 
+        declared_arguments + [OpaqueFunction(function=launch_setup)] + 
     
     [
         
@@ -308,7 +308,24 @@ def generate_launch_description():
         #     "--frame-id", "camera_link", "--child-frame-id", "camera_optical_frame"],
         #     parameters = [{"use_sim_time": True}]
         # ),
-        TimerAction(period = 10.0, actions = [rtabmap_slam_node,         
+        TimerAction(period = 10.0, actions = [rtabmap_slam_node,      
+        
+        Node(
+            package="rtabmap_odom",
+            executable="rgbd_odometry",
+            remappings=remappings,
+            # arguments=["--udebug"],
+            # output="screen",
+            # emulate_tty=True,
+            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1",
+            "Vis/MaxFeatures": "1000",
+            "OdomF2M/MaxSize": "1000"
+            #  , "Vis/DepthAsMask": "false",
+                                    #"OdomF2M/ValidDepthRatio": "0.1",
+                                #"OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
+        }]
+        ),  
+        slam_ekf_node   
         
         # Node(
         #     package='tf2_ros',
@@ -320,20 +337,6 @@ def generate_launch_description():
 
         ]),
 
-        Node(
-            package="rtabmap_odom",
-            executable="rgbd_odometry",
-            remappings=remappings,
-            # arguments=["--udebug"],
-            # output="screen",
-            # emulate_tty=True,
-            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1"
-            # , "Vis/DepthAsMask": "false"
-            #                         "OdomF2M/ValidDepthRatio": "0.1",
-            #                         "OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
-        }]
-        ),
-        slam_ekf_node,
         # LifecycleAutoNavigationMode,
         # Node(
         #     package = 'urop_navigation_control',

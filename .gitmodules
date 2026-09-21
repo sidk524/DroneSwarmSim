@@ -29,3 +29,15 @@
 [submodule "ws_px4_ros/src/depthai-core"]
 	path = ws_px4_ros/src/depthai-core
 	url = git@github.com:luxonis/depthai-core.git
+[submodule "ws_px4_ros/src/isaac_ros_visual_slam"]
+	path = ws_px4_ros/src/isaac_ros_visual_slam
+	url = git@github.com:NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
+[submodule "ws_px4_ros/src/isaac_ros_common"]
+	path = ws_px4_ros/src/isaac_ros_common
+	url = git@github.com:NVIDIA-ISAAC-ROS/isaac_ros_common.git
+[submodule "ws_px4_ros/src/isaac_ros_nitros"]
+	path = ws_px4_ros/src/isaac_ros_nitros
+	url = git@github.com:NVIDIA-ISAAC-ROS/isaac_ros_nitros.git
+[submodule "ws_px4_ros/src/vision_opencv"]
+	path = ws_px4_ros/src/vision_opencv
+	url = git@github.com:ros-perception/vision_opencv.git
