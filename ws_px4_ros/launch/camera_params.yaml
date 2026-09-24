@@ -1,13 +1,51 @@
 /oak:
   ros__parameters:
     pipeline_gen:
-      i_pipeline_type: RGBD
+      i_pipeline_type: Depth
       i_nn_type: none
+      i_enable_imu: true
+      i_enable_sync: true
     rgb:
+
+      i_publish_topic: false
       i_width: 1280
       i_height: 720
       i_fps: 30.0
+      i_synced: false
+
+    # left:
+    #   i_publish_topic: false
+    #   i_width: 640
+    #   i_height: 480
+    #   i_fps: 30.0
+    #   i_synced: true  
+
+    # right:
+    #   i_synced: true
+    #   i_publish_topic: false
+    #   i_width: 640
+    #   i_height: 480
+    #   i_fps: 30.0
     stereo:
       i_width: 640
       i_height: 480
-      i_fps: 30.0
+      i_fps: 60.0
+      i_synced: true
+      i_aligned: false
+      # ROBOTICS caps stereo at ~35 fps on RVC2 even without colour; FAST_ACCURACY reaches 60.
+      i_depth_preset: FAST_ACCURACY
+      i_left_rect_publish_topic: true
+      i_right_rect_publish_topic: true
+      i_left_rect_synced: true
+      i_right_rect_synced: true
+      i_rectify_edge_fill_color: 0
+      # By default the driver puts the stereo baseline (P[3]) on the LEFT camera_info and 0 on the
+      # right, the reverse of the ROS convention; RTAB-Map then reads a 0 baseline and gets no 3D
+      # features. Reversing the socket order moves Tx to the right camera_info.
+      i_reverse_stereo_socket_order: true
+    imu:
+      i_acc_freq: 200
+      i_gyro_freq: 200
+      i_sync_method: LINEAR_INTERPOLATE_GYRO
+      i_batch_report_threshold: 1
+      i_max_batch_reports: 1

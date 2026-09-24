@@ -19,7 +19,7 @@ SlamEkfOdometry::SlamEkfOdometry() : rclcpp::Node("slam_ekf2"){
 
     pythagPublisher = this->create_publisher<std_msgs::msg::Float64>("/pythagDistance", qosProfile);
 
-    slamOdomSubscriber = this->create_subscription<nav_msgs::msg::Odometry>("/odom", qosProfile, 
+    slamOdomSubscriber = this->create_subscription<nav_msgs::msg::Odometry>("/visual_slam/tracking/odometry", qosProfile, 
         std::bind(&SlamEkfOdometry::slamOdomCallback, this, std::placeholders::_1));
 
     tfBuffer = std::make_unique<tf2_ros::Buffer>(this->get_clock());

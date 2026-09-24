@@ -1,7 +1,10 @@
 from launch_ros.actions import Node, LifecycleNode
-from launch.actions import RegisterEventHandler, TimerAction
+from launch.actions import ExecuteProcess, LogInfo, RegisterEventHandler, TimerAction
+from launch.event_handlers import OnProcessExit, OnShutdown
 from launch_ros.event_handlers import OnStateTransition
 import os
+import subprocess
+import time
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -57,6 +60,126 @@ def launch_setup(context, *args, **kwargs):
     ]
 
 
+ISAAC_VIO_LAUNCH = "/workspaces/isaac_ros-dev/launch/isaac_ros_vio_launch.py"
+
+
+def container_running(container):
+    result = subprocess.run(
+        ["docker", "inspect", "-f", "{{.State.Running}}", container],
+        capture_output=True, text=True)
+    return result.returncode == 0 and result.stdout.strip() == "true"
+
+
+# Image the Isaac ROS CLI last resolved; `isaac-ros activate` re-tags it on every run.
+ISAAC_IMAGE = "cached_isaac_run_dev_image_local:latest"
+ISAAC_CLI_DIR = "/usr/lib/isaac-ros-cli"
+started_isaac_container = False
+
+
+def start_isaac_container(context, *args, **kwargs):
+    """Start the Isaac ROS dev container detached if it is not already running.
+
+    `isaac-ros activate` runs `docker run -it` and needs a terminal, so it cannot be used from a
+    launch file. This builds the same `docker run` as the CLI's run_dev.py (same mounts, devices,
+    GPU and env, taken from its own helpers) but detached (-dit) instead of attached (-it).
+    """
+    global started_isaac_container
+    if LaunchConfiguration("launch_isaac_vio").perform(context).lower() != "true":
+        return []
+    container = LaunchConfiguration("isaac_container").perform(context)
+    if container_running(container):
+        return [LogInfo(msg=f"[isaac_vio] using already running container '{container}'")]
+    subprocess.run(["docker", "rm", container], capture_output=True)  # stale stopped container, if any
+
+    import sys
+    sys.path.insert(0, ISAAC_CLI_DIR)
+    import run_dev  # noqa: E402  (Isaac ROS CLI helpers)
+    isaac_ws = os.environ.get("ISAAC_ROS_WS", "/home/sidk524/Documents/DroneSwarmSim/isaac_ros_ws")
+    platform = "arm64-fastos" if os.path.exists("/etc/fastos-release") else "arm64-jetpack"
+    cmd = " ".join(
+        ["docker run -dit --rm --privileged --network host --ipc=host",
+         "-e TERM=xterm-256color -e COLORTERM=truecolor -e FORCE_COLOR=true",
+         "--workdir /workspaces/isaac_ros-dev",
+         f"-e ISAAC_ROS_PLATFORM={platform}"]
+        + run_dev.get_docker_args(os.uname().machine)
+        + run_dev.load_docker_args_from_file()
+        + [f"-v {isaac_ws}:/workspaces/isaac_ros-dev",
+           "-v /etc/localtime:/etc/localtime:ro",
+           f"--name {container}",
+           "--gpus all",
+           "--entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh",
+           ISAAC_IMAGE, "/bin/bash"])
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    if result.returncode != 0:
+        return [LogInfo(msg=f"[isaac_vio] ERROR: failed to start container '{container}': {result.stderr.strip()}")]
+    started_isaac_container = True
+    return [LogInfo(msg=f"[isaac_vio] started container '{container}' from {ISAAC_IMAGE}")]
+
+
+def wait_for_isaac_container(container, timeout=60.0):
+    # The entrypoint creates the `admin` user before the container is usable.
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if container_running(container) and subprocess.run(
+                ["docker", "exec", container, "id", "-u", "admin"], capture_output=True).returncode == 0:
+            return True
+        time.sleep(0.5)
+    return False
+
+
+def launch_isaac_vio(context, *args, **kwargs):
+    if LaunchConfiguration("launch_isaac_vio").perform(context).lower() != "true":
+        return []
+    container = LaunchConfiguration("isaac_container").perform(context)
+    if not wait_for_isaac_container(container):
+        return [LogInfo(msg=f"[isaac_vio] ERROR: container '{container}' is not ready. "
+                            "Isaac VSLAM NOT launched.")]
+    return [ExecuteProcess(
+        name="isaac_vio",
+        cmd=["docker", "exec", "-u", "admin", container, "bash", "-c",
+             f"source /opt/ros/jazzy/setup.bash && exec ros2 launch {ISAAC_VIO_LAUNCH}"],
+        output="screen",
+    )]
+
+
+def stop_isaac_vio(context, *args, **kwargs):
+    if LaunchConfiguration("launch_isaac_vio").perform(context).lower() != "true":
+        return []
+    container = LaunchConfiguration("isaac_container").perform(context)
+    if not container_running(container):
+        return []
+    launch_pattern = "^/usr/bin/python3 /opt/ros/jazzy/bin/ros2 launch " + ISAAC_VIO_LAUNCH
+    node_pattern = "^/opt/ros/jazzy/lib/rclcpp_components/component_container .*__node:=visual_slam_launch_container"
+    subprocess.run(["docker", "exec", container, "pkill", "-INT", "-f", launch_pattern])
+    deadline = time.monotonic() + 10.0
+    while time.monotonic() < deadline:
+        alive = [p for p in (launch_pattern, node_pattern)
+                 if subprocess.run(["docker", "exec", container, "pgrep", "-f", p], capture_output=True).returncode == 0]
+        if not alive:
+            break
+        time.sleep(0.5)
+    else:
+        for p in (node_pattern, launch_pattern):
+            subprocess.run(["docker", "exec", container, "pkill", "-KILL", "-f", p])
+    # Only stop the container if this launch started it (it was run with --rm, so it is removed).
+    if started_isaac_container:
+        subprocess.run(["docker", "stop", "-t", "5", container], capture_output=True)
+    return []
+
+
+RTABMAP_DB = os.path.expanduser("~/.ros/rtabmap.db")
+# EKF2 resets its heading/position when Isaac's vision odometry first arrives; start RTAB-Map
+# after that so its first nodes are not recorded with the pre-vision heading.
+RTABMAP_SETTLE_S = 3.0
+
+
+def delete_rtabmap_db(context, *args, **kwargs):
+    if os.path.exists(RTABMAP_DB):
+        os.remove(RTABMAP_DB)
+        return [LogInfo(msg=f"[rtabmap] deleted {RTABMAP_DB}")]
+    return []
+
+
 def generate_launch_description():
 #     arguments=["--x", "0.12", "--y", "0", "--z", "-0.06", "--yaw", "0", "--pitch", "0.174533", "--roll", "0",
 
@@ -69,7 +192,7 @@ def generate_launch_description():
         DeclareLaunchArgument("cam_pos_y", default_value="0.0"),
         DeclareLaunchArgument("cam_pos_z", default_value="-0.06"),
         DeclareLaunchArgument("cam_roll", default_value="0.0"),
-        DeclareLaunchArgument("cam_pitch", default_value="0.174533"),
+        DeclareLaunchArgument("cam_pitch", default_value="0.516617"),  # 29.6 deg nose-down, from mount CAD
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
            "params_file",
@@ -81,25 +204,31 @@ def generate_launch_description():
             default_value=os.path.join(depthai_prefix, "config", "rviz", "rgbd.rviz"),
         ),
         DeclareLaunchArgument("rs_compat", default_value="False"),
+        DeclareLaunchArgument("launch_isaac_vio", default_value="true"),
+        DeclareLaunchArgument("isaac_container", default_value="isaac_ros_dev_container"),
     ]
 
 
     world = "jetty"
 
+    # RTAB-Map runs on the grayscale rectified stereo pair (colour camera is disabled).
     remappings = [(
-                "rgb/image", "/oak/rgb/image_raw"
+                "left/image_rect", "/oak/left/image_rect"
             ), (
-                "rgb/camera_info", "/oak/rgb/camera_info"
+                "left/camera_info", "/oak/left/camera_info"
+            ), (
+                "right/image_rect", "/oak/right/image_rect"
+            ), (
+                "right/camera_info", "/oak/right/camera_info"
             ), (
                 "scan_cloud", "/oak/points"
-            ), (
-                "depth/image", "/oak/stereo/image_raw"
             )
             ]
 
     parameters = {
         "frame_id": "base_link",
-        "subscribe_rgb": True,
+        "subscribe_rgb": False,
+        "subscribe_stereo": True,
         "subscribe_depth" : False,
         "subscribe_scan_cloud" : True,
 
@@ -112,7 +241,7 @@ def generate_launch_description():
         "Grid/Sensor": "0",
         "Grid/RangeMin": "0.2",
         "Grid/RangeMax": "19.1",
-        'Rtabmap/DetectionRate': '1', 
+        'Rtabmap/DetectionRate': '4', 
         "Grid/CellSize": "0.10",
 
         'fsm/flight_type': 1,              # 1 = /move_base_simple/goal, 2 = preset waypoints
@@ -211,13 +340,59 @@ def generate_launch_description():
             package="rtabmap_slam",
             executable="rtabmap",
             remappings=remappings,
-            parameters=[parameters],
+            parameters=[parameters 
+            | {
+            "Kp/DetectorStrategy": "8",
+            "Vis/FeatureType": "8",
+            "GFTT/Gpu": "true",
+            "ORB/Gpu": "true",
+            "FAST/Gpu": "true",             
+            "Vis/CorType": "0",             
+            "Vis/CorFlowGpu": "true",
+            "Stereo/Gpu": "true",}
+            ],
             arguments=["-d"]
         )
 
+
+    left_rect_tf = Node(
+        package="tf2_ros", executable="static_transform_publisher",
+        arguments=["--x", "0", "--y", "0", "--z", "0",
+                "--roll", "0", "--pitch", "0", "--yaw", "0",
+                "--frame-id", "oak_left_camera_optical_frame",
+                "--child-frame-id", "oak_left_rect_optical_frame"],
+    )
+
+    right_rect_tf = Node(
+        package="tf2_ros", executable="static_transform_publisher",
+        arguments=["--x", "0.075", "--y", "0", "--z", "0",
+                "--roll", "0", "--pitch", "0", "--yaw", "0",
+                "--frame-id", "oak_left_rect_optical_frame",
+                "--child-frame-id", "oak_right_rect_optical_frame"],
+    )
+
+    imu_fix_tf = Node(
+        package="tf2_ros", executable="static_transform_publisher",
+        arguments=["--x", "0", "--y", "0", "--z", "0",
+                "--roll", "1.5707963", "--pitch", "0", "--yaw", "0",
+                "--frame-id", "oak_imu_frame",
+                "--child-frame-id", "oak_imu_frame_corrected"],
+    )
+
+    # Exits when the first Isaac VSLAM odometry message arrives (i.e. Isaac is tracking).
+    wait_for_isaac_tracking = ExecuteProcess(
+        name="wait_for_isaac_tracking",
+        # The type is given explicitly so it waits for the topic to appear instead of exiting.
+        cmd=["ros2", "topic", "echo", "--once", "--qos-reliability", "best_effort",
+             "/visual_slam/tracking/odometry", "nav_msgs/msg/Odometry", "--field", "header.stamp"],
+        output="log",
+    )
+
     return LaunchDescription(
         
-        declared_arguments + [OpaqueFunction(function=launch_setup)] + 
+        declared_arguments + [OpaqueFunction(function=delete_rtabmap_db),
+                              OpaqueFunction(function=start_isaac_container),
+                              OpaqueFunction(function=launch_setup)] + 
     
     [
         
@@ -299,6 +474,7 @@ def generate_launch_description():
             #arguments = ["--ros-args", "--log-level", "debug"]
   
         ),
+        
 
         # Node(
         #     package='tf2_ros',
@@ -308,25 +484,49 @@ def generate_launch_description():
         #     "--frame-id", "camera_link", "--child-frame-id", "camera_optical_frame"],
         #     parameters = [{"use_sim_time": True}]
         # ),
-        TimerAction(period = 10.0, actions = [rtabmap_slam_node,      
+        TimerAction(period = 10.0, actions = [
+            left_rect_tf,
+            right_rect_tf,
+            imu_fix_tf,
+            slam_ekf_node ,
         
-        Node(
-            package="rtabmap_odom",
-            executable="rgbd_odometry",
-            remappings=remappings,
-            # arguments=["--udebug"],
-            # output="screen",
-            # emulate_tty=True,
-            parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1",
-            "Vis/MaxFeatures": "1000",
-            "OdomF2M/MaxSize": "1000"
-            #  , "Vis/DepthAsMask": "false",
-                                    #"OdomF2M/ValidDepthRatio": "0.1",
-                                #"OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
-        }]
-        ),  
-        slam_ekf_node   
-        
+        # Node(
+        #     package="rtabmap_odom",
+        #     executable="rgbd_odometry",
+        #     remappings=remappings,
+        #     # arguments=["--udebug"],
+        #     # output="screen",
+        #     # emulate_tty=True,
+        #     parameters=[parameters | {"publish_tf": False, "Odom/ImageDecimation": "1",
+        #     "Vis/MaxFeatures": "1000",
+        #     "OdomF2M/MaxSize": "1000"
+        #     #  , "Vis/DepthAsMask": "false",
+        #                             #"OdomF2M/ValidDepthRatio": "0.1",
+        #                         #"OdomF2M/BundleUpdateFeatureMapOnAllFrames": "true"
+        # } ])
+
+        ]
+        ),
+
+        # Isaac VSLAM needs the camera TFs (incl. oak_imu_frame_corrected) at startup,
+        # so start it after the TimerAction above.
+        TimerAction(period=12.0, actions=[OpaqueFunction(function=launch_isaac_vio)]),
+        RegisterEventHandler(OnShutdown(on_shutdown=[OpaqueFunction(function=stop_isaac_vio)])),
+
+        # RTAB-Map starts only once Isaac is tracking (first odometry message) + EKF2 settle time.
+        wait_for_isaac_tracking,
+        RegisterEventHandler(OnProcessExit(
+            target_action=wait_for_isaac_tracking,
+            # Only on a successful exit (message received), not on errors or Ctrl+C.
+            on_exit=lambda event, context: [
+                LogInfo(msg=f"[rtabmap] Isaac is tracking, starting RTAB-Map in {RTABMAP_SETTLE_S:.0f} s"),
+                TimerAction(period=RTABMAP_SETTLE_S, actions=[rtabmap_slam_node]),
+            ] if event.returncode == 0 else [
+                LogInfo(msg=f"[rtabmap] ERROR: waiting for Isaac odometry failed "
+                            f"(exit {event.returncode}), RTAB-Map NOT started"),
+            ])),
+
+
         # Node(
         #     package='tf2_ros',
         #     executable='static_transform_publisher',
@@ -335,7 +535,7 @@ def generate_launch_description():
         #     parameters = [{"use_sim_time": True}]
         # ),
 
-        ]),
+        # ]),
 
         # LifecycleAutoNavigationMode,
         # Node(

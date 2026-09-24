@@ -1,0 +1,7 @@
+# Adds Isaac ROS Visual SLAM (cuVSLAM) to the Isaac ROS dev image so it
+# persists across `isaac-ros activate` restarts (the container runs with --rm).
+ARG BASE_IMAGE=ubuntu:24.04
+FROM ${BASE_IMAGE}
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    apt-get update && apt-get install -y ros-jazzy-isaac-ros-visual-slam
