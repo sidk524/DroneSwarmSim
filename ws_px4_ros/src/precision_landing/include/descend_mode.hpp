@@ -55,7 +55,8 @@ class DescendMode : public px4_ros2::ModeBase {
 
         rclcpp::TimerBase::SharedPtr timer;
 
-        float currentZ;
+
+        float targetZ = std::numeric_limits<float>::quiet_NaN();
 
         const rclcpp::QoS qosProfile = rclcpp::QoS(10).reliability_best_available().durability_best_available();
 

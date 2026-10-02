@@ -29,8 +29,6 @@ void InitialFlyUpMode::onActivate() {
 
 void InitialFlyUpMode::onDeactivate(){
     timer->cancel();
-    localPosition.reset();
-    trajectorySetpoint.reset();
 }
 
 void InitialFlyUpMode::fly_up() {

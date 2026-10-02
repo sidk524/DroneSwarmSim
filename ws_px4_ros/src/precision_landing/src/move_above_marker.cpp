@@ -2,6 +2,7 @@
 #include <memory>
 #include <move_above_marker.hpp>
 #include <px4_ros2/components/mode.hpp>
+#include <px4_ros2/utils/frame_conversion.hpp>
 #include <rclcpp/duration.hpp>
 #include <tf2/convert.hpp>
 #include <tf2/time.hpp>
@@ -35,9 +36,10 @@ void MoveAboveMarkerMode::checkCompletion() {
 }
 
 void MoveAboveMarkerMode::arucoCallback(geometry_msgs::msg::Vector3 msg) {
+    const Eigen::Vector3f arucoNed = px4_ros2::positionEnuToNed(Eigen::Vector3f(msg.x, msg.y, msg.z));
     arucoCoords = {};
-    lastArucoPosition = {msg.x, msg.y, msg.z};
-    arucoCoords = arucoCoords.withPositionX(msg.x).withPositionY(msg.y).withPositionZ(localPosition->positionNed().z());
+    lastArucoPosition = {arucoNed.x(), arucoNed.y(), arucoNed.z()};
+    arucoCoords = arucoCoords.withPositionX(arucoNed.x()).withPositionY(arucoNed.y()).withPositionZ(localPosition->positionNed().z());
     trajectorySetpoint->update(arucoCoords);
 }
  

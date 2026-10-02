@@ -30,13 +30,12 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
 
     enum State {
       request_arm,
-      check_arm,
       taking_off,
       fly_up,
       find_marker,
       move_above_marker,
       descend,
-      disarmDrone
+      final_land
     };
 
     void onActivate() override {
@@ -50,20 +49,16 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
 
     void runState(State state, px4_ros2::Result previous_result){
 
-        if (state == check_arm ) {
-                      RCLCPP_DEBUG(_node.get_logger(), "check arm" );
-
-          if (previous_result == px4_ros2::Result::Success){
-            state = State::taking_off;
-        } else{
-            state = State::request_arm;
-        }
-      }
       switch (state){
           case State::request_arm:
               RCLCPP_INFO(_node.get_logger(), "request arm" );
 
-              arm([this](px4_ros2::Result result) {runState(State::check_arm, result);});
+              arm([this](px4_ros2::Result result) {
+                              if (result == px4_ros2::Result::Success){
+
+                runState(State::taking_off, result);}
+                              }
+              );
               break;
           case State::taking_off:
             RCLCPP_INFO(_node.get_logger(), "taking off" );
@@ -101,7 +96,10 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
 
               scheduleMode(
                 _third_mode.id(), [this] (px4_ros2::Result result) {
+                                      if (result == px4_ros2::Result::Success){
+
                     runState(State::descend, result);
+                                      }
               }
               );
             break;
@@ -109,16 +107,20 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
             RCLCPP_INFO(_node.get_logger(), "Descend" );
               scheduleMode(
                 _fourth_mode.id(), [this] (px4_ros2::Result result) {
-                    runState(State::disarmDrone, result);
+                    if (result == px4_ros2::Result::Success){
+
+                      runState(State::final_land, result);
+                    }
               }
               );
             break;
-          case State::disarmDrone:
-            
-            disarm([this](px4_ros2::Result result) {
+          case State::final_land:
+              RCLCPP_INFO(_node.get_logger(), "Descend" );
+
+              land([this](px4_ros2::Result result) {
                 RCLCPP_INFO(_node.get_logger(), "All states complete (%s)", resultToString(result));
               });
-            break;
+
       }
     }
     private:

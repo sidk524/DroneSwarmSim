@@ -17,9 +17,9 @@ class InitialFlyUpMode : public px4_ros2::ModeBase
     void onActivate() override;
     void onDeactivate() override;
     rclcpp::Node& _node;
-    float x = -2.0;
-    float y = 3.0;
-    float z = -10.0;
+    float x = -1.0;
+    float y = 1.0;
+    float z = -6.0;
 
   private:
     void fly_up();

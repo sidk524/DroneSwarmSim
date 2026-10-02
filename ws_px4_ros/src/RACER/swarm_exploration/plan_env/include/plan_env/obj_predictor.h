@@ -6,10 +6,10 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <iostream>
 #include <list>
-#include <rclcpp/node.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <vector>
 
+#include <rclcpp/node.hpp>
 #include <rclcpp/publisher.hpp>
 #include <rclcpp/service.hpp>
 #include <rclcpp/subscription.hpp>

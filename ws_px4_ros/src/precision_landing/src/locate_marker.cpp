@@ -36,7 +36,7 @@ void LocateArucoMarkerMode::onActivate(){
     tvecRvecSubscriber = _node.create_subscription<geometry_msgs::msg::Vector3>("/aruco_marker_position", qosProfile,
         std::bind(&LocateArucoMarkerMode::tvecRvecCallback, this, std::placeholders::_1)
     );
-    trajectorySetpoint->updatePosition(Eigen::Vector3f {-2.0, 3.0, -4.0});
+   // trajectorySetpoint->updatePosition(Eigen::Vector3f {-2.0, 3.0, -4.0});
     RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
 
 }
