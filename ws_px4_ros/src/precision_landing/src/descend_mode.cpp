@@ -23,7 +23,7 @@ DescendMode::DescendMode(rclcpp::Node & node) : px4_ros2::ModeBase(node, Setting
 
 void DescendMode::arucoMarkerCallback(geometry_msgs::msg::Vector3 msg){
     descendPosition = {};
-    descendPosition.withPositionX(msg.x).withPositionY(msg.y).withPositionZ(currentZ);
+    descendPosition.withPositionX(msg.x).withPositionY(msg.y).withPositionZ(msg.z).withAccelerationX(0.1).withAccelerationY(0.1).withAccelerationZ(0.1);
     trajectorySetpoint->update(descendPosition);
 }
 
