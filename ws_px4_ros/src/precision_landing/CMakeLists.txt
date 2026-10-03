@@ -34,11 +34,33 @@ add_executable(precision_landing_mode_executor
               src/initial_fly_up_mode.cpp
 )
 
+add_executable(test_fly_up
+              src/test_mode.cpp
+)
+
+
+target_link_libraries(test_fly_up ${OPENCV_LIBS})
 
 target_link_libraries(precision_landing_mode_executor ${OPENCV_LIBS})
 # target_link_libraries(locate_marker ${OPENCV_LIBS})
 
 ament_target_dependencies(precision_landing_mode_executor 
+  ament_cmake
+  geometry_msgs 
+  px4_msgs 
+  rclcpp 
+  sensor_msgs 
+  std_msgs  
+  my_msgs
+  px4_ros2_cpp
+  cv_bridge
+  OpenCV
+  tf2_ros
+  tf2_geometry_msgs
+)
+
+
+ament_target_dependencies(test_fly_up
   ament_cmake
   geometry_msgs 
   px4_msgs 
@@ -64,11 +86,18 @@ target_include_directories(precision_landing_mode_executor PUBLIC
 
 
 
+target_include_directories(test_fly_up PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+
+
 target_compile_features(precision_landing_mode_executor PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 # target_compile_features(initial_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17/target_compile_features(locate_marker PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(test_fly_up PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 
 install(TARGETS precision_landing_mode_executor
+  test_fly_up
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

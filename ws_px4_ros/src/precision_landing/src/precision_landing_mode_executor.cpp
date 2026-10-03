@@ -51,7 +51,7 @@ class PrecisionLandingExecutor : public px4_ros2::ModeExecutorBase {
 
       switch (state){
           case State::request_arm:
-              RCLCPP_INFO(_node.get_logger(), "request arm" );
+              RCLCPP_INFO(_node.get_logger(), "request arm");
 
               arm([this](px4_ros2::Result result) {
                               if (result == px4_ros2::Result::Success){
