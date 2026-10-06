@@ -18,6 +18,8 @@
 #include <px4_ros2/control/setpoint_types/experimental/rates.hpp>
 #include <px4_ros2/control/setpoint_types/experimental/trajectory.hpp>
 
+#include <px4_ros2/utils/vehicle_command_sender.hpp>
+
 #include <px4_ros2/odometry/local_position.hpp>
 
 #include <cv_bridge/cv_bridge.hpp>
@@ -40,6 +42,10 @@ public:
     void onActivate() override;
     void onDeactivate() override;
 
+    void emitCircleWaypoints();
+
+    void updateRadii();
+
 
     rclcpp::Node& _node;
 
@@ -54,30 +60,21 @@ private:
 
     std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
 
-    cv::Mat distortionCoefficients;
-    cv::Mat cameraMatrix;
+    Eigen::Vector3f centreOfCircle;
 
-    const float arucoMarkerLength = 0.5;
-    std::vector<cv::Vec3d> objPoints = {
-        {-0.25,0.25, 0},
-        {0.25, 0.25, 0},
-        {0.25, -0.25, 0},
-       { -0.25, -0.25, 0}
-    };
-
-    cv::Vec3d tvec;
-    cv::Vec3d rvec;
+    rclcpp::TimerBase::SharedPtr radiusTimer;
 
 
-    cv::Ptr<cv::aruco::DetectorParameters> detectorParams;
-    cv::Ptr<cv::aruco::Dictionary> dictionary;
+    float radius;
     
-    std::vector<std::vector<cv::Point2f>> markerCorners, rejectedCandidates;
-    //cv::aruco::ArucoDetector detector(cv::aruco::Dictionary, cv::aruco::DetectorParameters);
+    float dt;
+    float currentYawAngle;
+
+
+    float circleFlyVelocity = 1.0;
 
     std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tfStaticTransformPublisher;
 
-    std::vector<int> markerIds;
     
 };
 

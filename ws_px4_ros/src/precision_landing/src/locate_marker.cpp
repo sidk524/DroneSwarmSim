@@ -23,6 +23,8 @@
 #include <vector>
 #include <cmath>
 
+using namespace std::chrono_literals;
+
 LocateArucoMarkerMode::LocateArucoMarkerMode(rclcpp::Node& node) : 
     ModeBase(node, Settings{"Locate Aruco Marker Mode"}),
     _node(node)
@@ -35,30 +37,55 @@ void LocateArucoMarkerMode::onActivate(){
 
     tvecRvecSubscriber = _node.create_subscription<geometry_msgs::msg::Vector3>("/aruco_marker_position", qosProfile,
         std::bind(&LocateArucoMarkerMode::tvecRvecCallback, this, std::placeholders::_1)
-    );
-   // trajectorySetpoint->updatePosition(Eigen::Vector3f {-2.0, 3.0, -4.0});
-    RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
+    );  
 
+    centreOfCircle = localPosition->positionNed();
+    
+    currentYawAngle = 0.0; 
+    
+    dt = 0.01; 
+
+    radiusTimer = _node.create_wall_timer(10ms, std::bind(&LocateArucoMarkerMode::emitCircleWaypoints, this));
+    RCLCPP_DEBUG(_node.get_logger(), "locate aruco marker mode activated");
 }
+
+void LocateArucoMarkerMode::emitCircleWaypoints(){
+    radius += 0.001; 
+
+    if (radius < 0.1) radius = 0.1;
+
+    float yaw_rate = circleFlyVelocity / radius;
+
+    
+
+    currentYawAngle += yaw_rate * dt;
+    currentYawAngle = std::atan2(std::sin(currentYawAngle), std::cos(currentYawAngle));
+
+    float velocity_x = circleFlyVelocity * std::cos(currentYawAngle);
+    float velocity_y = circleFlyVelocity * std::sin(currentYawAngle);
+
+    float pos_x = centreOfCircle.x() + radius * std::sin(currentYawAngle);
+    float pos_y = centreOfCircle.y() - radius * std::cos(currentYawAngle);
+    float pos_z = centreOfCircle.z(); 
+
+    px4_ros2::TrajectorySetpoint arucoCoords = {};
+    
+    arucoCoords = arucoCoords.withPosition({pos_x, pos_y, pos_z})
+                             .withVelocityX(velocity_x)
+                             .withVelocityY(velocity_y)
+                             .withVelocityZ(0.0f)
+                             .withYaw(currentYawAngle)
+                             .withYawRate(yaw_rate);
+
+    trajectorySetpoint->update(arucoCoords);
+}   
 
 void LocateArucoMarkerMode::tvecRvecCallback(geometry_msgs::msg::Vector3 msg){
     RCLCPP_DEBUG(_node.get_logger(), "callback received");
-
     completed(px4_ros2::Result::Success);
 }
 
 void LocateArucoMarkerMode::onDeactivate(){
     tvecRvecSubscriber.reset();
-    
+    radiusTimer->cancel();
 }
-
-
-
-// int main(int argc, char* argv[]){
-//     using locateMarkerNode = px4_ros2::NodeWithMode<LocateArucoMarkerMode>;
-//     rclcpp::init(argc, argv);
-//     rclcpp::spin(std::make_shared<locateMarkerNode>("node_with_mode", true));
-//     rclcpp::shutdown();
-// }
-
-

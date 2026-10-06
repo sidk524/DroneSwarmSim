@@ -17,13 +17,14 @@ class InitialFlyUpMode : public px4_ros2::ModeBase
     void onActivate() override;
     void onDeactivate() override;
     rclcpp::Node& _node;
-    float x = -1.0;
-    float y = 1.0;
+    float x = 5.0;
+    float y = 5.0;
     float z = -6.0;
 
   private:
     void fly_up();
     void position_poll();
+
     std::shared_ptr<px4_ros2::TrajectorySetpointType> trajectorySetpoint;
     std::shared_ptr<px4_ros2::OdometryLocalPosition> localPosition;
     px4_ros2::TrajectorySetpoint initialCoords;

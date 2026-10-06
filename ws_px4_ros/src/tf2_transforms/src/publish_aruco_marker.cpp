@@ -76,6 +76,7 @@ void PublishArucoMarkerFrame::publish_aruco_marker_frame(cv::Vec3d tvec, cv::Vec
         RCLCPP_DEBUG(this->get_logger(), "Publishing aruco marker");
 
         arucoMarkerPosition->publish(odom_aruco_msg);
+        
     } catch (tf2::TransformException e){
 
     }
@@ -85,7 +86,7 @@ void PublishArucoMarkerFrame::publish_aruco_marker_frame(cv::Vec3d tvec, cv::Vec
 
 }
 
-
+ 
 void PublishArucoMarkerFrame::image_callback(sensor_msgs::msg::Image::SharedPtr image_msg) {
     cv::aruco::DetectorParameters detectorParams = cv::aruco::DetectorParameters();
     cv::aruco::Dictionary dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
